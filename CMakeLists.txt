@@ -5,7 +5,7 @@ enable_language(C CXX)
 
 # options for debugging
 set(CMAKE_CXX_FLAGS "-std=c++0x -Wall -O0 -g3")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
+# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
 # options for optimization
 # set(CMAKE_CXX_FLAGS "-std=c++0x -Wall -O2")
 
