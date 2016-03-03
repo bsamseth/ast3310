@@ -25,22 +25,12 @@ int main() {
   MF.Z_7Be = 1e-13;
   MF.setFractions();
 
-  for (int p = _e; p < N_PARTICLES; p++)
-    cout << "Mass fraction of particle " << particle_names[p]
-	 << " = " << MF[p] << endl;
-
-
   double T = 1.57e7;   // K
   double rho = 1.62e5; // kg m^-3
 
-  
-  cout << "Energy production with T = "
-       << T << "K and density rho = "
-       << rho << "kg m^-3 is: epsilon = " 
-       << energy(T, rho, MF) << endl;
- 
-  cout << Lambdas::lambda[_p][_p](123) << endl;
-  
+  double result = energy(T, rho, MF) * rho; 
+  cout << "sum( r_ij * Q_ij * rho ) = "
+       << result  << endl;
   
   return 0;
 }
