@@ -11,7 +11,7 @@ namespace Particles {
 
   const int core_elements [N_PARTICLES] = {0, 1, 2, 2, 3, 4};
   const int available_ionized_electrons [N_PARTICLES] = {0, 1, 2, 2, 0, 0}; // metals don't contribute
-  const std::string particle_names [N_PARTICLES] = {"e", "p", "3He", "4He", "7Li", "7Be"};
+  const std::string particle_name [N_PARTICLES] = {"e", "p", "3He", "4He", "7Li", "7Be"};
 }
 
 

@@ -20,8 +20,8 @@ double energy(double T, double rho, MassFractions fractions) {
   for (int p1 = _e; p1 < N_PARTICLES; p1++) {
     for (int p2 = p1; p2 < N_PARTICLES; p2++) {
       addon = rate(Particle(p1), Particle(p2), fractions, T, rho) * Q[p1][p2];
-      cout << "r_" << particle_names[p1] << particle_names[p2]
-	   << " Q_" << particle_names[p1] << particle_names[p2]
+      cout << "r_" << particle_name[p1] << particle_name[p2]
+	   << " Q_" << particle_name[p1] << particle_name[p2]
 	   << " rho = " << addon * rho << endl;
       epsilon += addon;
     }
