@@ -2,6 +2,7 @@
 #define MASSFRACTIONS_H
 
 #include "constants.h"
+#include "particles.h"
 
 struct MassFractions {
   double X;
