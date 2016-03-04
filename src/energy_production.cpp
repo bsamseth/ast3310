@@ -1,5 +1,6 @@
 #include <cmath>
 #include <iostream>
+#include <algorithm> // for std::min
 
 #include "constants.h"
 #include "particles.h"
@@ -13,6 +14,7 @@ using namespace Lambdas;
 using namespace Reaction_energies;
 using std::cout;
 using std::endl;
+using std::min;
 
 double energy(double T, double rho, MassFractions fractions) {
   double epsilon = 0;
@@ -29,11 +31,37 @@ double energy(double T, double rho, MassFractions fractions) {
   return epsilon;
 }
 
-double rate(Particle p1, Particle p2, MassFractions fractions, double T, double rho) {
-  return 1./ (rho * (1 + delta(p1, p2)))
+double rate_simple(Particle p1, Particle p2, MassFractions fractions, double T, double rho) {
+  return  1./ (rho * (1 + delta(p1, p2)))
     * lambda[p1][p2](T)
     * n_density(p1, fractions, rho)
     * n_density(p2, fractions, rho);
+}
+
+
+double rate(Particle p1, Particle p2, MassFractions fractions, double T, double rho) {
+  double r = rate_simple(p1,p2,fractions,T,rho);
+
+  /* Here we will say that no step can happen more often than
+   * the step(s) that produced the reactant(s)
+   */
+  if (p1 == _3He) {
+    double pp = rate_simple(_p,_p,fractions,T,rho);
+    double _33 = rate_simple(_3He,_3He,fractions,T,rho);
+    double _34 = rate_simple(_3He,_4He,fractions,T,rho);
+    double scale = min (pp / (2*_33 + _34) , 1.0);
+    r *= scale;
+    // cout << "**** r_33 / (r_33 + _34)  = " << _33 / (_33+_34) << endl;
+    // cout << "**** r_34 / (r_33 + _34)  = " << _34 / (_33+_34) << endl;
+  } else if ( p1 == _e and p2 == _7Be) {
+    // r_e7Be <= r_34
+    r = min ( r, rate(_3He, _4He, fractions, T, rho) );
+  } else if ( p1 == _p and p2 == _7Li) {
+    // r_p7Li <= r_e7Be
+    r = min ( r, rate(_e, _7Be, fractions, T, rho) );
+  }
+
+  return r;
 }
 
 
@@ -44,7 +72,7 @@ double n_density(Particle p, MassFractions fractions, double rho) {
       n += available_ionized_electrons[i] * n_density(Particle(i), fractions, rho);
   }
   else 
-    n = fractions.fractions[p] * rho / (core_elements[p] * Constants::m_u);
+    n = fractions[p] * rho / (core_elements[p] * Constants::m_u);
   
   return n;
 }
