@@ -36,7 +36,7 @@ before_script:
 
 script:
   - cd $PARENTDIR/build
-  - cmake coverage=ON $PARENTDIR
+  - cmake -Dcoverage=ON $PARENTDIR
   - make
   - ./unit_tests.x
 
