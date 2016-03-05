@@ -1,5 +1,6 @@
 #include <iostream>
 #include <typeinfo>
+#include <chrono>
 
 #include "constants.h"
 #include "particles.h"
@@ -28,9 +29,15 @@ int main() {
   double T = 1.57e7;   // K
   double rho = 1.62e5; // kg m^-3
 
+  auto t1 = std::chrono::high_resolution_clock::now();
+  
   double result = energy(T, rho, MF) * rho; 
   cout << "sum( r_ij * Q_ij * rho ) = "
        << result  << endl;
+
+  auto t2 = std::chrono::high_resolution_clock::now();
+  std::chrono::duration<double, std::milli> duration = t2 - t1;
+  cout << "Execution time: " << duration.count()  << " ms"<< endl;
   
   return 0;
 }
