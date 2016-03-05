@@ -2,6 +2,9 @@ language: cpp
 
 compiler: g++
 
+notifications:
+  email: false
+
 install:
   - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
   - gem install coveralls-lcov	
