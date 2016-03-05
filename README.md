@@ -21,6 +21,15 @@ The options to `cmake` is optional, and defaults to using debugging (compiles wi
 This will produce executables for every file in [app/](app/), as well
 as a test executable `unit_tests.x` from [tests/main.cpp](tests/main.cpp).
 
+## Documentation
+If you prefer, a HTML-version of the code documentation can be generated:
+
+``` bash
+$ make doc
+```
+
+Then just open the file `build/html/index.html` in a browser. 
+
 ## TODO
 - Project Goal
 - Code Structure
