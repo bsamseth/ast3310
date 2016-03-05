@@ -1,6 +1,7 @@
 #include <cmath>
 #include <iostream>
 #include <algorithm> // for std::min
+#include <iomanip>   // for std::setprecision
 
 #include "constants.h"
 #include "particles.h"
@@ -22,9 +23,11 @@ double energy(double T, double rho, MassFractions fractions) {
   for (int p1 = _e; p1 < N_PARTICLES; p1++) {
     for (int p2 = p1; p2 < N_PARTICLES; p2++) {
       addon = rate(Particle(p1), Particle(p2), fractions, T, rho) * Q[p1][p2];
-      cout << "r_" << particle_name[p1] << particle_name[p2]
-	   << " Q_" << particle_name[p1] << particle_name[p2]
-	   << " rho = " << addon * rho << endl;
+      if (addon != 0)
+	cout << std::scientific << std::setprecision(2)
+	     << "r_" << particle_name[p1] << particle_name[p2]
+	     << " Q_" << particle_name[p1] << particle_name[p2]
+	     << " rho = " << addon * rho << '\n';
       epsilon += addon;
     }
   }
@@ -51,6 +54,8 @@ double rate(Particle p1, Particle p2, MassFractions fractions, double T, double 
     double _34 = rate_simple(_3He,_4He,fractions,T,rho);
     double scale = min (pp / (2*_33 + _34) , 1.0);
     r *= scale;
+
+    // cout << "***** scale = " << scale << endl;
     // cout << "**** r_33 / (r_33 + _34)  = " << _33 / (_33+_34) << endl;
     // cout << "**** r_34 / (r_33 + _34)  = " << _34 / (_33+_34) << endl;
   } else if ( p1 == _e and p2 == _7Be) {
