@@ -32,9 +32,9 @@ namespace Lambdas {
 
   std::function<double(double)> lambda_p7Li = [](double T) {
     double T9 = T * 1e-9;
-    double T9_star = T9 / (1 + 0.0759*T9);
+    double T9_star = T9 / (1 + 0.759*T9);
     return ( 1.096e9 * pow(T9, -2./3) * exp(-8.472 * pow(T9, -1./3)) -
-      4.830e8 * pow(T9_star, 5./6) * pow(T9, -3./2) * exp(-8.479 * pow(T9_star, -1./3)) +
+      4.830e8 * pow(T9_star, 5./6) * pow(T9, -3./2) * exp(-8.472 * pow(T9_star, -1./3)) +
 	     1.06e10 * pow(T9, -3./2) * exp(-30.442/T9) ) / Constants::N_A * Constants::M3_PER_CM3;
   };
 
