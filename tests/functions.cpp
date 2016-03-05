@@ -29,8 +29,8 @@ TEST(Functions, lambda_pp) {
 TEST(Functions, lambda_33) {
   double T9 = 1.57e7 * 1e-9; // Mega Kelvin
   double N_A_lambda = 6.04e10*pow(T9, -2./3)*exp(-12.276*pow(T9,-1./3)) *
-    (1 + 0.034*pow(T9,1./3) - 0.522*pow(T9,2./3) - 0.124*T9 + 0.353*pow(T9,4./3) + 0.213*pow(T9,-5/3));
-  double l =  N_A_lambda / Constants::N_A / 1e6;
+    (1 + 0.034*pow(T9,1./3) - 0.522*pow(T9,2./3) - 0.124*T9 + 0.353*pow(T9,4./3) + 0.213*pow(T9,-5./3));
+  double l =  N_A_lambda / Constants::N_A * Constants::M3_PER_CM3;
   EXPECT_NEAR(l, lambda[_3He][_3He](T9*1e9), l*eps);
 }
 
