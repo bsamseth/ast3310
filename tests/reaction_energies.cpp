@@ -4,7 +4,7 @@
 #include "particles.h"
 
 using namespace Particles;
-using namespace Reaction_energies;
+using namespace ReactionEnergies;
 
 TEST(Reaction_energies, Q_indexes) {
   EXPECT_EQ(Q_pp, Q[_p][_p]);
