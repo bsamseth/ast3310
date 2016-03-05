@@ -13,6 +13,7 @@ using std::cout;
 using std::endl;
 
 using namespace Particles;
+using namespace EnergyProduction;
 
 int main() {
 
