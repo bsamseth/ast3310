@@ -1,7 +1,7 @@
 #include <cmath>
 #include <iostream>
 #include <algorithm> // for std::min
-#include <iomanip>   // for std::setprecision
+#include <armadillo>
 
 #include "constants.h"
 #include "particles.h"
@@ -19,17 +19,13 @@ using std::min;
 
 namespace EnergyProduction {
 
-  double energy(double T, double rho, MassFractions fractions) {
+  double energy(double T, double rho, MassFractions fractions, arma::mat& terms) {
     double epsilon = 0;
     double addon;
     for (int p1 = _e; p1 < N_PARTICLES; p1++) {
       for (int p2 = p1; p2 < N_PARTICLES; p2++) {
 	addon = rate(Particle(p1), Particle(p2), fractions, T, rho) * Q[p1][p2];
-	if (addon != 0)
-	  cout << std::scientific << std::setprecision(2)
-	       << "r_" << particle_name[p1] << particle_name[p2]
-	       << " Q_" << particle_name[p1] << particle_name[p2]
-	       << " rho = " << addon * rho << '\n';
+	terms(p1,p2) = addon;
 	epsilon += addon;
       }
     }

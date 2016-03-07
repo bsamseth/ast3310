@@ -1,6 +1,8 @@
 #ifndef ENERGY_PRODUCTION_H
 #define ENERGY_PRODUCTION_H
 
+#include <armadillo>
+
 #include "constants.h"
 #include "particles.h"
 #include "massfractions.h"
@@ -23,7 +25,7 @@ namespace EnergyProduction {
    * @param fractions MassFractions object containing all mass fractions
    * @return Total energy produced by PPI and PPII [J kg^-1 s^-1]
    */
-  double energy(double T, double rho, MassFractions fractions);
+  double energy(double T, double rho, MassFractions fractions, arma::mat& terms);
 
   /**
    * Return the reaction rate r_ij [kg^-1 s^-1] for a
