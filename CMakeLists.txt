@@ -27,6 +27,7 @@ endif()
 include_directories(
     ${PROJECT_SOURCE_DIR}/src
     ${PROJECT_SOURCE_DIR}/include
+    ${PROJECT_SOURCE_DIR}/input
     ${PROJECT_SOURCE_DIR}/tests
     ${PROJECT_SOURCE_DIR}/external/googletest
     ${PROJECT_SOURCE_DIR}/external/googletest/include
@@ -34,11 +35,19 @@ include_directories(
 
 file(GLOB SOURCES "src/*.cpp")
 file(GLOB TESTFILES "tests/*.cpp")
+set(OPACITYFILE input/opacity.txt)
 
 add_library(
     engine
     ${SOURCES}
     )
+
+add_custom_target(
+    opacityfile
+    COMMAND cp ../input/* .
+)
+
+add_dependencies(engine opacityfile)
 
 add_custom_target(
     git_update
@@ -74,10 +83,12 @@ target_link_libraries(
 
  
 add_executable(main.x app/main.cpp)
-
 add_dependencies(main.x engine)
-
 target_link_libraries(main.x engine)
+
+add_executable(opacity.x app/opacity_test.cpp)
+add_dependencies(opacity.x engine)
+target_link_libraries(opacity.x engine)
 
 
 add_custom_target(
