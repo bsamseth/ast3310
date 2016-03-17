@@ -13,11 +13,15 @@ namespace Constants {
   const double m_u = 1.6605e-27;            ///< J
   const double N_A = 6.0221409e23;          ///< dim. less
   const double k_b = 1.38064852e-23;        ///< m^2 kg s^-2 K^-1
-
+  const double G = 6.67408e-11;             ///< m^3 kg^-1 s^-2
+  const double pi = 3.14159265359;          ///< dim. less
+  const double sigma = 5.670367e-8;         ///< W m^-2 K^-4
+  
   namespace Sun {
     const double L = 3.846e26;              ///< W
     const double M = 1.989e30;              ///< kg
     const double R = 6.96e8;                ///< m
+    const double rho = 1.408e3;             ///< kg m^-3
     const double t_life = 4.57e9;           ///< years
     const double kappa = 1.0;               ///< m^2 kg^-1
 
