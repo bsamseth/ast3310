@@ -12,6 +12,7 @@ namespace Constants {
   const double c = 299792458;               ///< m/s
   const double m_u = 1.6605e-27;            ///< J
   const double N_A = 6.0221409e23;          ///< dim. less
+  const double k_b = 1.38064852e-23;        ///< m^2 kg s^-2 K^-1
 }
 
 inline double MeV_to_Joules(double MeV) {
