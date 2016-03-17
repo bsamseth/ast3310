@@ -54,8 +54,9 @@ double opacity(double T, double rho) {
   
   // cout << std::setprecision(3) << std::fixed
   //      << "log10T = " << log10T_wanted << ", log10R = " << log10R_wanted << " -> kappa = " << kappa_result << "\n";
-  
-  return kappa_result;
+
+  double kappa_SI = pow(10, kappa_result - 1);
+  return kappa_SI;
 }
 
 
