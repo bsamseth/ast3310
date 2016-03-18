@@ -53,6 +53,8 @@ namespace EnergyProduction {
       double scale = min (pp / (2*_33 + _34) , 1.0);
       r *= scale;
 
+      if (scale < 1)
+	cout << "**** Scaling is now = " << scale << '\n';
       // cout << "***** scale = " << scale << endl;
       // cout << "**** r_33 / (r_33 + _34)  = " << _33 / (_33+_34) << endl;
       // cout << "**** r_34 / (r_33 + _34)  = " << _34 / (_33+_34) << endl;
