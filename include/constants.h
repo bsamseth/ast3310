@@ -16,6 +16,7 @@ namespace Constants {
   const double G = 6.67408e-11;             ///< m^3 kg^-1 s^-2
   const double pi = 3.14159265359;          ///< dim. less
   const double sigma = 5.670367e-8;         ///< W m^-2 K^-4
+  const double a = 4*sigma/c;               ///< kg m^-2 s^-1
   
   namespace Sun {
     const double L = 3.846e26;              ///< W
