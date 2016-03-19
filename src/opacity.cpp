@@ -6,6 +6,7 @@
 #include <vector>
 #include <armadillo>
 
+#include "constants.h"
 #include "opacity.h"
 
 using std::cout;
@@ -28,7 +29,9 @@ double opacity(double T, double rho) {
   vec log10R = read_log10R();
   mat kappa = read_opacity(log10T.size(), log10R.size());
 
-  double log10R_wanted = log10(rho / pow((T*1e-6),3));
+  double rho_cgs = rho / Constants::KG_M3_per_G_CM3;
+  double T6 = T * 1e-6;
+  double log10R_wanted = log10(rho_cgs / (T6*T6*T6));
   double log10T_wanted = log10(T);
   
   int T_index = find_closest_index(log10T_wanted, log10T);
@@ -48,14 +51,30 @@ double opacity(double T, double rho) {
 
   // cout << "kappa_base = " << kappa(T_index, R_index) << "\n";
 
+  
+  // double dKdR = kappa(T_index, R_index+1) - kappa(T_index, R_index);
+  // double dKdT = kappa(T_index+1, R_index) - kappa(T_index, R_index);
+  // double dR = log10R_wanted - log10R(R_index);
+  // double dT = log10T_wanted - log10T(T_index);
+
+  //  double kappa_result = kappa(T_index, R_index) + dKdR * dR + dKdT * dT;
 
   // ONLY TEMPORARY, USING NEAREST NEIGBHOUR INTERPOLATION
   double kappa_result = kappa(T_index, R_index);
+
+  if (T_index == log10T.size()-1)
+    cout << "Possible extrapolating in kappa reader (T)" << '\n';
+  if (R_index == log10R.size()-1) {
+    cout << "Possible extrapolating in kappa reader (R)" << '\n';
+    cout << "Input was: T = " << T << ", rho = " << rho << '\n';
+    cout << "In log10: logT = " << log10T_wanted << ", logR = " << log10R_wanted << '\n';
+    exit(1);
+  }
   
   // cout << std::setprecision(3) << std::fixed
   //      << "log10T = " << log10T_wanted << ", log10R = " << log10R_wanted << " -> kappa = " << kappa_result << "\n";
 
-  double kappa_SI = pow(10, kappa_result - 1);
+  double kappa_SI = pow(10, kappa_result) * Constants::M2_KG_PER_CM2_G;
   return kappa_SI;
 }
 
