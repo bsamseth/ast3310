@@ -9,6 +9,8 @@
 namespace Constants {
   const double JOULES_PER_MEV = 1.6022e-13; ///< J/MeV
   const double M3_PER_CM3 = 1e-6;           ///< m^3 / cm^3
+  const double KG_M3_per_G_CM3 = 1e3;       ///< kg/m^3 / g/cm^3
+  const double M2_KG_PER_CM2_G = 0.1;       ///< m^2/kg / cm^2/g
   const double c = 299792458;               ///< m/s
   const double m_u = 1.6605e-27;            ///< J
   const double N_A = 6.0221409e23;          ///< dim. less
