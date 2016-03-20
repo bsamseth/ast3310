@@ -23,58 +23,50 @@ mat read_opacity(int T_size, int R_size);
 vec read_log10T();
 vec read_log10R();
 int find_closest_index(double a, vec A);
+double interp2d(double q11, double q12, double q21, double q22, double x1, double x2, double y1, double y2, double x, double y) ;
 
 double opacity(double T, double rho) {
   vec log10T = read_log10T();
   vec log10R = read_log10R();
   mat kappa = read_opacity(log10T.size(), log10R.size());
 
-  double rho_cgs = rho / Constants::KG_M3_per_G_CM3;
+  double rho_cgs = rho / 1e3;
   double T6 = T * 1e-6;
-  double log10R_wanted = log10(rho_cgs / (T6*T6*T6));
+  double R = rho_cgs / (T6*T6*T6);
+  double log10R_wanted = log10(R);
   double log10T_wanted = log10(T);
-  
-  int T_index = find_closest_index(log10T_wanted, log10T);
-  int R_index = find_closest_index(log10R_wanted, log10R);
 
+  int i_T = find_closest_index(log10T_wanted, log10T);
+  int i_R = find_closest_index(log10R_wanted, log10R);
 
-  // double x1 = log10R(R_index+1) , x2 = log10R(R_index), x = log10R_wanted;
-  // double y1 = log10T(T_index+1) , y2 = log10T(T_index), y = log10T_wanted;
-  // double kappa_11 = kappa(T_index+1, R_index),   kappa_12 = kappa(T_index, R_index);
-  // double kappa_21 = kappa(T_index+1, R_index+1), kappa_22 = kappa(T_index, R_index+1);
+  double q11 = kappa( i_T, i_R);
+  double q12 = kappa(i_T, i_R+1);
+  double q21 = kappa(i_T+1, i_R);
+  double q22 = kappa(i_T+1, i_R+1);
+  double x1 = log10T(i_T);
+  double x2 = log10T(i_T+1);
+  double y1 = log10R(i_R);
+  double y2 = log10R(i_R+1);
+  double x = log10T_wanted;
+  double y = log10R_wanted;
 
-  
-  // double kappa_result = 1./((x2-x1)*(y2-y1)) * (kappa_11*(x2-x)*(y2-y)
-  // 						+ kappa_21*(x-x1)*(y2-y)
-  // 						+ kappa_12*(x2-x)*(y-y1)
-  // 						+ kappa_22*(x-x1)*(y-y1));
+  double kappa_result = interp2d(q11,q12,q21,q22,x1,x2,y1,y2,x,y);
 
-  // cout << "kappa_base = " << kappa(T_index, R_index) << "\n";
-
-  
-  // double dKdR = kappa(T_index, R_index+1) - kappa(T_index, R_index);
-  // double dKdT = kappa(T_index+1, R_index) - kappa(T_index, R_index);
-  // double dR = log10R_wanted - log10R(R_index);
-  // double dT = log10T_wanted - log10T(T_index);
-
-  //  double kappa_result = kappa(T_index, R_index) + dKdR * dR + dKdT * dT;
-
-  // ONLY TEMPORARY, USING NEAREST NEIGBHOUR INTERPOLATION
-  double kappa_result = kappa(T_index, R_index);
-
-  if (T_index == log10T.size()-1)
+  if (i_T == log10T.size()-1) {
     cout << "Possible extrapolating in kappa reader (T)" << '\n';
-  if (R_index == log10R.size()-1) {
+    cout << "Input was: T = " << T << ", rho = " << rho << '\n';
+    cout << "In log10: logT = " << log10T_wanted << ", logR = " << log10R_wanted << '\n';
+    exit(1);
+  }
+  if (i_R == log10R.size()-1) {
     cout << "Possible extrapolating in kappa reader (R)" << '\n';
     cout << "Input was: T = " << T << ", rho = " << rho << '\n';
     cout << "In log10: logT = " << log10T_wanted << ", logR = " << log10R_wanted << '\n';
     exit(1);
   }
   
-  // cout << std::setprecision(3) << std::fixed
-  //      << "log10T = " << log10T_wanted << ", log10R = " << log10R_wanted << " -> kappa = " << kappa_result << "\n";
 
-  double kappa_SI = pow(10, kappa_result) * Constants::M2_KG_PER_CM2_G;
+  double kappa_SI = pow(10, kappa_result) / 10;
   return kappa_SI;
 }
 
@@ -92,6 +84,25 @@ int find_closest_index(double a, vec A) {
   }
   return index;
 }
+
+
+double interp2d(double q11, double q12, double q21, double q22, double x1, double x2, double y1, double y2, double x, double y) 
+{
+    double x2x1, y2y1, x2x, y2y, yy1, xx1;
+    x2x1 = x2 - x1;
+    y2y1 = y2 - y1;
+    x2x = x2 - x;
+    y2y = y2 - y;
+    yy1 = y - y1;
+    xx1 = x - x1;
+    return 1.0 / (x2x1 * y2y1) * (
+        q11 * x2x * y2y +
+        q21 * xx1 * y2y +
+        q12 * x2x * yy1 +
+        q22 * xx1 * yy1
+    );
+}
+
 
 vec read_log10R() {
   ifstream infile (opacities_filename);
