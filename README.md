@@ -5,7 +5,7 @@
 This repository contains work related to projects in the course
 AST3310 at UiO.  The course is organized in projects, but these are
 sequential and therefore presented as one repository. To see the state of the code as of completion of
-seperate projects, tags will exists for the relevant commits. 
+separate projects, tags will exists for the relevant commits. 
 
 ## Build
 To build the sources you can use the supplied [CMakeLists.txt](CMakeLists.txt) file.
@@ -28,7 +28,15 @@ If you prefer, a HTML-version of the code documentation can be generated:
 $ make doc
 ```
 
-Then just open the file `build/html/index.html` in a browser. 
+Then just open the file `build/html/index.html` in a browser.
+
+
+## Report
+The [report](report/) folder contains a PDF with a report describing the project in more detail. If you wish, you can generate this PDF from source by using the supplied [Makefile](report/Makefile):
+
+``` bash
+$ cd report && make
+```
 
 ## TODO
 - Project Goal
