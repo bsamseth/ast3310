@@ -1,4 +1,12 @@
 *.x
 *~
 build/
-
+report/_*
+report/auto
+report/*.aux
+report/*.bbl
+report/*.bcf
+report/*.blg
+report/*.log
+report/*.out
+report/*.run.xml
