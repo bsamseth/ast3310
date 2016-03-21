@@ -1,0 +1,106 @@
+\documentclass[11pt]{article}
+\usepackage{preamble}
+
+\lhead{AST3310}
+\chead{Term project 2}
+\rhead{Bendik Samseth}
+\lfoot{}
+\cfoot{}
+\rfoot{\fancyplain{}{\thepage}}
+
+\title{Term project 2: Modelling a Stellar Core}
+\author{Bendik \textsc{Samseth}}
+\date{\today}
+\begin{document}
+\maketitle
+
+
+\begin{abstract}
+In this report, this, that and more of this is discussed.
+\end{abstract}
+
+\section{Introduction}
+When trying to understand the mechanics of a star the most logical
+place to start is with what you can observe. Which properties of the
+star can we measure rather easily? 
+
+Well, we  can look at how much
+radiation energy hits one particular spot on the earth, and by
+assuming that the star radiates equally in all directions we can
+calculate the total amount of energy sent out by the star, the
+so-called luminosity (denoted as $L$). 
+
+In addition, we can find the surface temperature (denoted $T$) by
+looking at the color of the light emitted from the sun and using
+Wien's displacements law. 
+
+Lastly, we might be able to look at the orbits of all the planets and
+do some number crunching and figure out the total mass of the star (denoted $M$).
+
+But that's about it for what we can figure out by just looking at the
+outside effects. There are many other properties we would like to know
+about, e.g. the radius ($R$), density ($\rho$) and pressure ($P$). In
+particular, we would like to have all of these properties as a
+function of the radius, so that we can get an idea of what the cross
+section of the star looks like. In order to achieve this, we need to
+deploy many different branches of physics as well as a good number of
+assumptions to simplify things for us. 
+
+
+\section{The Governing Equations}
+In this project, we will only be looking at the radiative core of the
+star. This means that we will not look at the outer convection layer,
+and assume that all energy transport is done through photon
+radiation. For reference, this corresponds to the inner $\sim 70\,\%$ of the
+sun. Furthermore, we will not consider time evolution; we look at one
+particular moment in time. 
+
+The following four differential equations govern the internal
+structure of radiative core of our star\footnote{Derivations of the
+  equations are not given, as they are shown in the lecture
+  notes~\cite{lecture-notes}. A qualitative description of their
+  meaning is given instead.}:
+
+\begin{align}
+  \pd{r}{m} &= \frac{ 1 }{ 4\pi r^2\rho }\label{eq:drdm}\\
+  \pd{P}{m} &= - \frac{ Gm }{ 4\pi r^4 }\label{eq:dPdm}\\
+  \pd{L}{m} &= \epsilon\label{eq:dLdm}\\
+  \pd{T}{m} &= - \frac{ 3\kappa L }{ 256 \pi^2 \sigma r^4T^3 }\label{eq:dTdm}
+\end{align}
+
+The first thing to notice about these equations are that they are
+differentials with respect to mass, and not radius. Remember that what
+we want in the end is all the properties of the star as a function of
+radius, so it would make sense to write the equations with respect to
+$r$ instead\footnote{I will use lower case $r$ and $m$ when referring
+  to the radius and mass as variables, and upper case $R$ and $M$ for
+  the total radius and mass.}. It turns out that it is more numerically
+stable to use $dm$ compared to $dr$, so we are going to treat the
+radius as $r=r(m)$. When we plot the data later, however, we will
+return to using $r$ as the variable. Eq. \eqref{eq:drdm} is simply
+stating the relation between taking an infinitesimal step in $r$,
+compared to an infinitesimal step in $m$. 
+
+Eq. \eqref{eq:dPdm} is the assumption of hydrostatic equilibrium, and
+states that if the gas in the star is to be at rest, then the outward
+pressure must exactly balance the force of gravity acting on the gas. 
+
+The $\epsilon$ in Eq. \eqref{eq:dLdm} represents the amount of
+energy produced by nuclear fusion per time and mass. This quantity
+will be treated more in a later section (ref??).
+
+Eq. \eqref{eq:dTdm} is the temperature gradient need to transport all
+the produced energy out of the sun. I should be noted that this is
+only the correct temperature gradient when all the energy is
+transported by radiation. 
+
+
+
+
+\printbibliography
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

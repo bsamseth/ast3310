@@ -1,0 +1,144 @@
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{alltt}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage[backend=biber, sorting=none]{biblatex}
+        \addbibresource{database.bib}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{wasysym}
+\usepackage{lipsum}
+\usepackage{sectsty}
+% \usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{import}
+\usepackage{cancel}
+\usepackage{pdfpages}
+\usepackage{standalone}
+\usepackage{siunitx}
+        \DeclareSIUnit\gauss{G}
+	\sisetup{exponent-product = \cdot}	% Prikk som multiplikasjonstegn (i stedet for kryss).
+ 	\sisetup{output-decimal-marker  =  {.}}	% Punktum som desimalskilletegn (i stedet for komma).
+ 	\sisetup{separate-uncertainty = true} 	% Pluss-minus-form på
+                                % usikkerhet (i stedet for parentes). 
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.9}
+\usepackage{comment}
+\usepackage{geometry}
+\geometry{
+  top=2cm,
+  inner=3cm,
+  outer=3cm,
+  bottom=2cm,
+  headheight=10ex,
+  headsep=4ex,    
+}
+\usepackage{fancyhdr}
+\pagestyle{fancyplain}
+
+%\renewcommand{\thesection}{}
+%\renewcommand{\thesubsection}{\alph{subsection})}
+\renewcommand{\thesubsubsection}{\alph{subsubsection})}
+\renewcommand{\thesection}{\Roman{section}} 
+
+\renewcommand{\vec}{\mathbf}
+
+
+% Disse kommandoene definerer hvor stor andel av siden som kan være dekket av figurer. Kan gjøre det enklere å plassere figurer.
+\setcounter{totalnumber}{15}
+\renewcommand{\textfraction}{0.05}
+\renewcommand{\topfraction}{0.95}
+\renewcommand{\bottomfraction}{0.95}
+\renewcommand{\floatpagefraction}{0.35}
+
+
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
+% \renewcommand{\thesection}{\arabic{section}}
+% \renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
+%\renewcommand{\thesubsection}{\thesection.\alph{subsection})} % subsection is now 1.a), 1.b)... 2.a)...
+
+%\allsectionsfont{\centering \normalfont} % Make all sections centered, the default font
+
+% \numberwithin{equation}{subsection} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+% \numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+% \numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+
+\definecolor{yellow}{rgb}{0.8,0.65,0.1}
+%\definecolor{blue}{rgb}{0,0,0.8}
+\definecolor{blue}{rgb}{0.3,0.3,0.9}
+\definecolor{green}{rgb}{0,0.7,0}
+\definecolor{magenta}{rgb}{0.9,0,0.9}
+\lstloadlanguages{Python} 
+\lstloadlanguages{MATLAB}
+\lstloadlanguages{C++}
+\lstset{language=C++,
+  showstringspaces=true,
+  frame=single,
+  basicstyle=\ttfamily,
+  keywordstyle=\color{yellow}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  commentstyle=\color{green}\ttfamily,
+  % morecomment=[l][\color{magenta}]{\#},
+  directivestyle=\color{magenta}\ttfamily,
+  emph={int,char,double,float,unsigned},
+  emphstyle=\color{blue},
+  firstnumber=1, % Line numbers start with line 1
+  stepnumber=5 % Line numbers go in steps of 5
+}
+
+\newcommand{\matlabscript}[2]{
+\begin{itemize}
+\item[]\lstinputlisting[language=MATLAB,caption=#2,label=#1]{#1}
+\end{itemize}
+}
+\newcommand{\pythonscript}[2]{
+\begin{itemize}
+\item[]\lstinputlisting[language=Python,caption=#2,label=#1]{#1}
+\end{itemize}
+}
+\newcommand{\pythonscriptfromto}[4]{
+\begin{itemize}
+\item[]\lstinputlisting[language=Python,caption=#2,label=#1, firstline=#3,lastline=#4]{#1}
+\end{itemize}
+}
+
+\newcommand{\horline}{
+\begin{center}
+\line(1,0){350}
+\end{center}
+}
+
+\newcommand{\newfig}[3]{
+\begin{figure}[h]
+\centering
+\includegraphics[scale=#2]{#1}
+\caption{#3}
+\end{figure}
+}
+
+
+\newcommand{\pd}[2] {\frac{\partial #1}{\partial #2}}
+\renewcommand{\div}[1] {\nabla\cdot\vec{#1}}
+\newcommand{\curl}[1] {\nabla\times\vec{#1}}
+% \renewcommand{\vec}{\mathbf} % bold face for vectors
+\newcommand{\e}[1] {\times 10^{#1}}
+\newcommand{\mean}[1] {\langle #1 \rangle}
+\newcommand{\ket}[1]{|#1\rangle}
+\newcommand{\bra}[1]{\langle #1|}
+\newcommand{\braket}[2]{\langle #1 | #2\rangle}
+\newcommand{\expect}[3]{\langle #1 | #2 | #3 \rangle}
+\newcommand{\intfy}{\int_{-\infty}^{\infty}}
+\newcommand{\intzfy}{\int_0^\infty}
+\newcommand{\centerthis}[1]{\makebox[\textwidth]{#1}}
+
+%% Numbered exercises
+\newcounter{excount}[section]
+\newenvironment{exercise}[1][]{\addtocounter{excount}{1} \noindent {\bf Oppgave
+    \arabic{excount} #1}\hspace{2mm}}{\vspace{4mm}}
+
+
