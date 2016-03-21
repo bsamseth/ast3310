@@ -5,6 +5,7 @@
 #include "constants.h"
 #include "state_equations.h"
 #include "massfractions.h"
+#include "energy_production.h"
 
 using std::cout;
 using std::endl;
@@ -26,6 +27,20 @@ TEST (Mean_Molecular_Weight, hydrogen_and_helium) {
   MF.Y4 = 0.5;
   MF.setFractions();
   EXPECT_NEAR(8./11, StateEquations::mu_0(MF), 8./11 * eps );
+}
+
+TEST (Mean_Molecular_Weight, comp_with_alternate_calculation) {
+  MassFractions MF;
+  MF.X = 0.5;
+  MF.Y4 = 0.5;
+  MF.setFractions();
+  double n_tot = 0;
+  double rho_input = Constants::Sun::Core::rho*0.123; // value should not matter
+  for (int p = _e; p < N_PARTICLES; p++) {
+    n_tot += EnergyProduction::n_density(Particle(p), MF, rho_input);
+  }
+  double mu_0_alternate = (rho_input/n_tot) / Constants::m_u;
+  EXPECT_NEAR(StateEquations::mu_0(MF), mu_0_alternate, eps);
 }
 
 TEST (Rho_P_sanity, rho_of_P_of_rho_is_rho) {
