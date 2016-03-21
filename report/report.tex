@@ -94,6 +94,143 @@ the produced energy out of the sun. I should be noted that this is
 only the correct temperature gradient when all the energy is
 transported by radiation. 
 
+\subsection{Equation of State}
+In the equations~(\ref{eq:drdm}-\ref{eq:dTdm}) we use $T, \rho$ and
+$P$. If we take a look at how many unknowns we have, we find that we
+need one more equation. To this end, we are going to assume that we
+can treat the gas in the star as an ideal gas, thus getting an
+equation for the gas pressure through the ideal gas law:
+
+\begin{align*}
+  P_gV &= Nk_BT\\
+  \Rightarrow P_g &= \frac{ N }{ V }k_BT = \frac{ \rho }{ \mu\,m_u }\label{eq:Pg}\numberthis,
+\end{align*}
+where $P_g$ is the gas pressure, $V$ is the volume, $N$ is the number
+of particles and $T$ is the temperature of the gas.
+The quantity $\mu\,m_u$ is the average mass of all particles in the
+gas. $m_u$ is just a constant giving the average mass of a
+nucleon. $\mu$ is slightly more complicated, and represents the mass
+of the average particle in units of $m_u$ ($\mu$ is unit less). It
+can be calculated a couple of ways. From the above equation we have
+
+\begin{align}
+  \mu &= \frac{\rho}{m_u}\frac{V }{ N } = \frac{ \rho }{ m_un_\text{tot} }
+\end{align}
+where $n_\text{tot}$ is the total number density of particles in the
+gas. $n_\text{tot}$ can be taken as the sum of $n_i$ for all particles
+$i$,
+
+\begin{align}
+  n_\text{tot} &= \sum_i n_i = n_e\sum_i \frac{ X_i\rho }{ C_i m_u}
+\end{align}
+where $X_i$ and $C_i$ is the mass fraction, and number of core
+elements of particle $i$, respectively. For instance, $^4_2\text{He}$
+gives $n_{^4_2\text{He}} = Y\rho/4m_u$, when $Y$ is the mass fraction
+of Helium with four nucleons. The number density of the
+electron, $n_e$ is written separate and should only consider the
+number of \emph{free} electrons in the gas. In the case of only fully
+ionized $^4_2\text{He}$, $n_e = 2n_{^4_2\text{He}}$ because each
+ionized Helium core gives two electrons. I similar consideration
+should be taken for each species present in the gas. 
+
+Calculating $n_\text{tot}$ is not necessarily so straight forward, but
+if we combine all the steps we have to take to compute $\mu$, we can
+end up with a convenient formula:
+
+\begin{align}
+  \mu = \frac{1}{\sum (\text{particles provided per
+  nucleus}\times\text{mass fraction}/\text{nucleons in core})}\label{eq:mu_0}.
+\end{align}
+
+This is the method used in the code, as a framework for summing over
+all particles is central to the structure of the code base.
+
+
+Let's now return to the original problem of finding an extra
+equation. Eq. \eqref{eq:Pg} gives us an additional equation, but it
+also introduces a new parameter, $P_g$. In addition to the gas
+pressure, we have radiation pressure $P_{\text{rad}}$, so that the
+total pressure is $P = P_g + P_\text{rad}$. Luckily, the expression
+for radiation pressure is quite simple, and depends only on
+temperature,
+\begin{align}
+  P_\text{rad} = \frac{ a }{ 3 }T^4
+\end{align}
+where $a = 4\sigma/c$ is a constant. This gives us finally the
+additional equation of state we need;
+
+\begin{align}
+  P &= \frac{ \rho }{ \mu\,m_u }k_B T + \frac{ a }{ 3 }T^4\label{eq:P-eq_state}\\
+  \Leftrightarrow \rho &= (P - \frac{a}{3}T^4) \frac{ \mu\,m_u }{ k_BT }\label{eq:rho-eq_state}.
+\end{align}
+
+I have listed the equation with respect to density as well; this
+relation will be used to find $P$ given $\rho$ and $T$, and vice
+versa.
+
+
+\subsection{Energy Production}
+In Eq. \eqref{eq:dLdm}, the quantity $\epsilon$ represents the amount
+of energy produced per time and mass. We derive the value of
+$\epsilon$ by looking at the reactions that produce energy inside a
+star. It is given by
+\begin{align}
+  \epsilon = \sum_{ij}r_{ij}Q_{ij},
+\end{align}
+where $r_{ij}$ is the reaction rate for particles $i$ and $j$ (per
+time and mass), and $Q_{ij}$ is the energy produced for each such
+reaction. The exact values of $Q_{ij}$ can be found in the lecture
+notes~\cite{lecture-notes}. More interesting is the rates, which are
+given as
+
+\begin{align}
+  r_{ij} = \frac{n_in_j}{\rho(1+\delta_{ij})}\lambda_{ij}
+\end{align}
+where the symbols have their normal meaning (including the Kronecker
+delta $\delta_{ij}$). $\lambda_{ij}$ is a complicated function of
+temperature, and we will use tabulated expressions for these
+functions, found once again in the lecture notes~\cite[Table
+3.1]{lecture-notes}. 
+
+
+There are a few different ways that fusion can happen, depending
+on the conditions of the star. I our case we will simplify things a
+bit and only consider the PPI and PPII chains (Proton-Proton based
+fusion). 
+
+One important thing to mention when calculating $\epsilon$ is that no
+reaction should happen more often (have larger value for $r_{ij}$)
+than the reaction(s) that produced the reactant(s) of the first
+reaction. 
+
+The last assumption we add is that all Deuterium produced by
+Proton-Proton fusion, immediately fuses to $^3_2\text{He}$, thus
+effectively merging the two first steps in the PP chains into one
+reaction.
+
+
+\section{Solving the Equations}
+At this point we are ready to start solving the governing
+equations. For simplicity, I have chosen to deploy the standard
+Forward Euler method. One should then note that the simplicity comes
+at the cost of an global error proportional to the step size, $dm$. We
+will try to be smart about this step size in order to minimize the
+effects of this. 
+
+As a reminder, Forward Euler solves a differential equation $du/dx =
+f(u,x)$ by 
+\begin{align*}
+  u_{i+i} = u_i + du = u_i + f(u_i,x_i)\,dx.
+\end{align*}
+
+In our case, with four differential equations, this corresponds to the
+following:
+\begin{align*}
+  r_{i+1} &= r_i +  \frac{ 1 }{ 4\pi r^2\rho }\,dm\\
+  P_{i+1} &= P_{i} - \frac{ Gm }{ 4\pi r^4 }\,dm\\
+  L_{i+1} &= L_i + \epsilon\,dm\\
+  T_{i+1} &= T_i - \frac{ 3\kappa L }{ 256 \pi^2 \sigma r^4T^3 }\,dm
+\end{align*}
 
 
 
