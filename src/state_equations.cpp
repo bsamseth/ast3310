@@ -14,6 +14,7 @@ double StateEquations::mu_0(MassFractions MF) {
   double sum = 0;
   for (int particle = _p; particle < N_PARTICLES; particle++) 
     sum += (available_ionized_electrons[particle] + 1) * MF[particle] / core_elements[particle];
+  sum += MF.Z / 2.0;
   return 1./sum;
 }
 
