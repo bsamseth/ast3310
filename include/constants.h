@@ -4,7 +4,7 @@
 #include <string>
 
 /**
- * Namespace containing various mathematical constants.
+ * Namespace containing various mathematical and physical constants.
  */
 namespace Constants {
   const double JOULES_PER_MEV = 1.6022e-13; ///< J/MeV
@@ -12,7 +12,7 @@ namespace Constants {
   const double KG_M3_per_G_CM3 = 1e3;       ///< kg/m^3 / g/cm^3
   const double M2_KG_PER_CM2_G = 0.1;       ///< m^2/kg / cm^2/g
   const double c = 299792458;               ///< m/s
-  const double m_u = 1.6605e-27;            ///< J
+  const double m_u = 1.6605e-27;            ///< kg
   const double N_A = 6.0221409e23;          ///< dim. less
   const double k_b = 1.38064852e-23;        ///< m^2 kg s^-2 K^-1
   const double G = 6.67408e-11;             ///< m^3 kg^-1 s^-2
@@ -36,9 +36,7 @@ namespace Constants {
   }
 }
 
-inline double MeV_to_Joules(double MeV) {
-  return MeV * Constants::JOULES_PER_MEV;
-}
+
 
 
 #endif

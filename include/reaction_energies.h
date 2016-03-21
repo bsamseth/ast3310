@@ -10,11 +10,11 @@
  */
 namespace ReactionEnergies {
   
-  const double Q_pp = MeV_to_Joules(0.15 + 5.49 + 1.02); // combined first two steps
-  const double Q_33 = MeV_to_Joules(12.86);
-  const double Q_34 = MeV_to_Joules(1.59);
-  const double Q_e7Be = MeV_to_Joules(0.05);
-  const double Q_p7Li = MeV_to_Joules(17.35);
+  const double Q_pp = Constants::JOULES_PER_MEV * (0.15 + 5.49 + 1.02); // combined first two steps
+  const double Q_33 = Constants::JOULES_PER_MEV * (12.86);
+  const double Q_34 = Constants::JOULES_PER_MEV * (1.59);
+  const double Q_e7Be = Constants::JOULES_PER_MEV * (0.05);
+  const double Q_p7Li = Constants::JOULES_PER_MEV * (17.35);
 
   /**
    * Q_ij are to be accessed by 2D array Q. For instance, Q[_3He][_3He] -> Q_33. <br>
