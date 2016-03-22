@@ -17,36 +17,34 @@
 
 using std::cout;
 using std::endl;
+using std::string;
 
 using namespace Particles;
 using namespace EnergyProduction;
 using namespace Constants;
 
 int main(int argc, char** args) {
-  double R_scale, M_scale, rho_scale, T_scale;
+  double R_scale=1, M_scale=1, rho_scale=1, T_scale=1;
   double dm_scale = 0; // dm = M0/dm_scale
+  string filename = "output.dat";
   
-  try {
-    if (argc > 4) {
-      R_scale = std::atof(args[1]);
-      M_scale = std::atof(args[2]);
-      rho_scale = std::atof(args[3]);
-      T_scale = std::atof(args[4]);
-      if (argc > 5)
-	dm_scale = std::atof(args[5]);
+
+  if (argc > 4) {
+    R_scale = std::atof(args[1]);
+    M_scale = std::atof(args[2]);
+    rho_scale = std::atof(args[3]);
+    T_scale = std::atof(args[4]);
+    if (argc > 5)
+      dm_scale = std::atof(args[5]);
+    if (argc > 6)
+      filename = args[6];
 	
-    } else
-      throw 123;
-  }
-  catch (int e){
+  } else {
     cout << "Usage: " << args[0]
-	 << " R_scale M_scale rho_scale T_scale \n"
-	 << "Assuming all inputs equal to 1 (default parameters)"
+	 << " R_scale M_scale rho_scale T_scale"
+	 << " [dm_scale] [outputfile]"
 	 << endl;
-    R_scale = 1;
-    M_scale = 1;
-    rho_scale = 1;
-    T_scale = 1;
+    exit(0);
   }
   
   arma::mat terms = arma::zeros<arma::mat>(N_PARTICLES, N_PARTICLES);
@@ -62,15 +60,6 @@ int main(int argc, char** args) {
   MF.Z_7Be = 1e-13;
   MF.setFractions();
 
-
-  // from other guy (best result with this (included convection))
-  // double L_0   = 1.0  * Sun::L;
-  // double R_0   = 9 * Sun::R;
-  // double M_0   = 1.5  * Sun::M;
-  // double rho_0 = 4e-7 * Constants::KG_M3_per_G_CM3;
-  // double T_0   = 5770;
-  // double P_0   = StateEquations::P(T_0, rho_0, StateEquations::mu_0(MF));
-
   double L_0   = 1  * Sun::L;
   double R_0   = 0.72 * Sun::R * R_scale;
   double M_0   = 1  * Sun::M * M_scale;
@@ -85,7 +74,7 @@ int main(int argc, char** args) {
 					      rho_0, M_0, R_0,
 					      MF, dm);
   
-  std::ofstream outfile ("output.dat");
+  std::ofstream outfile (filename);
   outfile << ss;
   outfile.close();
   
