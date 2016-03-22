@@ -35,9 +35,7 @@ std::string Integrate::integrate(double L_0, double T_0, double P_0, double rho_
 
   Opacity kappa;
 
-  double p_max = 0.05; // max fractional change in any variable
-  double p_min = p_max / 50; // min fractional change in any variable
-  double dm_max, dm_min;
+  double p_max = 0.005; // max fractional change in any variable
   double dms [5];
   
   int count = 0;
@@ -48,7 +46,7 @@ std::string Integrate::integrate(double L_0, double T_0, double P_0, double rho_
     dm = -1e10;
   }
 
-  //std::cout << "Using dynamic step = " << (dss==true ? "true" : "false") << "M_0 = " << m <<std::endl;
+  std::cout << "Using dynamic step = " << (dss==true ? "true" : "false") << " M_0 = " << m << std::endl;
   while (m > 0 and r > 0 and L > 0 and T > 0 and rho > 0) {
     if (count++ % 10 == 0) {
       ss << m << ' ' <<  r << ' ' << P << ' ' << L << ' ' << T << ' ' << rho << '\n';

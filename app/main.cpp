@@ -24,6 +24,7 @@ using namespace Constants;
 
 int main(int argc, char** args) {
   double R_scale, M_scale, rho_scale, T_scale;
+  double dm_scale = 0; // dm = M0/dm_scale
   
   try {
     if (argc > 4) {
@@ -31,6 +32,9 @@ int main(int argc, char** args) {
       M_scale = std::atof(args[2]);
       rho_scale = std::atof(args[3]);
       T_scale = std::atof(args[4]);
+      if (argc > 5)
+	dm_scale = std::atof(args[5]);
+	
     } else
       throw 123;
   }
@@ -74,8 +78,8 @@ int main(int argc, char** args) {
   double T_0   = 5.7e6 * T_scale;
   double P_0   = StateEquations::P(T_0, rho_0, StateEquations::mu_0(MF));
 
-  //double dm = - M_0/10000;
-  double dm = 0; // use dss
+  double dm = (dm_scale == 0) ? 0 : - M_0/dm_scale;
+  //double dm = 0; // use dss
   
   std::string ss = Integrate::integrate(L_0, T_0, P_0,
 					      rho_0, M_0, R_0,
