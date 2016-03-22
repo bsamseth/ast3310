@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/bsamseth/ast3310.svg?branch=master)](https://travis-ci.org/bsamseth/ast3310)
-[![Coverage Status](https://coveralls.io/repos/github/bsamseth/ast3310/badge.svg?branch=master)](https://coveralls.io/github/bsamseth/ast3310?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/bsamseth/ast3310/badge.svg?branch=master&bust=1)](https://coveralls.io/github/bsamseth/ast3310?branch=master)
 
 # AST3310 projects
 This repository contains work related to projects in the course
