@@ -18,7 +18,7 @@ install:
   - sudo apt-get install liblapack-dev libblas-dev libboost-dev #libarmadillo-dev
   - wget http://sourceforge.net/projects/arma/files/armadillo-6.600.4.tar.gz
   - tar xf armadillo-6.600.4.tar.gz
-  - cd armadillo-6.600.4 && cmake . && make && sudo make install
+  - cd armadillo-6.600.4 && cmake . && make && sudo make install && cd -
 #  - sudo apt-get update
 #  - sudo apt-get install libgtest-dev
 #  - "cd /usr/src/gtest && sudo cmake . && sudo cmake --build . && sudo mv libg* /usr/local/lib/ ; cd -"
