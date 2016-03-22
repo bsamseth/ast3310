@@ -86,10 +86,6 @@ add_executable(main.x app/main.cpp)
 add_dependencies(main.x engine)
 target_link_libraries(main.x engine)
 
-add_executable(opacity.x app/opacity_test.cpp)
-add_dependencies(opacity.x engine)
-target_link_libraries(opacity.x engine)
-
 
 add_custom_target(
     coverage

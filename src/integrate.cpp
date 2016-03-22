@@ -33,6 +33,8 @@ std::string Integrate::integrate(double L_0, double T_0, double P_0, double rho_
   double drdm, dPdm, dLdm, dTdm;
   double mu_0 = StateEquations::mu_0(MF);
 
+  Opacity kappa;
+
   double p_max = 0.05; // max fractional change in any variable
   double p_min = p_max / 50; // min fractional change in any variable
   double dm_max, dm_min;
@@ -61,7 +63,7 @@ std::string Integrate::integrate(double L_0, double T_0, double P_0, double rho_
     drdm = RHS_r(r, rho);
     dPdm = RHS_P(m, r);
     dLdm = RHS_L(T, rho, MF, energy_terms);
-    dTdm = RHS_T(T, rho, L, r);
+    dTdm = RHS_T(T, rho, L, r, kappa);
 
     if (dss) {
       dms[0] = abs(p_max*r / drdm);

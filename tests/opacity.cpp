@@ -23,6 +23,7 @@ TEST (Opacity, interpolation) {
   
   cout << std::scientific << std::setprecision(2);
 
+  Opacity kappa;
 
   for (int i = 0; i < 13; i++) {
     double lT = log10T_wanted_array[i];
@@ -30,7 +31,7 @@ TEST (Opacity, interpolation) {
     double T = pow(10, lT);
     double rho = pow((T*1e-6),3) * pow(10, lR) * 1e3;
 
-    EXPECT_NEAR(expected_result[i], opacity(T,rho), 0.15e-3);
+    EXPECT_NEAR(expected_result[i], kappa(T,rho), 0.15e-3);
     
     // cout << "log(T)=" << lT << ", log(R)=" << lR
     // 	 << " (rho=" << rho << ") -> "

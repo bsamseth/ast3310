@@ -25,11 +25,14 @@ vec read_log10R();
 int find_closest_index(double a, vec A);
 double interp2d(double q11, double q12, double q21, double q22, double x1, double x2, double y1, double y2, double x, double y) ;
 
-double opacity(double T, double rho) {
-  vec log10T = read_log10T();
-  vec log10R = read_log10R();
-  mat kappa = read_opacity(log10T.size(), log10R.size());
 
+Opacity::Opacity() {
+  log10T = read_log10T();
+  log10R = read_log10R();
+  kappa = read_opacity(log10T.size(), log10R.size()); 
+}
+
+double Opacity::operator() (double T, double rho) {
   double rho_cgs = rho / 1e3;
   double T6 = T * 1e-6;
   double R = rho_cgs / (T6*T6*T6);
@@ -67,11 +70,11 @@ double opacity(double T, double rho) {
   
 
   double kappa_SI = pow(10, kappa_result) / 10;
-  return kappa_SI;
+  return kappa_SI;  
 }
 
 
-int find_closest_index(double a, vec A) {
+int Opacity::find_closest_index(double a, vec A) {
   int index = 0;
   double diff = a - A(0), new_diff;
 
@@ -86,7 +89,7 @@ int find_closest_index(double a, vec A) {
 }
 
 
-double interp2d(double q11, double q12, double q21, double q22, double x1, double x2, double y1, double y2, double x, double y) 
+double Opacity::interp2d(double q11, double q12, double q21, double q22, double x1, double x2, double y1, double y2, double x, double y) 
 {
     double x2x1, y2y1, x2x, y2y, yy1, xx1;
     x2x1 = x2 - x1;
@@ -104,7 +107,7 @@ double interp2d(double q11, double q12, double q21, double q22, double x1, doubl
 }
 
 
-vec read_log10R() {
+vec Opacity::read_log10R() {
   ifstream infile (opacities_filename);
   string line, tmp;
   // read first line
@@ -122,7 +125,7 @@ vec read_log10R() {
   return vec(log10R);
 }
 
-vec read_log10T() {
+vec Opacity::read_log10T() {
   ifstream infile (opacities_filename);
   string line, tmp;
   double number;
@@ -144,7 +147,7 @@ vec read_log10T() {
   return vec(log10T);
 }
 
-mat read_opacity(int T_size, int R_size) {
+mat Opacity::read_opacity(int T_size, int R_size) {
   ifstream infile (opacities_filename);
   string line;
   double number;
