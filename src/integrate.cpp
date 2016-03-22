@@ -3,6 +3,7 @@
 #include <armadillo>
 #include <cmath>
 #include <algorithm>
+#include <string>
 
 #include "particles.h"
 #include "constants.h"
@@ -22,7 +23,7 @@ using std::min;
 using std::min_element;
 
 
-std::stringstream Integrate::integrate(double L_0, double T_0, double P_0, double rho_0, double M_0, double R_0, MassFractions MF, double dm) {
+std::string Integrate::integrate(double L_0, double T_0, double P_0, double rho_0, double M_0, double R_0, MassFractions MF, double dm) {
   std::stringstream ss;
   ss << "# m \t r \t P \t L \t T \t rho \n";
   
@@ -35,7 +36,7 @@ std::stringstream Integrate::integrate(double L_0, double T_0, double P_0, doubl
   double p_max = 0.05; // max fractional change in any variable
   double p_min = p_max / 50; // min fractional change in any variable
   double dm_max, dm_min;
-  double dms [4];
+  double dms [5];
   
   int count = 0;
 
@@ -45,15 +46,15 @@ std::stringstream Integrate::integrate(double L_0, double T_0, double P_0, doubl
     dm = -1e10;
   }
 
-  //std::cout << "Using dynamic step = " << (dss==true ? "true" : "false") << std::endl;
+  //std::cout << "Using dynamic step = " << (dss==true ? "true" : "false") << "M_0 = " << m <<std::endl;
   while (m > 0 and r > 0 and L > 0 and T > 0 and rho > 0) {
     if (count++ % 10 == 0) {
       ss << m << ' ' <<  r << ' ' << P << ' ' << L << ' ' << T << ' ' << rho << '\n';
     }
     if (count % 100 == 0) {
-      // percent = 100 - (m / M_0) * 100;
-      // std::cout << "\rProgress: " << percent << "%  ";
-      //std::cout << m << ' ' <<  r << ' ' << P << ' ' << L << ' ' << T << ' ' << rho << ' ' << dm << '\n';
+      //double percent = 100 - (m / M_0) * 100;
+      //std::cout << "\rProgress: " << percent << "%  ";
+      std::cout << m << ' ' <<  r << ' ' << P << ' ' << L << ' ' << T << ' ' << rho << ' ' << dm << '\n';
     }
     
     
@@ -67,20 +68,16 @@ std::stringstream Integrate::integrate(double L_0, double T_0, double P_0, doubl
       dms[1] = abs(p_max*P / dPdm);
       dms[2] = abs(p_max*L / dLdm);
       dms[3] = abs(p_max*T / dTdm);
-      dm_max = - (*min_element(dms, dms+4));
-
-      dms[0] = abs(p_min*r / drdm);
-      dms[1] = abs(p_min*P / dPdm);
-      dms[2] = abs(p_min*L / dLdm);
-      dms[3] = abs(p_min*T / dTdm);
-      dm_min = - (*min_element(dms, dms+4));
-
-      while (abs(dm) > abs(dm_max) or abs(dm) < abs(dm_min) ){
-	if (abs(dm) > abs(dm_max))
-	  dm *= 0.99;
-	if (abs(dm) < abs(dm_min)) 
-	  dm *= 1.01;
-      }
+      dms[4] = abs(p_max*m);
+      dm = - (*min_element(dms, dms+5));
+      
+      
+      // while (abs(dm) > abs(dm_max) or abs(dm) < abs(dm_min) ){
+      // 	if (abs(dm) > abs(dm_max))
+      // 	  dm *= 0.99;
+      // 	if (abs(dm) < abs(dm_min)) 
+      // 	  dm *= 1.01;
+      // }
     }
     
     r += drdm * dm;
@@ -91,18 +88,18 @@ std::stringstream Integrate::integrate(double L_0, double T_0, double P_0, doubl
     m += dm;
 
     if (m < 0 or r < 0 or L < 0 or T < 0 or rho < 0 or dm > -1) {
-      /*std::cout << "Unphysical at count = " << count << '\n'
+      std::cout << "Unphysical at count = " << count << '\n'
 		<< "dm = " << dm << '\n'
-		<< "m = " << m << '\n'
-		<< "r = " << r << '\n'
-		<< "L = " << L << '\n'
+		<< "m/M_0 = " << m/M_0 << '\n'
+		<< "r/R_0 = " << r/R_0 << '\n'
+		<< "L/L_0 = " << L/L_0 << '\n'
       		<< "T = " << T << '\n'
-		<< "rho = " << rho << '\n';*/
+		<< "rho = " << rho << '\n';
       break;
     }
   }
 
   std::cout << m << ' ' <<  r << ' ' << P << ' ' << L << ' ' << T << ' ' << rho << ' ' << dm << '\n';
   ss << m << ' ' <<  r << ' ' << P << ' ' << L << ' ' << T << ' ' << rho;
-  return ss;
+  return ss.str();
 }

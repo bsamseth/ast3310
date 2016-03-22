@@ -2,6 +2,7 @@
 #define INTEGRATE_H
 
 #include <sstream>
+#include <string>
 #include <armadillo>
 
 #include "massfractions.h"
@@ -11,7 +12,7 @@
 
 namespace Integrate {
   
-  std::stringstream integrate(double L_0, double T_0, double P_0, double rho_0, double M_0, double R_0, MassFractions MF, double dm);
+  std::string integrate(double L_0, double T_0, double P_0, double rho_0, double M_0, double R_0, MassFractions MF, double dm);
 
   inline double RHS_T(double T, double rho, double L, double r) {
     return - 3 * opacity(T, rho) * L / (256 * Constants::pi*Constants::pi * Constants::sigma * r*r*r*r * T*T*T);

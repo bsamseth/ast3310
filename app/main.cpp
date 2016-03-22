@@ -2,6 +2,7 @@
 #include <fstream>
 #include <typeinfo>
 #include <iomanip>   // for std::setprecision
+#include <string>
 #include <chrono>
 #include <armadillo>
 
@@ -76,12 +77,12 @@ int main(int argc, char** args) {
   //double dm = - M_0/10000;
   double dm = 0; // use dss
   
-  std::stringstream ss = Integrate::integrate(L_0, T_0, P_0,
+  std::string ss = Integrate::integrate(L_0, T_0, P_0,
 					      rho_0, M_0, R_0,
 					      MF, dm);
   
   std::ofstream outfile ("output.dat");
-  outfile << ss.str();
+  outfile << ss;
   outfile.close();
   
   auto t2 = std::chrono::high_resolution_clock::now();
