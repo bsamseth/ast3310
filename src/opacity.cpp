@@ -136,7 +136,7 @@ vec read_log10T() {
   // read T values
   vector<double> log10T = {};
   while (getline(infile, line)) {
-    iss = istringstream(line);
+    iss.str(line);
     iss >> number;
     log10T.push_back(number);
   }
@@ -155,7 +155,7 @@ mat read_opacity(int T_size, int R_size) {
   mat kappa (T_size, R_size);
   int i = 0;
   while (getline(infile, line)) {
-    iss = istringstream(line);
+    iss.str(line);
     iss >> number; // skip log10T value
     int j = 0;
     while (iss >> number) {
