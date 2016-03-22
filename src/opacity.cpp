@@ -132,11 +132,11 @@ vec read_log10T() {
   // file has empty line 2
   getline(infile, line);
 
-  istringstream iss;
+  //istringstream iss;
   // read T values
   vector<double> log10T = {};
   while (getline(infile, line)) {
-    iss.str(line);
+    istringstream iss (line);
     iss >> number;
     log10T.push_back(number);
   }
@@ -146,7 +146,6 @@ vec read_log10T() {
 
 mat read_opacity(int T_size, int R_size) {
   ifstream infile (opacities_filename);
-  istringstream iss;
   string line;
   double number;
   getline(infile, line); // empty lines
@@ -155,7 +154,7 @@ mat read_opacity(int T_size, int R_size) {
   mat kappa (T_size, R_size);
   int i = 0;
   while (getline(infile, line)) {
-    iss.str(line);
+    istringstream iss (line);
     iss >> number; // skip log10T value
     int j = 0;
     while (iss >> number) {
