@@ -8,6 +8,7 @@ os.system("cd ../build/ && make && cd -")
 # the dm_scales that are going to be used
 dm_scales = [0, 2, 10, 20, 30, 50, 100, 1000, 10000]
 dm_scales = [0,50, 60, 75, 100, 200, 500]
+dm_scales = [0, 50, 60, 75, 100, 200, 500, 1000]
 
 print dm_scales
 
@@ -40,7 +41,7 @@ for i, (m, r) in enumerate(zip(m_data, r_data)):
     r /= r[0]
 
     ax.plot(m, r,
-            label=(r'$M_0/dm = %s$' % ("%.1f" % dm_scales[i] if (dm_scales[i] != 0) else "DSS")))
+            label=(r'$M_0/dm = %s$' % ("%.f" % dm_scales[i] if (dm_scales[i] != 0) else "DSS")))
 
 ax.set_title(r'$r(m)$ for various values of $dm$', size=18)
 ax.set_ylabel(r'$R/R_0$', size=16)

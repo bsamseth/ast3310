@@ -1,4 +1,4 @@
-\documentclass[11pt]{article}
+\documentclass[11pt,twocolumn]{article}
 \usepackage{preamble}
 
 \lhead{AST3310}
@@ -12,12 +12,19 @@
 \author{Bendik \textsc{Samseth}}
 \date{\today}
 \begin{document}
-\maketitle
 
+\twocolumn[
+\begin{@twocolumnfalse}
+  \maketitle
+  \begin{abstract}
 
-\begin{abstract}
-In this report, this, that and more of this is discussed.
-\end{abstract}
+In this report, this, that and more of this is discussed. All source
+material related to this report can be found at the projects GitHub
+repository~\cite{github}.    
+
+  \end{abstract}
+\end{@twocolumnfalse}
+]
 
 \section{Introduction}
 When trying to understand the mechanics of a star the most logical
@@ -231,6 +238,71 @@ following:
   L_{i+1} &= L_i + \epsilon\,dm\\
   T_{i+1} &= T_i - \frac{ 3\kappa L }{ 256 \pi^2 \sigma r^4T^3 }\,dm
 \end{align*}
+
+\subsection{Choosing a Suitable Step Size $dm$}
+When ever a numerical solution to a differential equation is tried,
+one has to think about what step size $dm$ is suitable. In a perfect
+world, we would like to set it to an infinitesimal number, but the
+constraints of reality forces us to make a compromise between accuracy
+and speed. We need to find a value for $dm$ that gives an accurate
+enough result, but does so in a reasonable time. 
+
+In order to evaluate the effect of different step sizes, figure
+\ref{fig:dm-variation-no-dss} shows $r(m)$ calculated for a number of
+different values of $dm$. From the figure we can see a large variation
+in $r(m)$ for the lower values of $dm$. The solution seems to converge
+when $dm \geq M_0\e{-3}$, but even there it is not perfectly
+aligned. It turns out that the code runs very fast anyway (in large
+part because it is written in C++), so it is no problem to crank the
+step size down to $dm= M_0\e{-5}$, and still have do so in under a
+second. 
+
+\begin{figure*}[ht]
+  \centering
+  \includegraphics[width=\linewidth]{fig/dm_variation_no_dss.png}
+  \caption{\label{fig:dm-variation-no-dss} Plots of $r(m)$ using a
+    range of different values for $dm$. We see that we need quite a
+    large number of steps in order for the solution to converge.}
+\end{figure*}
+
+
+This is quite neat, but we could still try to be a bit smarter about
+this than just using brute force. The downside to setting a fixed value for $dm$ is that we might spend
+a lot of computational time on a part of our function(s) that is very
+stable, and on the other side, we might not have enough precision for
+where the function(s) is very steep. The alternative is \emph{dynamic
+  step size}, which involves defining the step size in such a way so
+that the value of the function(s) does not change by more than a fixed
+percentage. In the case of a diff.eq. $du/dx = f(u,x)$, we define the
+step size in the following way:
+
+\begin{align}
+  \frac{du}{u} &\leq p\Leftrightarrow \frac{f\,dx}{u} \leq p\\
+  \Rightarrow dx &= \frac{pu}{f},
+\end{align}
+where $p$ is the fraction that the solution is allowed to change by
+after one step. In our case we have more than one equation, so we
+impose a similar requirement to all equations and then simply choose
+the smallest required step size.
+
+The only thing we then have to define is what the value of $p$ should
+be. As previously stated, the code is quite fast so we can afford to
+be quite strict. The code used in all subsequent figures is set to
+allow a maximum change of $1 \permil$. Figure \ref{fig:dm_variation}
+shows the same plot as figure \ref{fig:dm-variation-no-dss}, but this
+time including dynamic step size as well. The figure shows that DSS
+gives good results. 
+
+\begin{figure*}[ht]
+  \centering
+  \includegraphics[width=\linewidth]{fig/dm_variation.png}
+  \caption{\label{fig:dm_variation} Plots of $r(m)$ using a range of
+    different values for $dm$, including the solution obtained when
+    using dynamic step size.}
+\end{figure*}
+
+
+\section{Changing the Parameters}
 
 
 
