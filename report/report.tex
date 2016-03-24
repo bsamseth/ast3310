@@ -2,7 +2,7 @@
 \usepackage{preamble}
 
 \lhead{AST3310}
-\chead{Term project 2}
+\chead{Term project 2: Modelling a Stellar Core}
 \rhead{Bendik Samseth}
 \lfoot{}
 \cfoot{}
@@ -303,9 +303,36 @@ gives good results.
 
 
 \section{Changing the Parameters}
+In this numerical model, we have the option to change the initial
+parameters to our liking. In particular, we would like to find the set
+of initial parameters that give the most realistic model of an actual
+star. To this end we are now going to look at how the solution is
+affected by changing $R_0,M_0, P_0$ etc. 
+
+\subsection{Changing $R_0$}
+In order to see the effects of changing the initial radius, figure
+\ref{fig:R-variation} has been produced. From the figure we can
+conclude with the following:
+\begin{itemize}
+  \item $m$ dies off faster
+  \item $P$ becomes \emph{much} smaller
+\item $L$ remains constant for much longer (the core becomes a smaller
+  fraction of the star)
+\item $T$ becomes smaller
+\item $\rho$ is similar to $T$, only that $\rho$ becomes \emph{much}
+  smaller with increasing $R_0$
+\end{itemize}
+
+\begin{figure*}[ht]
+  \centering
+  \includegraphics[width=\linewidth]{fig/R_variation.png}
+  \caption{\label{fig:R-variation} Plots for all parameters of the sun
+  showing the effects of changing the initial radius $R_0$.}
+\end{figure*}
 
 
 
+\onecolumn
 \printbibliography
 \end{document}
 
