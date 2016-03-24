@@ -28,30 +28,35 @@ repository~\cite{github}.
 
 \section{Introduction}
 When trying to understand the mechanics of a star the most logical
-place to start is with what you can observe. Which properties of the
-star can we measure rather easily? 
+place to start is with what you can observe. Let's take a look at the
+properties of a star that we can measure with relative ease. 
 
-Well, we  can look at how much
-radiation energy hits one particular spot on the earth, and by
-assuming that the star radiates equally in all directions we can
-calculate the total amount of energy sent out by the star, the
-so-called luminosity (denoted as $L$). 
+Firstly, we can look at how much radiation energy hits one particular
+area, i.e. a solar panel on earth. By assuming that the star radiates
+equally in all directions we can calculate the total amount of energy
+sent out by the star, the so-called luminosity (denoted as $L$).
 
 In addition, we can find the surface temperature (denoted $T$) by
-looking at the color of the light emitted from the sun and using
+looking at the color of the light emitted from the star and using
 Wien's displacements law. 
 
 Lastly, we might be able to look at the orbits of all the planets and
-do some number crunching and figure out the total mass of the star (denoted $M$).
+do some number crunching and figure out the total mass of the star
+(denoted $M$). This last part may be easier said than done, for
+instance in the case of a far away solar system where we can't even
+see the planets orbiting, just their minuscule effect on the stars
+orbit. However, for the purposes of this report, let's assume that we
+are able to do so. 
 
 But that's about it for what we can figure out by just looking at the
 outside effects. There are many other properties we would like to know
-about, e.g. the radius ($R$), density ($\rho$) and pressure ($P$). In
-particular, we would like to have all of these properties as a
-function of the radius, so that we can get an idea of what the cross
-section of the star looks like. In order to achieve this, we need to
-deploy many different branches of physics as well as a good number of
-assumptions to simplify things for us. 
+about, e.g. the radius ($R$), density ($\rho$) and pressure ($P$) of
+the star. In particular, we would like to have all of these properties
+as a function of the radius, so that we can get an idea of what the
+cross section of the star looks like. In order to achieve this, we
+need to deploy many different branches of physics, including
+thermodynamics, hydrostatics and nuclear physics. And of course, a good
+number of assumptions to simplify things for us.
 
 
 \section{The Governing Equations}
@@ -97,7 +102,7 @@ energy produced by nuclear fusion per time and mass. This quantity
 will be treated more in a later section (ref??).
 
 Eq. \eqref{eq:dTdm} is the temperature gradient need to transport all
-the produced energy out of the sun. I should be noted that this is
+the produced energy out of the star. I should be noted that this is
 only the correct temperature gradient when all the energy is
 transported by radiation. 
 
@@ -216,6 +221,16 @@ effectively merging the two first steps in the PP chains into one
 reaction.
 
 
+\section{Assumptions}
+Up until this point, we've made several assumptions. In order to
+remember the limitations of our results, I have summarized them in a
+list:
+
+\begin{itemize}
+  \item Assume something.
+\end{itemize}
+
+
 \section{Solving the Equations}
 At this point we are ready to start solving the governing
 equations. For simplicity, I have chosen to deploy the standard
@@ -312,7 +327,8 @@ affected by changing $R_0,M_0, P_0$ etc.
 \subsection{Changing $R_0$}
 In order to see the effects of changing the initial radius, figure
 \ref{fig:R-variation} has been produced. From the figure we can
-conclude with the following:
+conclude with the following for increasing initial radius:
+
 \begin{itemize}
   \item $m$ dies off faster
   \item $P$ becomes \emph{much} smaller
@@ -326,8 +342,29 @@ conclude with the following:
 \begin{figure*}[ht]
   \centering
   \includegraphics[width=\linewidth]{fig/R_variation.png}
-  \caption{\label{fig:R-variation} Plots for all parameters of the sun
+  \caption{\label{fig:R-variation} Plots for all parameters of the star
   showing the effects of changing the initial radius $R_0$.}
+\end{figure*}
+
+\subsection{Changing $T_0$}
+Figure \ref{fig:T-variation} shows a similar comparison for a change
+in the initial temperature $T_0$. We conclude that for increasing
+initial temperature we have that:
+
+\begin{itemize}
+  \item $m$ falls off less rapidly
+  \item $T$ is smaller (relative to $T_0$)
+  \item $L$ falls of more rapidly, but at constant radius.
+\end{itemize}
+
+The plots for $\rho$ and $P$ are less obvious and does not yield as
+clear conclusions. 
+
+\begin{figure*}[ht]
+  \centering
+  \includegraphics[width=\linewidth]{fig/T_variation.png}
+  \caption{\label{fig:T-variation} Plots for all parameters of the star
+  showing the effects of changing the initial temperature $T_0$.}
 \end{figure*}
 
 
