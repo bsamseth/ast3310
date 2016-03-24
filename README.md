@@ -32,7 +32,7 @@ Then just open the file `build/html/index.html` in a browser.
 
 
 ## Report
-The [report](report/) folder contains a PDF with a report describing the project in more detail. If you wish, you can generate this PDF from source by using the supplied [Makefile](report/Makefile):
+The [report](report/) folder contains a [PDF](report/report.pdf) with a report describing the project in more detail. If you wish, you can generate this PDF from source by using the supplied [Makefile](report/Makefile):
 
 ``` bash
 $ cd report && make
