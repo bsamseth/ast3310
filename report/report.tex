@@ -27,8 +27,8 @@ repository~\cite{github}.
 ]
 
 \section{Introduction}
-When trying to understand the mechanics of a star the most logical
-place to start is with what you can observe. Let's take a look at the
+When trying to understand the mechanics of a star, the most logical
+place to start is with what we can observe. Let's take a look at the
 properties of a star that we can measure with relative ease. 
 
 Firstly, we can look at how much radiation energy hits one particular
@@ -322,7 +322,10 @@ In this numerical model, we have the option to change the initial
 parameters to our liking. In particular, we would like to find the set
 of initial parameters that give the most realistic model of an actual
 star. To this end we are now going to look at how the solution is
-affected by changing $R_0,M_0, P_0$ etc. 
+affected by changing $R_0,M_0, P_0$ etc. (In the following, $u_{0,i}$
+will denote the default initial condition of quantity $u$, as defined
+in the exercise text. The defaults correspond to the values for the
+Sun at the bottom of the convection layer.)
 
 \subsection{Changing $R_0$}
 In order to see the effects of changing the initial radius, figure
@@ -367,6 +370,46 @@ clear conclusions.
   showing the effects of changing the initial temperature $T_0$.}
 \end{figure*}
 
+
+\subsection{Changing $\rho_0$}
+Figure \ref{fig:rho-variation} shows what happens to the solutions
+when we vary the initial density. We conclude that for increasing
+initial density we have that:
+
+\begin{itemize}
+\item $m$ falls off more rapidly
+\item $P$ becomes \emph{much} smaller
+\item $\rho$ becomes \emph{much} smaller (exactly in the same way as
+  $P$, which is in agreement with Eq. \eqref{eq:rho-eq_state} (linear
+  dependence on $P$).)
+\end{itemize}
+
+$T$ seems to remain pretty much constant. The plot for $L$ is quite
+hard to read due to the higher $\rho_{0}$'s becoming unphysical very
+fast. 
+
+\begin{figure*}[ht]
+  \centering
+  \includegraphics[width=\linewidth]{fig/rho_variation.png}
+  \caption{\label{fig:rho-variation} Plots for all parameters of the star
+  showing the effects of changing the initial density $\rho_0$.}
+\end{figure*}
+
+
+\subsection{Changing $P_0$}
+Figure \ref{fig:P-variation} shows the solutions for a range of
+initial pressures. For increasing initial pressure we conclude that:
+
+\begin{itemize}
+  \item 
+\end{itemize}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\linewidth]{fig/P_variation.png}
+  \caption{\label{fig:P-variation} Plots for all parameters of the star
+  showing the effects of changing the initial pressure $\P_0$.}
+\end{figure}
 
 
 \onecolumn
