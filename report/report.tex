@@ -395,21 +395,36 @@ fast.
   showing the effects of changing the initial density $\rho_0$.}
 \end{figure*}
 
-
 \subsection{Changing $P_0$}
-Figure \ref{fig:P-variation} shows the solutions for a range of
-initial pressures. For increasing initial pressure we conclude that:
+Due to the connection between $P,\rho$ and $T$ shown in
+Eq. \eqref{eq:P-eq_state}, the effects of changing $P_0$ is included
+in the above sections. In fact, the code sets the initial value for
+$P$ based on the values for $\rho$ and $T$.  
+
+
+\subsection{Changing $M_0$}
+Figure \ref{fig:M-variation} shows the solutions for a range of total
+masses. For increasing total mass we conclude that:
 
 \begin{itemize}
-  \item 
+  \item Both $\rho$ and $P$ becomes \emph{much} bigger in the outer
+    parts, but get caught up by the smaller $M_0$'s towards the core
+  \item $L$ starts to decline earlier (core becomes bigger), but it's
+    not clear how increasing $M_0$ effects where $L\rightarrow 0$
+  \item Low $M_0$'s causes $m$ to fall of faster in the beginning and
+    slower towards the center, and the opposite is true for higher $M_0$'s
 \end{itemize}
 
-\begin{figure}[ht]
+\begin{figure*}[ht]
   \centering
-  \includegraphics[width=\linewidth]{fig/P_variation.png}
-  \caption{\label{fig:P-variation} Plots for all parameters of the star
-  showing the effects of changing the initial pressure $\P_0$.}
-\end{figure}
+  \includegraphics[width=\linewidth]{fig/M_variation.png}
+  \caption{\label{fig:M-variation} Plots for all parameters of the star
+  showing the effects of changing the total mass $M_0$.}
+\end{figure*}
+
+
+
+
 
 
 \onecolumn
