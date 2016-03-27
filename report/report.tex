@@ -89,19 +89,19 @@ $r$ instead\footnote{I will use lower case $r$ and $m$ when referring
   the total radius and mass.}. It turns out that it is more numerically
 stable to use $dm$ compared to $dr$, so we are going to treat the
 radius as $r=r(m)$. When we plot the data later, however, we will
-return to using $r$ as the variable. Eq. \eqref{eq:drdm} is simply
+return to using $r$ as the variable. Eq.~\eqref{eq:drdm} is simply
 stating the relation between taking an infinitesimal step in $r$,
 compared to an infinitesimal step in $m$. 
 
-Eq. \eqref{eq:dPdm} is the assumption of hydrostatic equilibrium, and
+Eq.~\eqref{eq:dPdm} is the assumption of hydrostatic equilibrium, and
 states that if the gas in the star is to be at rest, then the outward
 pressure must exactly balance the force of gravity acting on the gas. 
 
-The $\epsilon$ in Eq. \eqref{eq:dLdm} represents the amount of
+The $\epsilon$ in Eq.~\eqref{eq:dLdm} represents the amount of
 energy produced by nuclear fusion per time and mass. This quantity
 will be treated more in a later section (ref??).
 
-Eq. \eqref{eq:dTdm} is the temperature gradient need to transport all
+Eq.~\eqref{eq:dTdm} is the temperature gradient need to transport all
 the produced energy out of the star. I should be noted that this is
 only the correct temperature gradient when all the energy is
 transported by radiation. 
@@ -159,7 +159,7 @@ all particles is central to the structure of the code base.
 
 
 Let's now return to the original problem of finding an extra
-equation. Eq. \eqref{eq:Pg} gives us an additional equation, but it
+equation. Eq.~\eqref{eq:Pg} gives us an additional equation, but it
 also introduces a new parameter, $P_g$. In addition to the gas
 pressure, we have radiation pressure $P_{\text{rad}}$, so that the
 total pressure is $P = P_g + P_\text{rad}$. Luckily, the expression
@@ -182,7 +182,7 @@ versa.
 
 
 \subsection{Energy Production}
-In Eq. \eqref{eq:dLdm}, the quantity $\epsilon$ represents the amount
+In Eq.~\eqref{eq:dLdm}, the quantity $\epsilon$ represents the amount
 of energy produced per time and mass. We derive the value of
 $\epsilon$ by looking at the reactions that produce energy inside a
 star. It is given by
@@ -349,19 +349,39 @@ conclude with the following for increasing initial radius:
   showing the effects of changing the initial radius $R_0$.}
 \end{figure*}
 
+These effects are all reasonable given an increase in the size of the
+star. We can compare this to what we know happens to a star towards the
+end of its life cycle, where it becomes a red giant. In that case, the
+radius increases, causing the surface temperature to drop (thus
+glowing more red). The core has no reason to expand or contract, so it
+becomes a smaller fraction of the total radius. Finally, with a constant total mass, it seems reasonable
+that the density would drop significantly, along with the pressure
+(all in accordance with Eq.~\eqref{eq:P-eq_state}). 
+
+% What about why mass drops faster??
+% We can also understand why the mass drops of faster for larger $R_0$,
+% by looking at the density plot in figure \ref{fig:R-variation}. We see
+% that larger $R_0$ causes a flatter
+
 \subsection{Changing $T_0$}
 Figure \ref{fig:T-variation} shows a similar comparison for a change
 in the initial temperature $T_0$. We conclude that for increasing
 initial temperature we have that:
 
 \begin{itemize}
-  \item $m$ falls off less rapidly
-  \item $T$ is smaller (relative to $T_0$)
-  \item $L$ falls of more rapidly, but at constant radius.
+  \item $L$ falls of more rapidly, causing the core to expand
+  \item $m$ falls off more towards the center (larger core)
+  \item $T$ is smaller relative to $T_0$, which hints at a more or
+    less unchanged temperature graph.
 \end{itemize}
 
-The plots for $\rho$ and $P$ are less obvious and does not yield as
-clear conclusions. 
+The main change caused by increasing $T_0$ seems to be a larger
+core. This makes sense; a higher temperature in the outer parts would
+imply that the temperatures needed for fusion to happen, are present
+further out in star.
+
+The plots for $\rho$ and $P$ also seem to comply with a more centrally
+dense star.
 
 \begin{figure*}[ht]
   \centering
@@ -378,15 +398,19 @@ initial density we have that:
 
 \begin{itemize}
 \item $m$ falls off more rapidly
-\item $P$ becomes \emph{much} smaller
-\item $\rho$ becomes \emph{much} smaller (exactly in the same way as
-  $P$, which is in agreement with Eq. \eqref{eq:rho-eq_state} (linear
-  dependence on $P$).)
+\item $\rho$ and $P$ becomes much smaller compared their initial
+  values.
 \end{itemize}
 
-$T$ seems to remain pretty much constant. The plot for $L$ is quite
-hard to read due to the higher $\rho_{0}$'s becoming unphysical very
-fast. 
+The absolute main thing we gather from this figure is that the mass
+drops of more rapidly, which of course makes sense given a larger
+density further out in the star. 
+
+The other graphs are quite hard to extract anything else from given
+that the solution becomes unphysical very fast for large
+$\rho_0$'s. I will therefore not give much time to interpret the
+result for i.e. $P$, because they might as well be caused by very
+strange behaviours of other parameters. 
 
 \begin{figure*}[ht]
   \centering
@@ -397,9 +421,11 @@ fast.
 
 \subsection{Changing $P_0$}
 Due to the connection between $P,\rho$ and $T$ shown in
-Eq. \eqref{eq:P-eq_state}, the effects of changing $P_0$ is included
+Eq.~\eqref{eq:P-eq_state}, the effects of changing $P_0$ is included
 in the above sections. In fact, the code sets the initial value for
-$P$ based on the values for $\rho$ and $T$.  
+$P$ based on the values for $\rho$ and $T$. Producing a similar plot
+for variations in $P_0$ would be equivalent of changing $\rho_0$ or
+$T_0$, or some arbitrary combination of the two according to Eq.~\eqref{eq:P-eq_state}.
 
 
 \subsection{Changing $M_0$}
