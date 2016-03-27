@@ -21,12 +21,12 @@ All of the latter is placed in the [python/](python/) folder.
 As for the main C++ code, it is organized with all header files in [include/](include/), all sources in [src/](src/),
 and all tests in [tests/](tests/).
 
-The program it self is built around the main integrator method that solves the governing equations of a star.
+The program itself is built around the main integrator method that solves the governing equations of a star.
 In order to do this, there are functions and data structures for computing [densities](include/state_equations.h),
-[pressures](include/state_equations.h), [energy production](include/state_equations.h) etc. The
+[pressures](include/state_equations.h), [energy production](include/energy_production.h) etc. The
 latter is the most complex function, making use of several tabulated [functions](include/functions.h),
 [reaction energies](include/reaction_energies.h) and [particle types](include/particles.h).
-__The best way to get familiar with the code quickly would be to sift through the [include/ folder](include/).__
+__The best way to get an overview of the code quickly, would be to sift through the [include/](include/) folder.__
 
 ### Build
 To build the sources you can use the supplied [CMakeLists.txt](CMakeLists.txt) file.
@@ -54,4 +54,3 @@ Then just open the file `build/html/index.html` in a browser.
 
 ## TODO
 - Project Goal
-- Code Structure
