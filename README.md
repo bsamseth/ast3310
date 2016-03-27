@@ -7,7 +7,28 @@ AST3310 at UiO.  The course is organized in projects, but these are
 sequential and therefore presented as one repository. To see the state of the code as of completion of
 separate projects, tags will exists for the relevant commits. 
 
-## Build
+## Report
+The [report](report/) folder contains a [PDF](report/report.pdf) with a report describing the project in more detail. If you wish, you can generate this PDF from source by using the supplied [Makefile](report/Makefile):
+
+``` bash
+$ cd report && make
+```
+
+## Code structure
+The main body of the code base is written in C++, with plotting and other data processing done in Python.
+All of the latter is placed in the [python/](python/) folder.
+
+As for the main C++ code, it is organized with all header files in [include/](include/), all sources in [src/](src/),
+and all tests in [tests/](tests/).
+
+The program it self is built around the main integrator method that solves the governing equations of a star.
+In order to do this, there are functions and data structures for computing [densities](include/state_equations.h),
+[pressures](include/state_equations.h), [energy production](include/state_equations.h) etc. The
+latter is the most complex function, making use of several tabulated [functions](include/functions.h),
+[reaction energies](include/reaction_energies.h) and [particle types](include/particles.h).
+__The best way to get familiar with the code quickly would be to sift through the [include/ folder](include/).__
+
+### Build
 To build the sources you can use the supplied [CMakeLists.txt](CMakeLists.txt) file.
 
 ``` bash
@@ -21,7 +42,7 @@ The options to `cmake` is optional, and defaults to using debugging (compiles wi
 This will produce executables for every file in [app/](app/), as well
 as a test executable `unit_tests.x` from [tests/main.cpp](tests/main.cpp).
 
-## Documentation
+### Documentation
 If you prefer, a HTML-version of the code documentation can be generated:
 
 ``` bash
@@ -30,13 +51,6 @@ $ make doc
 
 Then just open the file `build/html/index.html` in a browser.
 
-
-## Report
-The [report](report/) folder contains a [PDF](report/report.pdf) with a report describing the project in more detail. If you wish, you can generate this PDF from source by using the supplied [Makefile](report/Makefile):
-
-``` bash
-$ cd report && make
-```
 
 ## TODO
 - Project Goal
