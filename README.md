@@ -5,10 +5,18 @@
 This repository contains work related to projects in the course
 AST3310 at UiO.  The course is organized in projects, but these are
 sequential and therefore presented as one repository. To see the state of the code as of completion of
-separate projects, tags will exists for the relevant commits. 
+separate projects, tags will exists for the relevant commits (linked below). 
+
+## Goal
+The final goal is the have a working numerical model of a star, able to produce any relevant quantity as a function of
+its radius, given a set of initial conditions. [Project 1](releases/tag/v1) sets up the framework for computing the
+energy production at any point in the star, given a density, temperature and mass fractions for all the different types
+of particles present. In project 2, a model of the inner radiative core of a star is developed, and project 3 expands
+the model to include the outer convection zone.
 
 ## Report
-The [report](report/) folder contains a [PDF](report/report.pdf) with a report describing the project in more detail. If you wish, you can generate this PDF from source by using the supplied [Makefile](report/Makefile):
+The [report](report/) folder contains a [PDF](report/report.pdf) with a report describing the project in more detail.
+If you wish, you can generate this PDF from source by using the supplied [Makefile](report/Makefile):
 
 ``` bash
 $ cd report && make
@@ -50,7 +58,3 @@ $ make doc
 ```
 
 Then just open the file `build/html/index.html` in a browser.
-
-
-## TODO
-- Project Goal
