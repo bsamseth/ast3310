@@ -133,7 +133,7 @@ gas. $n_\text{tot}$ can be taken as the sum of $n_i$ for all particles
 $i$,
 
 \begin{align}
-  n_\text{tot} &= \sum_i n_i = n_e\sum_i \frac{ X_i\rho }{ C_i m_u}
+  n_\text{tot} &= \sum_i n_i = n_e+ \sum_i \frac{ X_i\rho }{ C_i m_u}
 \end{align}
 where $X_i$ and $C_i$ is the mass fraction, and number of core
 elements of particle $i$, respectively. For instance, $^4_2\text{He}$
@@ -150,9 +150,10 @@ if we combine all the steps we have to take to compute $\mu$, we can
 end up with a convenient formula:
 
 \begin{align}
-  \mu = \frac{1}{\sum (\text{particles provided per
-  nucleus}\times\text{mass fraction}/\text{nucleons in core})}\label{eq:mu_0}.
+  \mu = \frac{1}{\sum p_iX_i/C_i}\label{eq:mu_0}.
 \end{align}
+where $p_i$ is the number of particles provided per nucleus (i.e. the
+core plus the number of ionized electrons).
 
 This is the method used in the code, as a framework for summing over
 all particles is central to the structure of the code base.
