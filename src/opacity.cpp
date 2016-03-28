@@ -74,6 +74,15 @@ double Opacity::operator() (double T, double rho) {
 }
 
 
+/*
+ * This will return the index of the element in A that is 
+ * closest to a, with the restraint that the element is smaller than
+ * a. This means that given A = [1,2,3,4,5], the closest element
+ * to a = 2.9 is A[1] = 2.
+ * The exception to this is when a < A[i] for all i, where i = 0 is returned.
+ * 
+ * Note that A is assumed to be in ascending order.
+ */
 int Opacity::find_closest_index(double a, vec A) {
   int index = 0;
   double diff = a - A(0), new_diff;
@@ -106,7 +115,9 @@ double Opacity::interp2d(double q11, double q12, double q21, double q22, double 
     );
 }
 
-
+/*
+ * Read and return a vector with log10(R) values
+ */
 vec Opacity::read_log10R() {
   ifstream infile (opacities_filename);
   string line, tmp;
@@ -125,6 +136,9 @@ vec Opacity::read_log10R() {
   return vec(log10R);
 }
 
+/*
+ * Read and return a vector with log10(T) values.
+ */
 vec Opacity::read_log10T() {
   ifstream infile (opacities_filename);
   string line, tmp;
@@ -135,7 +149,6 @@ vec Opacity::read_log10T() {
   // file has empty line 2
   getline(infile, line);
 
-  //istringstream iss;
   // read T values
   vector<double> log10T = {};
   while (getline(infile, line)) {
@@ -147,12 +160,15 @@ vec Opacity::read_log10T() {
   return vec(log10T);
 }
 
+/*
+ * Read and return a matrix with log10(kappa) values.
+ */
 mat Opacity::read_opacity(int T_size, int R_size) {
   ifstream infile (opacities_filename);
   string line;
   double number;
-  getline(infile, line); // empty lines
-  getline(infile, line);
+  getline(infile, line); // skip header
+  getline(infile, line); // empty line
 
   mat kappa (T_size, R_size);
   int i = 0;
