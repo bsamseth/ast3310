@@ -19,7 +19,10 @@ namespace Constants {
   const double pi = 3.14159265359;          ///< dim. less
   const double sigma = 5.670367e-8;         ///< W m^-2 K^-4
   const double a = 4*sigma/c;               ///< kg m^-2 s^-1
-  
+
+  /**
+   * Namespace containing general solar constants.
+   */
   namespace Sun {
     const double L = 3.846e26;              ///< W
     const double M = 1.989e30;              ///< kg
@@ -28,6 +31,9 @@ namespace Constants {
     const double t_life = 4.57e9;           ///< years
     const double kappa = 1.0;               ///< m^2 kg^-1
 
+    /**
+     * Namespace containing constants for the solar core.
+     */
     namespace Core {
       const double rho = 1.62e5;            ///< kg m^-3
       const double T = 1.57e7;              ///< K
