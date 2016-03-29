@@ -27,7 +27,7 @@ int main(int argc, char** args) {
   double R_scale=1, M_scale=1, rho_scale=1, T_scale=1;
   double dm_scale = 0; // dm = M0/dm_scale
   string filename = "output.dat";
-  
+  bool setP = false;
 
   if (argc > 4) {
     R_scale = std::atof(args[1]);
@@ -38,7 +38,9 @@ int main(int argc, char** args) {
       dm_scale = std::atof(args[5]);
     if (argc > 6)
       filename = args[6];
-	
+
+    if (argc > 7)
+      setP = true;
   } else {
     cout << "Usage: " << args[0]
 	 << " R_scale M_scale rho_scale T_scale"
@@ -63,9 +65,19 @@ int main(int argc, char** args) {
   double L_0   = 1  * Sun::L;
   double R_0   = 0.72 * Sun::R * R_scale;
   double M_0   = 1  * Sun::M * M_scale;
-  double rho_0 = 5.1  * Sun::rho * rho_scale;
   double T_0   = 5.7e6 * T_scale;
+  double rho_0 = 5.1  * Sun::rho * rho_scale;
   double P_0   = StateEquations::P(T_0, rho_0, StateEquations::mu_0(MF));
+  if (setP) {
+    /*
+     * If setP is true, then rho_scale is interpreted as P_scale.
+     * P is then scaled accoriding to the the value that P would have with
+     * rho_scale = 1 (and T_scale whatever is used).
+     */
+    rho_0 = 5.1  * Sun::rho;
+    P_0 = StateEquations::P(T_0, rho_0, StateEquations::mu_0(MF)) * rho_scale;
+    rho_0 = StateEquations::rho(T_0, P_0, StateEquations::mu_0(MF));
+  }
 
   double dm = (dm_scale == 0) ? 0 : - M_0/dm_scale;
   //double dm = 0; // use dss
