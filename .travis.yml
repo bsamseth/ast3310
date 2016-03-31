@@ -43,6 +43,8 @@ matrix:
             - clang-3.7
       env: COMPILER=clang++-3.7
 
+
+
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -y libopencv-dev
@@ -57,7 +59,7 @@ install:
   - sudo make -C lcov-1.11/ install
   #- sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 90
   #- sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 90
-  - sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-4.8 90
+  #- sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-4.8 90
   - sudo apt-get install liblapack-dev libblas-dev libboost-dev #libarmadillo-dev
   - wget http://sourceforge.net/projects/arma/files/armadillo-6.600.4.tar.gz
   - tar xf armadillo-6.600.4.tar.gz
