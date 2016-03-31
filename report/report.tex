@@ -23,6 +23,7 @@ material related to this report can be found at the projects GitHub
 repository~\cite{github}.    
 
   \end{abstract}
+  \tableofcontents\vspace{0.5cm}
 \end{@twocolumnfalse}
 ]
 
@@ -99,7 +100,7 @@ pressure must exactly balance the force of gravity acting on the gas.
 
 The $\epsilon$ in Eq.~\eqref{eq:dLdm} represents the amount of
 energy produced by nuclear fusion per time and mass. This quantity
-will be treated more in a later section (ref??).
+will be treated more in section~\ref{sec:energyproduction}.
 
 Eq.~\eqref{eq:dTdm} is the temperature gradient need to transport all
 the produced energy out of the star. I should be noted that this is
@@ -142,7 +143,7 @@ of Helium with four nucleons. The number density of the
 electron, $n_e$ is written separate and should only consider the
 number of \emph{free} electrons in the gas. In the case of only fully
 ionized $^4_2\text{He}$, $n_e = 2n_{^4_2\text{He}}$ because each
-ionized Helium core gives two electrons. I similar consideration
+ionized Helium core gives two electrons. A similar consideration
 should be taken for each species present in the gas. 
 
 Calculating $n_\text{tot}$ is not necessarily so straight forward, but
@@ -183,6 +184,7 @@ versa.
 
 
 \subsection{Energy Production}
+\label{sec:energyproduction}
 In Eq.~\eqref{eq:dLdm}, the quantity $\epsilon$ represents the amount
 of energy produced per time and mass. We derive the value of
 $\epsilon$ by looking at the reactions that produce energy inside a
@@ -193,28 +195,37 @@ star. It is given by
 where $r_{ij}$ is the reaction rate for particles $i$ and $j$ (per
 time and mass), and $Q_{ij}$ is the energy produced for each such
 reaction. The exact values of $Q_{ij}$ can be found in the lecture
-notes~\cite{lecture-notes}. More interesting is the rates, which are
-given as
+notes~\cite{lecture-notes}, and also listed in the source
+code~\cite[\texttt{reaction\_energies.h}]{github}. More interesting is the rates, which are given as
 
 \begin{align}
   r_{ij} = \frac{n_in_j}{\rho(1+\delta_{ij})}\lambda_{ij}
 \end{align}
-where the symbols have their normal meaning (including the Kronecker
-delta $\delta_{ij}$). $\lambda_{ij}$ is a complicated function of
+where $n_i$ is the number density of particle $i$, and $\delta_{ij}$
+is the Kronecker delta. $\lambda_{ij}$ is a complicated function of
 temperature, and we will use tabulated expressions for these
 functions, found once again in the lecture notes~\cite[Table
-3.1]{lecture-notes}. 
+3.1]{lecture-notes}.
 
 
 There are a few different ways that fusion can happen, depending
-on the conditions of the star. I our case we will simplify things a
+on the conditions of the star. In our case we will simplify things a
 bit and only consider the PPI and PPII chains (Proton-Proton based
 fusion). 
 
 One important thing to mention when calculating $\epsilon$ is that no
 reaction should happen more often (have larger value for $r_{ij}$)
 than the reaction(s) that produced the reactant(s) of the first
-reaction. 
+reaction. For instance, in the PPII we have the two steps
+\begin{align}
+  ^3_2\text{He} + ^4_2\text{He}&\rightarrow ^7_4\text{Be}\\
+  ^7_4\text{Be} + e^-&\rightarrow ^7_3\text{Li} + \nu_e.
+\end{align}
+Here, the second step can happen no more often than the first step; if
+this was not the case, the Beryllium would quickly disappear and we
+end up using Beryllium that does not exist. A similar considerations
+should be made to all dependencies of each step in the cycles.
+
 
 The last assumption we add is that all Deuterium produced by
 Proton-Proton fusion, immediately fuses to $^3_2\text{He}$, thus
@@ -255,7 +266,7 @@ will try to be smart about this step size in order to minimize the
 effects of this. 
 
 As a reminder, Forward Euler solves a differential equation $du/dx =
-f(u,x)$ by 
+f(u,x)$ by the explicit scheme: 
 \begin{align*}
   u_{i+i} = u_i + du = u_i + f(u_i,x_i)\,dx.
 \end{align*}
@@ -263,15 +274,19 @@ f(u,x)$ by
 In our case, with four differential equations, this corresponds to the
 following:
 \begin{align*}
-  r_{i+1} &= r_i +  \frac{ 1 }{ 4\pi r^2\rho }\,dm\\
-  P_{i+1} &= P_{i} - \frac{ Gm }{ 4\pi r^4 }\,dm\\
+  r_{i+1} &= r_i +  \frac{ 1 }{ 4\pi r_i^2\rho_i }\,dm\\
+  P_{i+1} &= P_{i} - \frac{ Gm_i }{ 4\pi r^4_i }\,dm\\
   L_{i+1} &= L_i + \epsilon\,dm\\
-  T_{i+1} &= T_i - \frac{ 3\kappa L }{ 256 \pi^2 \sigma r^4T^3 }\,dm
+  T_{i+1} &= T_i - \frac{ 3\kappa L_i }{ 256 \pi^2 \sigma r_i^4T_i^3
+            }\,dm\\
+  m_{i+1} &= m_i + dm
 \end{align*}
+I added the updating of the mass $m(r_i)=m_i$ for clarity.
+
 
 \subsection{Choosing a Suitable Step Size}
-When ever a numerical solution to a differential equation is tried,
-one has to think about what step size $dm$ is suitable. In a perfect
+Whenever a numerical solution to a differential equation is attempted,
+one has to think about what step size is suitable. In a perfect
 world, we would like to set it to an infinitesimal number, but the
 constraints of reality forces us to make a compromise between accuracy
 and speed. We need to find a value for $dm$ that gives an accurate
@@ -279,13 +294,16 @@ enough result, but does so in a reasonable time.
 
 In order to evaluate the effect of different step sizes, figure
 \ref{fig:dm-variation-no-dss} shows $r(m)$ calculated for a number of
-different values of $dm$. From the figure we can see a large variation
-in $r(m)$ for the lower values of $dm$. The solution seems to converge
-when $dm \geq M_0\e{-3}$, but even there it is not perfectly
-aligned. It turns out that the code runs very fast anyway (in large
-part because it is written in C++), so it is no problem to crank the
-step size down to $dm= M_0\e{-5}$, and still have do so in under a
-second. 
+different values of $dm$\footnote{The shape and values of $r(m)$ in
+  figure \ref{fig:dm-variation-no-dss} are not important. The graph is
+  only meant to illustrate the different step sizes. Analysis of the
+  shapes and input parameters will be discussed in detail
+  later.}. From the figure we can see a large variation in $r(m)$ for
+the lower values of $dm$. The solution seems to converge when
+$dm \geq M_0\e{-3}$, but even there it is not perfectly aligned. It
+turns out that the code runs very fast anyway (in large part because
+it is written in C++), so it is no problem to crank the step size down
+to $dm= M_0\e{-5}$, and still finish in under a second.
 
 \begin{figure*}[ht]
   \centering
@@ -301,7 +319,7 @@ this than just using brute force. The downside to setting a fixed value for $dm$
 a lot of computational time on a part of our function(s) that is very
 stable, and on the other side, we might not have enough precision for
 where the function(s) is very steep. The alternative is \emph{dynamic
-  step size}, which involves defining the step size in such a way so
+  step size}, which involves defining the step size in such a way
 that the value of the function(s) does not change by more than a fixed
 percentage. In the case of a diff.eq. $du/dx = f(u,x)$, we define the
 step size in the following way:
@@ -318,7 +336,7 @@ the smallest required step size.
 The only thing we then have to define is what the value of $p$ should
 be. As previously stated, the code is quite fast so we can afford to
 be quite strict. The code used in all subsequent figures is set to
-allow a maximum change of $1 \permil$. Figure \ref{fig:dm_variation}
+allow a maximum change of $5 \permil$. Figure \ref{fig:dm_variation}
 shows the same plot as figure \ref{fig:dm-variation-no-dss}, but this
 time including dynamic step size as well. The figure shows that DSS
 gives good results. 
