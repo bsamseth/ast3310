@@ -25,11 +25,11 @@ using std::min_element;
 
 std::string Integrate::integrate(double L_0, double T_0, double P_0, double rho_0, double M_0, double R_0, MassFractions MF, double dm) {
   std::stringstream ss;
-  ss << "# m \t r \t P \t L \t T \t rho \n";
+  ss << "# m \t r \t P \t L \t T \t rho \t epsilon \n";
   
   arma::mat energy_terms (N_PARTICLES, N_PARTICLES);
   
-  double r = R_0, T = T_0, L = L_0, P = P_0, rho = rho_0, m = M_0;
+  double r = R_0, T = T_0, L = L_0, P = P_0, rho = rho_0, m = M_0, eps;;
   double drdm, dPdm, dLdm, dTdm;
   double mu_0 = StateEquations::mu_0(MF);
 
@@ -49,7 +49,7 @@ std::string Integrate::integrate(double L_0, double T_0, double P_0, double rho_
   std::cout << "Using dynamic step = " << (dss==true ? "true" : "false") << " M_0 = " << m << std::endl;
   while (m > 0 and r > 0 and L > 0 and T > 0 and rho > 0) {
     if (count++ % 10 == 0) {
-      ss << m << ' ' <<  r << ' ' << P << ' ' << L << ' ' << T << ' ' << rho << '\n';
+      ss << m << ' ' <<  r << ' ' << P << ' ' << L << ' ' << T << ' ' << rho << ' ' << eps << '\n';
     }
     if (count % 100 == 0) {
       //double percent = 100 - (m / M_0) * 100;
@@ -60,7 +60,7 @@ std::string Integrate::integrate(double L_0, double T_0, double P_0, double rho_
     
     drdm = RHS_r(r, rho);
     dPdm = RHS_P(m, r);
-    dLdm = RHS_L(T, rho, MF, energy_terms);
+    dLdm = eps = energy(T, rho, MF, energy_terms);
     dTdm = RHS_T(T, rho, L, r, kappa);
 
     if (dss) {
@@ -70,14 +70,6 @@ std::string Integrate::integrate(double L_0, double T_0, double P_0, double rho_
       dms[3] = abs(p_max*T / dTdm);
       dms[4] = abs(p_max*m);
       dm = - (*min_element(dms, dms+5));
-      
-      
-      // while (abs(dm) > abs(dm_max) or abs(dm) < abs(dm_min) ){
-      // 	if (abs(dm) > abs(dm_max))
-      // 	  dm *= 0.99;
-      // 	if (abs(dm) < abs(dm_min)) 
-      // 	  dm *= 1.01;
-      // }
     }
     
     r += drdm * dm;
@@ -100,6 +92,6 @@ std::string Integrate::integrate(double L_0, double T_0, double P_0, double rho_
   }
 
   std::cout << m << ' ' <<  r << ' ' << P << ' ' << L << ' ' << T << ' ' << rho << ' ' << dm << '\n';
-  ss << m << ' ' <<  r << ' ' << P << ' ' << L << ' ' << T << ' ' << rho;
+  ss << m << ' ' <<  r << ' ' << P << ' ' << L << ' ' << T << ' ' << rho << ' ' << eps;
   return ss.str();
 }

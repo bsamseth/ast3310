@@ -24,7 +24,7 @@ namespace Integrate {
    * The method takes as input the initial (surface) condititons, and returns
    * a string containing the solution data, line by line in the following format:
    *
-   *       m   r   P   L   T   rho  
+   *       m   r   P   L   T   rho   epsilon
    *
    * Note that if `dm` is given as zero, the method will use dynamic
    * step size (DSS) in the solution.
@@ -43,10 +43,6 @@ namespace Integrate {
 
   inline double RHS_T(double T, double rho, double L, double r, Opacity& kappa) {
     return - 3 * kappa(T, rho) * L / (256 * Constants::pi*Constants::pi * Constants::sigma * r*r*r*r * T*T*T);
-  }
-
-  inline double RHS_L(double T, double rho, MassFractions MF, arma::mat& terms) {
-    return EnergyProduction::energy(T, rho, MF, terms);
   }
 
   inline double RHS_P(double m, double r) {
