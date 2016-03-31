@@ -228,8 +228,22 @@ remember the limitations of our results, I have summarized them in a
 list:
 
 \begin{itemize}
-  \item Assume something.
+  \item No time evolution, we only look at one moment in time.
+  \item The gas of the star behaves as an ideal gas.
+  \item All energy transport is done through radiation.
+  \item Energy production:
+    \begin{itemize}
+    \item Uniform and constant mass fractions. We use fixed values for 
+      all the mass fractions, independent of radius, and assume that
+      they do not change.
+    \item Metals are not ionized at all, and all non-metals are fully
+      ionized.
+    \item Only the PPI and PPII reaction chains produce energy.
+    \item Deuterium is produced and consumed at the same time,
+      combining the first two steps of the PP chains into a single step.
+    \end{itemize}
 \end{itemize}
+
 
 
 \section{Solving the Equations}
@@ -255,7 +269,7 @@ following:
   T_{i+1} &= T_i - \frac{ 3\kappa L }{ 256 \pi^2 \sigma r^4T^3 }\,dm
 \end{align*}
 
-\subsection{Choosing a Suitable Step Size $dm$}
+\subsection{Choosing a Suitable Step Size}
 When ever a numerical solution to a differential equation is tried,
 one has to think about what step size $dm$ is suitable. In a perfect
 world, we would like to set it to an infinitesimal number, but the
