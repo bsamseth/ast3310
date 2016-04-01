@@ -10,3 +10,4 @@ report/*.blg
 report/*.log
 report/*.out
 report/*.run.xml
+report/*.toc
