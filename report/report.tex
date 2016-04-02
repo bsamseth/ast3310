@@ -16,6 +16,7 @@
 \twocolumn[
 \begin{@twocolumnfalse}
   \maketitle
+  \tableofcontents
   \begin{abstract}
 
 In this report, this, that and more of this is discussed. All source
@@ -23,7 +24,6 @@ material related to this report can be found at the projects GitHub
 repository~\cite{github}.    
 
   \end{abstract}
-  \tableofcontents\vspace{0.5cm}
 \end{@twocolumnfalse}
 ]
 
@@ -494,9 +494,56 @@ $r\rightarrow 0$). We can therefore set out to find a combination of
 parameters that best fulfills this requirement, using what we learned
 from the previous section. 
 
+Through a large amount of trial and error, both manually and
+programmatically varying the inputs, I have landed on the following
+inputs:
+
+\begin{align}
+\begin{split}
+  R_0/R_{0,i} &= 1.3, \ \ M_0/M_{0,i}= 0.95\\ 
+  \rho_0/\rho_{0,i} &= 0.01,\ \ \    T_0/T_{0,i} = 0.8
+\end{split}
+\end{align}
+
+Once again, $u_{0,i}$ refers to the value of quantity $u$ at the
+bottom of convection zone in the Sun.
+
+These inputs produce the plots in figure 
 
 
-\onecolumn
+
+
+\section{Remarks on the Development of the model}
+In large part the project has been enjoyable to work on, and I feel
+quite satisfied with how it has turned out. I have also taken this
+project as an opportunity to improve my knowledge of the C++ language,
+and to this end I have at certain points done what might be considered
+to much work. By this I mean using GitHub and related services
+(Travis CI, Code coverage reports, README file for the landing page
+etc.), using the documentation tool Doxygen and setting up
+(unit) tests with Google Test. 
+
+Much of the extra work related to this project arose when trying to
+debug various problems. Things that have caused more than the normal
+amount of headache are:
+
+\begin{itemize}
+  \item Implementing bilinear interpolation of the opacity table.
+  \item Getting the energy production correct.
+  \item Reproducing the results for the default parameters.
+  \item Many other minor things...
+\end{itemize}
+
+All of this accumulated in a suite of $\sim 20$ (unit)
+tests~\cite[tests/]{github}. In addition, after several days trying to
+reproduce the plots in the exercise, I rewrote the entire code into
+Python, in the hopes of finding the reasons why I couldn't. To my
+despair, this yielded the exact same result, so I was very much
+relived when the plots in the exercise was discovered to be incorrect and updated
+with results that I was able to reproduce. 
+
+
+%\onecolumn
 \printbibliography
 \end{document}
 
