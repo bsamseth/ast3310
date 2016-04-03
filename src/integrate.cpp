@@ -46,15 +46,14 @@ std::string Integrate::integrate(double L_0, double T_0, double P_0, double rho_
     dm = -1e10;
   }
 
-  std::cout << "Using dynamic step = " << (dss==true ? "true" : "false") << " M_0 = " << m << std::endl;
   while (m > 0 and r > 0 and L > 0 and T > 0 and rho > 0) {
     if (count++ % 10 == 0) {
       ss << m << ' ' <<  r << ' ' << P << ' ' << L << ' ' << T << ' ' << rho << ' ' << eps << '\n';
     }
     if (count % 100 == 0) {
-      //double percent = 100 - (m / M_0) * 100;
-      //std::cout << "\rProgress: " << percent << "%  ";
-      std::cout << m << ' ' <<  r << ' ' << P << ' ' << L << ' ' << T << ' ' << rho << ' ' << dm << '\n';
+      double percent = 100 - (m / M_0) * 100;
+      std::cout << "\rProgress: " << percent << "%  ";
+      std::cout << std::flush;
     }
     
     

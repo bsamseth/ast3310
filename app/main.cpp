@@ -80,7 +80,6 @@ int main(int argc, char** args) {
   }
 
   double dm = (dm_scale == 0) ? 0 : - M_0/dm_scale;
-  //double dm = 0; // use dss
   
   std::string ss = Integrate::integrate(L_0, T_0, P_0,
 					      rho_0, M_0, R_0,
@@ -92,7 +91,7 @@ int main(int argc, char** args) {
   
   auto t2 = std::chrono::high_resolution_clock::now();
   std::chrono::duration<double, std::milli> duration = t2 - t1;
-  //cout << "# Execution time: " << duration.count() * 1e-3  << " s"<< endl;
+  cout << "# Execution time: " << duration.count() * 1e-3  << " s"<< endl;
   
   return 0;
 }
