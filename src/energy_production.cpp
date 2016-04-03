@@ -51,7 +51,7 @@ namespace EnergyProduction {
       double _33 = rate_simple(_3He,_3He,fractions,T,rho);
       double _34 = rate_simple(_3He,_4He,fractions,T,rho);
       double scale = min (pp / (2*_33 + _34) , 1.0);
-      r *= scale;
+      //r *= scale;
 
       //if (scale < 1)
       //	cout << "**** Scaling is now = " << scale << '\n';
