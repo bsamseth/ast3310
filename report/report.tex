@@ -1,13 +1,6 @@
 \documentclass[11pt,twocolumn]{article}
 \usepackage{preamble}
 
-\usepackage{wrapfig}
-\usepackage{lscape}
-\usepackage{rotating}
-\usepackage{epstopdf}
-
-
-
 \lhead{AST3310}
 \chead{Term project 2: Modelling a Stellar Core}
 \rhead{Bendik Samseth}
@@ -358,6 +351,7 @@ gives good results.
 
 
 \section{Changing the Parameters}
+\label{sec:changing-the-parameters}
 In this numerical model, we have the option to change the initial
 parameters to our liking. In particular, we would like to find the set
 of initial parameters that give the most realistic model of an actual
@@ -540,7 +534,7 @@ understanding) of the Sun.}, so we would like to find the parameters
 that represent the most realistic model of a star. First of we see
 that the mass needs to fall off slower than it does in figure
 \ref{fig:default-param}. The simplest way to do this, according the
-the results form sec ??, is to reduce the initial density. I actually
+the results from section \ref{sec:changing-the-parameters}, is to reduce the initial density. I actually
 need to reduce this quite a bit in order for the other parameters to
 have the time to go to zero. Then it's a matter of getting $r,m$ and
 $L$ synced up as much as possible. The one additional criteria that we
@@ -548,7 +542,7 @@ have is that the core should not be to small, and we would like it to
 be at least $\sim 10\%$ of the total radius. 
 
 Through a large amount of trial and error, both manually and programmatically varying the inputs, I
-have landed on the following inputs:
+have landed on the following values:
 
 \begin{align}
 \begin{split}
@@ -558,13 +552,13 @@ have landed on the following inputs:
 \end{align}
 
 Once again, $u_{0,i}$ refers to the value of quantity $u$ at the
-bottom of convection zone in the Sun.
+bottom of the convection zone in the Sun.
 
 It must be said that these values have not been found in a very
-analytical way, and so they are not the ``perfect'' values. It is also
+analytical matter, and so they are not the ``perfect'' values. It is also
 quite likely that there exists many combinations of parameters that
 all yield realistic models. As seen in the previous sections, some
-parameters causes the core to become bigger, while others make it
+parameters causes i.e. the core to become bigger, while others make it
 smaller, and so some combination of changes could yield similar
 results. But, I have not found a way to do this more rigorously than
 by trial and error, so a single, approximate solution must be
@@ -578,7 +572,7 @@ the figure:
   \item $L$ is constant at max for $r>0.2\cdot R_0$, and goes rapidly
     to zero for $r<0.2 \cdot R_0$, meaning that we have a core
     reaching out to about $20\%$ of $R_0$.
-  \item Both $\rho,P$ and $T$ increases significantly as we move
+  \item Both $\rho,P,T$ and $\epsilon$ increases significantly as we move
     towards the center.
   \item The mass changes very little in the beginning, due to the low
     density, and falls of much faster towards the core. 
