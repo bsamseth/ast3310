@@ -44,11 +44,22 @@ $ mkdir build && cd build
 $ cmake [-Ddebug=ON/OFF -Dcoverage=ON/OFF] .. # ".." is path to CMakeLists.txt
 $ make
 ```
-
 The options to `cmake` is optional, and defaults to using debugging (compiles with `-g`).
-
 This will produce executables for every file in [app/](app/), as well
 as a test executable `unit_tests.x` from [tests/main.cpp](tests/main.cpp).
+
+Note that the project uses [Armadillo](http://arma.sourceforge.net/) as a strict dependency, so this will need to be installed prior to building. The following (taken from [.travis.yml](.travis.yml)) is tested to work on Ubuntu 12:
+
+``` bash
+$ sudo apt-get install liblapack-dev libblas-dev libboost-dev 
+$ # use apt-get (version might not be recent enough)
+$ sudo apt-get install libarmadillo-dev
+$ # or, if apt-get version is not recent enough
+$ wget http://sourceforge.net/projects/arma/files/armadillo-6.600.4.tar.gz
+$ tar xf armadillo-6.600.4.tar.gz
+$ cd armadillo-6.600.4 && cmake . && make && sudo make install && cd -
+```
+
 
 ### Documentation
 If you prefer, a HTML-version of the code documentation can be generated:
