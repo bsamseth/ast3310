@@ -12,21 +12,50 @@
 \author{Bendik \textsc{Samseth}}
 \date{\today}
 \begin{document}
+  % make title page
+\begin{titlepage}
+  \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+  \center
+  \textsc{\LARGE University of Oslo}\\[1.5cm] 
+  \textsc{\Large AST3310}\\[0.5cm] 
+  \textsc{\large Term Project 2}\\[0.5cm] 
+  \HRule \\[0.4cm]
+  { \huge \bfseries Modelling a Stellar Core}\\[0.4cm]
+  \HRule \\[1.5cm]
+  \Large \emph{Written by:}\\
+  Bendik \textsc{Samseth}\\[3cm]
+  {\large \today}\\[3cm]
+  \vfill
+\end{titlepage}
 
-\twocolumn[
-\begin{@twocolumnfalse}
-  \maketitle
+
+\onecolumn
+%\twocolumn[
+%\begin{@twocolumnfalse}
   \tableofcontents
   \begin{abstract}
 
-In this report, this, that and more of this is discussed. All source
-material related to this report can be found at the projects GitHub
-repository~\cite{github}.    
+    In this report, a simple numerical model of a stellar core is
+    developed. The governing equations are presented and discussed,
+    and a numerical method is deployed in order to solve them. The
+    Forward Euler method is chosen for simplicity, and the effects of
+    using different step sizes are reviewed. The mathematics of using
+    a dynamic step size is explained, and this is used in the final
+    version of the model. A comprehensive analysis is then applied to
+    the effects of varying the boundary conditions. This is done in
+    order to find a set of initial parameters that give the most
+    realistic model of a star. The result is a model where the radius,
+    mass and luminosity all go to zero (within a small percentage),
+    while still having a non-negligible core size of about $20\%$ of
+    the total star. All source material related to this report, which
+    is cited at the relevant points, can be found at the projects
+    GitHub repository~\cite{github}.
 
   \end{abstract}
-\end{@twocolumnfalse}
-]
-
+%\end{@twocolumnfalse}
+%]
+\pagebreak
+\twocolumn
 \section{Introduction}
 When trying to understand the mechanics of a star, the most logical
 place to start is with what we can observe. Let's take a look at the
@@ -412,7 +441,7 @@ initial temperature we have that:
 The main change caused by increasing $T_0$ seems to be a larger
 core. This makes sense; a higher temperature in the outer parts would
 imply that the temperatures needed for fusion to happen, are present
-further out in star.
+further out in the star.
 
 The plots for $\rho$ and $P$ also seem to comply with a more centrally
 dense star.
@@ -483,7 +512,7 @@ masses. For increasing total mass we conclude that:
 \end{figure*}
 
 
-\section{Finding the most realistic model}
+\section{Finding the Most Realistic Model}
 
 \begin{sidewaysfigure*}[ht]
   \centering
@@ -582,12 +611,12 @@ the figure:
 
 
 
-\section{Remarks on the Development of the model}
+\section{Remarks on the Development of the Model}
 In large part the project has been enjoyable to work on, and I feel
 quite satisfied with how it has turned out. I have also taken this
 project as an opportunity to improve my knowledge of the C++ language,
 and to this end I have at certain points done what might be considered
-to much work. By this I mean using GitHub and related services
+too much work. By this I mean using GitHub and related services
 (Travis CI, Code coverage reports, README file for the landing page
 etc.), using the documentation tool Doxygen and setting up
 (unit) tests with Google Test. 
