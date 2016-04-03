@@ -391,19 +391,6 @@ in the exercise text. The defaults correspond to the values for the
 Sun at the bottom of the convection layer.)
 
 \subsection{Changing $R_0$}
-In order to see the effects of changing the initial radius, figure
-\ref{fig:R-variation} has been produced. From the figure we can
-conclude with the following for increasing initial radius:
-
-\begin{itemize}
-  \item $m$ dies off faster
-  \item $P$ becomes \emph{much} smaller
-\item $L$ remains constant for much longer (the core becomes a smaller
-  fraction of the star)
-\item $T$ becomes smaller
-\item $\rho$ is similar to $T$, only that $\rho$ becomes \emph{much}
-  smaller with increasing $R_0$
-\end{itemize}
 
 \begin{figure*}[ht]
   \centering
@@ -411,6 +398,27 @@ conclude with the following for increasing initial radius:
   \caption{\label{fig:R-variation} Plots for all parameters of the star
   showing the effects of changing the initial radius $R_0$.}
 \end{figure*}
+
+In order to see the effects of changing the initial radius, figure
+\ref{fig:R-variation} has been produced. From the figure we can
+conclude with the following for increasing initial radius:
+
+\begin{itemize}
+  \item A change in $m$ corresponds to a larger fractional step in
+    $r$, meaning that the mass falls of earlier compared to the
+    maximum radius\footnote{Note that
+      many of these observations relate to changes relative to the
+      initial value. Therefore, saying that the mass falls of earlier
+      doesn't mean that the mass is less than it would be at the same
+      \emph{absolute} distance in a smaller star. The same thing is
+      true for many of the other effects listed.}.
+  \item $P$ and $\rho$ becomes \emph{much} smaller\footnote{It turns
+      out that $P$ and $\rho$ behave very much the same in all of the
+      plots. This is due to the linear connection between them shown
+      in Eq. (\ref{eq:P-eq_state})}. 
+  \item $L$ goes to zero closer to the center.
+  \item $T$ becomes smaller.
+\end{itemize}
 
 These effects are all reasonable given an increase in the size of the
 star. We can compare this to what we know happens to a star towards the
@@ -421,30 +429,8 @@ becomes a smaller fraction of the total radius. Finally, with a constant total m
 that the density would drop significantly, along with the pressure
 (all in accordance with Eq.~\eqref{eq:P-eq_state}). 
 
-% What about why mass drops faster??
-% We can also understand why the mass drops of faster for larger $R_0$,
-% by looking at the density plot in figure \ref{fig:R-variation}. We see
-% that larger $R_0$ causes a flatter
 
 \subsection{Changing $T_0$}
-Figure \ref{fig:T-variation} shows a similar comparison for a change
-in the initial temperature $T_0$. We conclude that for increasing
-initial temperature we have that:
-
-\begin{itemize}
-  \item $L$ falls of more rapidly, causing the core to expand
-  \item $m$ falls off more towards the center (larger core)
-  \item $T$ is smaller relative to $T_0$, which hints at a more or
-    less unchanged temperature graph.
-\end{itemize}
-
-The main change caused by increasing $T_0$ seems to be a larger
-core. This makes sense; a higher temperature in the outer parts would
-imply that the temperatures needed for fusion to happen, are present
-further out in the star.
-
-The plots for $\rho$ and $P$ also seem to comply with a more centrally
-dense star.
 
 \begin{figure*}[ht]
   \centering
@@ -453,16 +439,40 @@ dense star.
   showing the effects of changing the initial temperature $T_0$.}
 \end{figure*}
 
+Figure \ref{fig:T-variation} shows a similar comparison for a change
+in the initial temperature $T_0$. We conclude that for increasing
+initial temperature we have that:
+
+\begin{itemize}
+  \item $L$ falls of more suddenly.
+  \item $m$ falls off more towards the center.
+  \item $T$ is smaller relative to $T_0$, which hints at a more or
+    less unchanged temperature graph.
+  \item $\rho$ is smaller further out, but bigger in the center.
+\end{itemize}
+
+All these changes can be explained by the star becoming more centrally
+dense (as seen in the plot for $\rho$). This would cause $m$ to fall
+of more in the center. It then seems reasonable that fusion would
+start more sudden, compared to a star where the center becomes only
+gradually dense enough to start fusion.
+
 
 \subsection{Changing $\rho_0$}
+
+\begin{figure*}[ht]
+  \centering
+  \includegraphics[width=\linewidth]{fig/rho_variation.png}
+  \caption{\label{fig:rho-variation} Plots for all parameters of the star
+  showing the effects of changing the initial density $\rho_0$.}
+\end{figure*}
+
 Figure \ref{fig:rho-variation} shows what happens to the solutions
 when we vary the initial density. We conclude that for increasing
 initial density we have that:
 
 \begin{itemize}
 \item $m$ falls off more rapidly
-\item $\rho$ and $P$ becomes much smaller compared their initial
-  values.
 \end{itemize}
 
 The absolute main thing we gather from this figure is that the mass
@@ -473,14 +483,10 @@ The other graphs are quite hard to extract anything else from given
 that the solution becomes unphysical very fast for large
 $\rho_0$'s. I will therefore not give much time to interpret the
 result for i.e. $P$, because they might as well be caused by very
-strange behaviours of other parameters. 
+strange behaviours of other parameters. However, it seems like the
+other parameters remain fairly constant, if we take into account that
+$\rho$ (and $P$) is scaled according to its initial value. 
 
-\begin{figure*}[ht]
-  \centering
-  \includegraphics[width=\linewidth]{fig/rho_variation.png}
-  \caption{\label{fig:rho-variation} Plots for all parameters of the star
-  showing the effects of changing the initial density $\rho_0$.}
-\end{figure*}
 
 \subsection{Changing $P_0$}
 Due to the connection between $P,\rho$ and $T$ shown in
@@ -492,6 +498,15 @@ $T_0$, or some arbitrary combination of the two according to Eq.~\eqref{eq:P-eq_
 
 
 \subsection{Changing $M_0$}
+
+\begin{figure*}[ht]
+  \centering
+  \includegraphics[width=\linewidth]{fig/M_variation.png}
+  \caption{\label{fig:M-variation} Plots for all parameters of the star
+  showing the effects of changing the total mass $M_0$.}
+\end{figure*}
+
+
 Figure \ref{fig:M-variation} shows the solutions for a range of total
 masses. For increasing total mass we conclude that:
 
@@ -504,12 +519,12 @@ masses. For increasing total mass we conclude that:
     slower towards the center, and the opposite is true for higher $M_0$'s
 \end{itemize}
 
-\begin{figure*}[ht]
-  \centering
-  \includegraphics[width=\linewidth]{fig/M_variation.png}
-  \caption{\label{fig:M-variation} Plots for all parameters of the star
-  showing the effects of changing the total mass $M_0$.}
-\end{figure*}
+When we make the mass larger, it seems that we obtain a more uniformly
+dense star. We can see that the density goes up fast in the outer
+parts of the star, but then plateaus and remains stable for large
+parts of the star. This makes for a much less well defined core, as we
+can see from the luminosity plot ($L$ declines earlier, but less
+suddenly). 
 
 
 \section{Finding the Most Realistic Model}
@@ -616,7 +631,7 @@ In large part the project has been enjoyable to work on, and I feel
 quite satisfied with how it has turned out. I have also taken this
 project as an opportunity to improve my knowledge of the C++ language,
 and to this end I have at certain points done what might be considered
-too much work. By this I mean using GitHub and related services
+unnecessary work. By this I mean using GitHub and related services
 (Travis CI, Code coverage reports, README file for the landing page
 etc.), using the documentation tool Doxygen and setting up
 (unit) tests with Google Test. 
@@ -628,6 +643,9 @@ amount of headache are:
 \begin{itemize}
   \item Implementing bilinear interpolation of the opacity table.
   \item Getting the energy production correct.
+  \item Converting units from SI$\rightarrow$CGS and vice versa (my
+    self-esteem as a physics student took a big hit after messing this
+    up more than I care to say).
   \item Reproducing the results for the default parameters.
   \item Many other minor things...
 \end{itemize}
@@ -639,6 +657,7 @@ Python, in the hopes of finding the reasons why I couldn't. To my
 despair, this yielded the exact same result, so I was very much
 relived when the plots in the exercise was discovered to be incorrect and updated
 with results that I was able to reproduce. 
+
 
 
 %\onecolumn
