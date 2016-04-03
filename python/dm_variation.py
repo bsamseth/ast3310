@@ -9,7 +9,7 @@ os.system("cd ../build/ && make && cd -")
 dm_scales = [0, 2, 10, 20, 30, 50, 100, 1000, 10000]
 dm_scales = [0,50, 60, 75, 100, 200, 500]
 dm_scales = [0, 50, 60, 75, 100, 200, 500, 1000]
-
+dm_scales = [50, 60, 75, 100, 200, 500, 1000, 10000, 100000]
 print dm_scales
 
 # input scales to be used
@@ -43,8 +43,8 @@ for i, (m, r) in enumerate(zip(m_data, r_data)):
     ax.plot(m, r,
             label=(r'$M_0/dm = %s$' % ("%.f" % dm_scales[i] if (dm_scales[i] != 0) else "DSS")))
 
-ax.set_title(r'$r(m)$ for various values of $dm$', size=18)
-ax.set_ylabel(r'$R/R_0$', size=16)
-ax.set_xlabel(r'$M/M_0$' + '\nRun: ./main.x %g %g %g %g' % (R,M,rho,T), size=16)
-ax.legend(loc='best', prop={'size':16})
+ax.set_title(r'$r(m)$ for various values of $dm$', size=24)
+ax.set_ylabel(r'$R/R_0$', size=22)
+ax.set_xlabel(r'$M/M_0$', size=22)
+ax.legend(loc='best', prop={'size':20})
 plt.show()
