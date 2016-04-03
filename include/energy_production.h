@@ -43,7 +43,10 @@ namespace EnergyProduction {
   /**
    * Return n_i = fraction[i] * rho / k m_u
    * where k is the number of elements in the core of particle i.
-   * 
+   *
+   * For the electron, the function is called for all other particles,
+   * and a sum is returned for the electron density.
+   *
    * @param p Particle to compute number density of
    * @param fractions MassFractions object containing all mass fractions
    * @param rho Density

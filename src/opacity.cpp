@@ -98,6 +98,10 @@ int Opacity::find_closest_index(double a, vec A) {
 }
 
 
+/**
+ * The formula for bilinear interpolation of four surrounding points q_i at (x_i,y_i) for
+ * query point (x,y).
+ */
 double Opacity::interp2d(double q11, double q12, double q21, double q22, double x1, double x2, double y1, double y2, double x, double y) 
 {
     double x2x1, y2y1, x2x, y2y, yy1, xx1;

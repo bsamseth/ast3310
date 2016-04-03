@@ -49,6 +49,4 @@ class Opacity {
   arma::mat kappa;
 };
 
-double opacity(double T, double rho);
-
 #endif
