@@ -1,6 +1,13 @@
 \documentclass[11pt,twocolumn]{article}
 \usepackage{preamble}
 
+\usepackage{wrapfig}
+\usepackage{lscape}
+\usepackage{rotating}
+\usepackage{epstopdf}
+
+
+
 \lhead{AST3310}
 \chead{Term project 2: Modelling a Stellar Core}
 \rhead{Bendik Samseth}
@@ -483,6 +490,23 @@ masses. For increasing total mass we conclude that:
 
 
 \section{Finding the most realistic model}
+
+\begin{sidewaysfigure*}[ht]
+  \centering
+  \includegraphics[scale=0.5]{fig/default-param.png}
+  \caption{\label{fig:default-param} The parameters of the star, all as a
+  function of radius, using the default parameters (corresponding to
+  the bottom of the convection layer in the Sun).}
+\end{sidewaysfigure*}
+
+\begin{sidewaysfigure*}[ht]
+  \centering
+  \includegraphics[scale=0.5]{fig/best-param.png}
+  \caption{\label{fig:best-param} The parameters of the star, all as a
+  function of radius, using the parameters found to give the best result.}
+\end{sidewaysfigure*}
+
+
 Our end goal with this project was to determine how the parameters of
 the star evolves as a function of radius, given a set of initial
 conditions. As seen, what we chose to set as these conditions can have
@@ -494,9 +518,37 @@ $r\rightarrow 0$). We can therefore set out to find a combination of
 parameters that best fulfills this requirement, using what we learned
 from the previous section. 
 
-Through a large amount of trial and error, both manually and
-programmatically varying the inputs, I have landed on the following
-inputs:
+By using the default parameters (which correspond to the values at the
+bottom of the convection layer in the Sun), we get the results in
+figure \ref{fig:default-param}. As we can see, with these initial
+conditions the mass goes to zero way to fast, in comparison with the
+luminosity and radius. Because of this, the graphs don't seem to look
+the way we would expect them to. We do however, see that the mass and
+luminosity goes down with radius, while density, pressure and
+temperature goes up towards the center. These are all characteristics
+that we expect from the governing equations.
+
+These parameters obviously don't fit the model very well\footnote{One
+  might think that parameters taken from the Sun should fit quite
+  well, because after all they are real values for a real
+  star. However, we must to remember that we have made many
+  assumptions and simplifications, and so it would actually be quite
+  remarkable if they were to fit. We expect our model to fit a star
+  that behaves in the way we have assumed, and the differences we find
+to our Sun are related to the missing features (and/or lack of
+understanding) of the Sun.}, so we would like to find the parameters
+that represent the most realistic model of a star. First of we see
+that the mass needs to fall off slower than it does in figure
+\ref{fig:default-param}. The simplest way to do this, according the
+the results form sec ??, is to reduce the initial density. I actually
+need to reduce this quite a bit in order for the other parameters to
+have the time to go to zero. Then it's a matter of getting $r,m$ and
+$L$ synced up as much as possible. The one additional criteria that we
+have is that the core should not be to small, and we would like it to
+be at least $\sim 10\%$ of the total radius. 
+
+Through a large amount of trial and error, both manually and programmatically varying the inputs, I
+have landed on the following inputs:
 
 \begin{align}
 \begin{split}
@@ -508,7 +560,30 @@ inputs:
 Once again, $u_{0,i}$ refers to the value of quantity $u$ at the
 bottom of convection zone in the Sun.
 
-These inputs produce the plots in figure 
+It must be said that these values have not been found in a very
+analytical way, and so they are not the ``perfect'' values. It is also
+quite likely that there exists many combinations of parameters that
+all yield realistic models. As seen in the previous sections, some
+parameters causes the core to become bigger, while others make it
+smaller, and so some combination of changes could yield similar
+results. But, I have not found a way to do this more rigorously than
+by trial and error, so a single, approximate solution must be
+sufficient.
+
+With that said, the inputs produce the plots in figure
+\ref{fig:best-param}. We can see the following characteristics from
+the figure:
+
+\begin{itemize}
+  \item $L$ is constant at max for $r>0.2\cdot R_0$, and goes rapidly
+    to zero for $r<0.2 \cdot R_0$, meaning that we have a core
+    reaching out to about $20\%$ of $R_0$.
+  \item Both $\rho,P$ and $T$ increases significantly as we move
+    towards the center.
+  \item The mass changes very little in the beginning, due to the low
+    density, and falls of much faster towards the core. 
+\end{itemize}
+
 
 
 
