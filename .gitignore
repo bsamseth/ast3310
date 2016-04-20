@@ -11,3 +11,7 @@ report/*.log
 report/*.out
 report/*.run.xml
 report/*.toc
+report/*.fls
+report/*.fdb_latexmk
+report/*.synctex.gz
+report.
