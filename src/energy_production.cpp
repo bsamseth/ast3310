@@ -56,13 +56,8 @@ namespace EnergyProduction {
       double _33 = rate_simple(_3He,_3He,fractions,T,rho);
       double _34 = rate_simple(_3He,_4He,fractions,T,rho);
       double scale = min (pp / (2*_33 + _34) , 1.0);
-      //r *= scale;
+      r *= scale;
 
-      //if (scale < 1)
-      //	cout << "**** Scaling is now = " << scale << '\n';
-      // cout << "***** scale = " << scale << endl;
-      // cout << "**** r_33 / (r_33 + _34)  = " << _33 / (_33+_34) << endl;
-      // cout << "**** r_34 / (r_33 + _34)  = " << _34 / (_33+_34) << endl;
     } else if ( p1 == _e and p2 == _7Be) {
       // r_e7Be <= r_34
       r = min ( r, rate(_3He, _4He, fractions, T, rho) );
@@ -81,9 +76,9 @@ namespace EnergyProduction {
       for (int i = _p; i < N_PARTICLES; i++)
 	n += available_ionized_electrons[i] * n_density(Particle(i), fractions, rho);
     }
-    else 
+    else
       n = fractions[p] * rho / (core_elements[p] * Constants::m_u);
-  
+
     return n;
   }
 }
