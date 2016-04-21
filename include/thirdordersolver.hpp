@@ -1,3 +1,4 @@
+/** @file */ 
 #ifndef THIRD_ORDER_SOLVER
 #define THIRD_ORDER_SOLVER
 
