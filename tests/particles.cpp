@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "particles.h"
+#include "particles.hpp"
 
 using namespace Particles;
 

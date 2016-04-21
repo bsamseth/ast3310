@@ -1,8 +1,8 @@
 #ifndef MASSFRACTIONS_H
 #define MASSFRACTIONS_H
 
-#include "constants.h"
-#include "particles.h"
+#include "constants.hpp"
+#include "particles.hpp"
 
 /**
  * Structure for keeping track of all mass fractions in the star.

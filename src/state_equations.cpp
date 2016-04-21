@@ -1,14 +1,14 @@
-#include "particles.h"
-#include "constants.h"
-#include "massfractions.h"
-#include "state_equations.h"
+#include "particles.hpp"
+#include "constants.hpp"
+#include "massfractions.hpp"
+#include "state_equations.hpp"
 
 using namespace Particles;
 
 
 double StateEquations::mu_0(MassFractions MF) {
   double sum = 0;
-  for (int particle = _p; particle < N_PARTICLES; particle++) 
+  for (int particle = _p; particle < N_PARTICLES; particle++)
     sum += (available_ionized_electrons[particle] + 1) * MF[particle] / core_elements[particle];
   return 1./sum;
 }

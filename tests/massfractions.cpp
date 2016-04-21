@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "massfractions.h"
+#include "massfractions.hpp"
 
 using namespace Particles;
 

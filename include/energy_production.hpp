@@ -3,16 +3,16 @@
 
 #include <armadillo>
 
-#include "constants.h"
-#include "particles.h"
-#include "massfractions.h"
-#include "functions.h"
+#include "constants.hpp"
+#include "particles.hpp"
+#include "massfractions.hpp"
+#include "functions.hpp"
 
 /**
  * Functions related to energy production.
  */
 namespace EnergyProduction {
-  
+
   /**
    * Accept a temperature and a density, and return the energy
    * in Joules produced by the PPI and PPII cycles,

@@ -6,8 +6,8 @@
 #include <vector>
 #include <armadillo>
 
-#include "constants.h"
-#include "opacity.h"
+#include "constants.hpp"
+#include "opacity.hpp"
 
 using std::cout;
 using std::endl;
@@ -29,7 +29,7 @@ double interp2d(double q11, double q12, double q21, double q22, double x1, doubl
 Opacity::Opacity() {
   log10T = read_log10T();
   log10R = read_log10R();
-  kappa = read_opacity(log10T.size(), log10R.size()); 
+  kappa = read_opacity(log10T.size(), log10R.size());
 }
 
 double Opacity::operator() (double T, double rho) {
@@ -67,20 +67,20 @@ double Opacity::operator() (double T, double rho) {
     cout << "In log10: logT = " << log10T_wanted << ", logR = " << log10R_wanted << '\n';
     exit(1);
   }
-  
+
 
   double kappa_SI = pow(10, kappa_result) / 10;
-  return kappa_SI;  
+  return kappa_SI;
 }
 
 
 /*
- * This will return the index of the element in A that is 
+ * This will return the index of the element in A that is
  * closest to a, with the restraint that the element is smaller than
  * a. This means that given A = [1,2,3,4,5], the closest element
  * to a = 2.9 is A[1] = 2.
  * The exception to this is when a < A[i] for all i, where i = 0 is returned.
- * 
+ *
  * Note that A is assumed to be in ascending order.
  */
 int Opacity::find_closest_index(double a, vec A) {
@@ -102,7 +102,7 @@ int Opacity::find_closest_index(double a, vec A) {
  * The formula for bilinear interpolation of four surrounding points q_i at (x_i,y_i) for
  * query point (x,y).
  */
-double Opacity::interp2d(double q11, double q12, double q21, double q22, double x1, double x2, double y1, double y2, double x, double y) 
+double Opacity::interp2d(double q11, double q12, double q21, double q22, double x1, double x2, double y1, double y2, double x, double y)
 {
     double x2x1, y2y1, x2x, y2y, yy1, xx1;
     x2x1 = x2 - x1;

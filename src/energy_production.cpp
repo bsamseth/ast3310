@@ -3,12 +3,12 @@
 #include <algorithm> // for std::min
 #include <armadillo>
 
-#include "constants.h"
-#include "particles.h"
-#include "reaction_energies.h"
-#include "functions.h"
-#include "massfractions.h"
-#include "energy_production.h"
+#include "constants.hpp"
+#include "particles.hpp"
+#include "reaction_energies.hpp"
+#include "functions.hpp"
+#include "massfractions.hpp"
+#include "energy_production.hpp"
 
 using namespace Particles;
 using namespace Lambdas;

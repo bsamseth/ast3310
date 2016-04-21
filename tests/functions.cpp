@@ -1,9 +1,9 @@
 #include <gtest/gtest.h>
 #include <cmath>
 
-#include "functions.h"
-#include "particles.h"
-#include "constants.h"
+#include "functions.hpp"
+#include "particles.hpp"
+#include "constants.hpp"
 
 using namespace Particles;
 using namespace Lambdas;
@@ -19,7 +19,7 @@ TEST(Functions, deltas) {
 
 TEST(Functions, lambda_pp) {
   double T9 = 1.57e7 * 1e-9; // Mega Kelvin
-  double N_A_lambda = 4.01e-15 * pow(T9,-2./3) * exp(-3.380*pow(T9,-1./3)) 
+  double N_A_lambda = 4.01e-15 * pow(T9,-2./3) * exp(-3.380*pow(T9,-1./3))
     * (1 + 0.123*pow(T9,1./3) + 1.09*pow(T9,2./3) + 0.938*T9  );
   double l =  N_A_lambda / Constants::N_A / 1e6;
   EXPECT_NEAR(l, lambda[_p][_p](T9*1e9), l*eps);

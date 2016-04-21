@@ -5,10 +5,10 @@
 #include <string>
 #include <armadillo>
 
-#include "massfractions.h"
-#include "energy_production.h"
-#include "constants.h"
-#include "opacity.h"
+#include "massfractions.hpp"
+#include "energy_production.hpp"
+#include "constants.hpp"
+#include "opacity.hpp"
 
 /**
  * Namespace for methods related to integrating the governing equations of the star.

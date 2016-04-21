@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
-#include "reaction_energies.h"
-#include "particles.h"
+#include "reaction_energies.hpp"
+#include "particles.hpp"
 
 using namespace Particles;
 using namespace ReactionEnergies;

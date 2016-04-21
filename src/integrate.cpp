@@ -5,13 +5,13 @@
 #include <algorithm>
 #include <string>
 
-#include "particles.h"
-#include "constants.h"
-#include "energy_production.h"
-#include "massfractions.h"
-#include "state_equations.h"
-#include "integrate.h"
-#include "opacity.h"
+#include "particles.hpp"
+#include "constants.hpp"
+#include "energy_production.hpp"
+#include "massfractions.hpp"
+#include "state_equations.hpp"
+#include "integrate.hpp"
+#include "opacity.hpp"
 
 
 using namespace Constants;
@@ -26,9 +26,9 @@ using std::min_element;
 std::string Integrate::integrate(double L_0, double T_0, double P_0, double rho_0, double M_0, double R_0, MassFractions MF, double dm) {
   std::stringstream ss;
   ss << "# m \t r \t P \t L \t T \t rho \t epsilon \n";
-  
+
   arma::mat energy_terms (N_PARTICLES, N_PARTICLES);
-  
+
   double r = R_0, T = T_0, L = L_0, P = P_0, rho = rho_0, m = M_0, eps;;
   double drdm, dPdm, dLdm, dTdm;
   double mu_0 = StateEquations::mu_0(MF);
@@ -37,7 +37,7 @@ std::string Integrate::integrate(double L_0, double T_0, double P_0, double rho_
 
   double p_max = 0.005; // max fractional change in any variable
   double dms [5];
-  
+
   int count = 0;
 
   bool dss = false;
@@ -55,8 +55,8 @@ std::string Integrate::integrate(double L_0, double T_0, double P_0, double rho_
       std::cout << "\rProgress: " << percent << "%  ";
       std::cout << std::flush;
     }
-    
-    
+
+
     drdm = RHS_r(r, rho);
     dPdm = RHS_P(m, r);
     dLdm = eps = energy(T, rho, MF, energy_terms);
@@ -70,7 +70,7 @@ std::string Integrate::integrate(double L_0, double T_0, double P_0, double rho_
       dms[4] = abs(p_max*m);
       dm = - (*min_element(dms, dms+5));
     }
-    
+
     r += drdm * dm;
     P += dPdm * dm;
     L += dLdm * dm;

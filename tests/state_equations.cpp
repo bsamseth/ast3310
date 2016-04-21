@@ -1,11 +1,11 @@
 #include <gtest/gtest.h>
 #include <iostream>
 
-#include "particles.h"
-#include "constants.h"
-#include "state_equations.h"
-#include "massfractions.h"
-#include "energy_production.h"
+#include "particles.hpp"
+#include "constants.hpp"
+#include "state_equations.hpp"
+#include "massfractions.hpp"
+#include "energy_production.hpp"
 
 using std::cout;
 using std::endl;
@@ -48,7 +48,7 @@ TEST (Rho_P_sanity, rho_of_P_of_rho_is_rho) {
   MF.X = 1;
   MF.setFractions();
   double mu_0 = StateEquations::mu_0(MF);
-  
+
   double T = Constants::Sun::Core::T;
   double rho_input = Constants::Sun::Core::rho;
   double rho_output = StateEquations::rho(T, StateEquations::P(T,rho_input,mu_0),mu_0);
@@ -61,12 +61,10 @@ TEST (Rho_P_sanity, P_of_rho_of_P_is_P) {
   MF.X = 1;
   MF.setFractions();
   double mu_0 = StateEquations::mu_0(MF);
-  
+
   double T = Constants::Sun::Core::T;
   double P_input = Constants::Sun::Core::P;
   double P_output = StateEquations::P(T, StateEquations::rho(T,P_input,mu_0),mu_0);
 
   EXPECT_NEAR(P_input, P_output, eps*P_input);
 }
-
-

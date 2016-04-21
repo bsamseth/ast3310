@@ -2,8 +2,8 @@
 #include <armadillo>
 #include <cmath>
 
-#include "energy_production.h"
-#include "particles.h"
+#include "energy_production.hpp"
+#include "particles.hpp"
 
 using namespace Particles;
 using namespace EnergyProduction;
@@ -14,7 +14,7 @@ using namespace EnergyProduction;
  * provided in the exercise text passes at all times.
  */
 TEST(EnergyProduction, energy_sanity_test) {
-  
+
   MassFractions MF;
   MF.X  = 0.7;
   MF.Y  = 0.29;
@@ -28,12 +28,12 @@ TEST(EnergyProduction, energy_sanity_test) {
   double T = 1.57e7;   // K
   double rho = 1.62e5; // kg m^-3
   arma::mat terms = arma::zeros<arma::mat>(N_PARTICLES, N_PARTICLES);
-  
+
   double result = energy(T, rho, MF, terms) * rho;
   terms *= rho;
 
   auto eps = [] (double ans) {return 0.005*pow(10,(int)log10(ans));};
-  
+
   EXPECT_NEAR(4.04e2, result, eps(1e2));
   EXPECT_NEAR(4.04e2, terms(_p,_p), eps(1e2));
   EXPECT_NEAR(1.94e-6, terms(_3He,_3He), eps(1e-6));

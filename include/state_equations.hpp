@@ -4,9 +4,9 @@
 #include <cmath>
 #include <functional>
 
-#include "constants.h"
-#include "particles.h"
-#include "massfractions.h"
+#include "constants.hpp"
+#include "particles.hpp"
+#include "massfractions.hpp"
 
 
 /**

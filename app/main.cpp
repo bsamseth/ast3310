@@ -6,14 +6,14 @@
 #include <chrono>
 #include <armadillo>
 
-#include "constants.h"
-#include "particles.h"
-#include "reaction_energies.h"
-#include "functions.h"
-#include "massfractions.h"
-#include "energy_production.h"
-#include "integrate.h"
-#include "state_equations.h"
+#include "constants.hpp"
+#include "particles.hpp"
+#include "reaction_energies.hpp"
+#include "functions.hpp"
+#include "massfractions.hpp"
+#include "energy_production.hpp"
+#include "integrate.hpp"
+#include "state_equations.hpp"
 
 using std::cout;
 using std::endl;
@@ -48,7 +48,7 @@ int main(int argc, char** args) {
 	 << endl;
     exit(0);
   }
-  
+
   arma::mat terms = arma::zeros<arma::mat>(N_PARTICLES, N_PARTICLES);
   auto t1 = std::chrono::high_resolution_clock::now();
 
@@ -80,18 +80,18 @@ int main(int argc, char** args) {
   }
 
   double dm = (dm_scale == 0) ? 0 : - M_0/dm_scale;
-  
+
   std::string ss = Integrate::integrate(L_0, T_0, P_0,
 					      rho_0, M_0, R_0,
 					      MF, dm);
-  
+
   std::ofstream outfile (filename);
   outfile << ss;
   outfile.close();
-  
+
   auto t2 = std::chrono::high_resolution_clock::now();
   std::chrono::duration<double, std::milli> duration = t2 - t1;
   cout << "# Execution time: " << duration.count() * 1e-3  << " s"<< endl;
-  
+
   return 0;
 }
