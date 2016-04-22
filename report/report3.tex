@@ -1,0 +1,178 @@
+\documentclass[11pt,twocolumn]{article}
+\usepackage{preamble}
+
+\bibliography{database}
+
+\lhead{AST3310}
+\chead{Term project 3: Title}
+\rhead{Bendik Samseth}
+\lfoot{}
+\cfoot{}
+\rfoot{\fancyplain{}{\thepage}}
+
+\title{Term project 3: Title}
+\author{Bendik \textsc{Samseth}}
+\date{\today}
+\begin{document}
+  % make title page
+\begin{titlepage}
+  \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+  \center
+  \textsc{\LARGE University of Oslo}\\[1.5cm]
+  \textsc{\Large AST3310}\\[0.5cm]
+  \textsc{\large Term Project 3}\\[0.5cm]
+  \HRule \\[0.4cm]
+  { \huge \bfseries Title}\\[0.4cm]
+  \HRule \\[1.5cm]
+  \Large \emph{Written by:}\\
+  Bendik \textsc{Samseth}\\[3cm]
+  {\large \today}\\[3cm]
+  \vfill
+\end{titlepage}
+
+
+\onecolumn
+  \tableofcontents
+  \begin{abstract}
+
+    In this report\ldots. All source material related to this report, which
+    is cited at the relevant points, can be found at the projects
+    GitHub repository~\cite{github}.
+
+  \end{abstract}
+%\end{@twocolumnfalse}
+%]
+\pagebreak
+\twocolumn
+
+
+\section{Introduction}
+
+Hey hey, making a star, huh?
+
+
+\section{Adding Convection}
+
+Following form the last report, we know that the governing equations for a star is:
+
+\begin{align}
+  \pd{r}{m} &= \frac{ 1 }{ 4\pi r^2\rho }\label{eq:drdm}\\
+  \pd{P}{m} &= - \frac{ Gm }{ 4\pi r^4 }\label{eq:dPdm}\\
+  \pd{L}{m} &= \epsilon\label{eq:dLdm}\\
+  \pd{T}{m} &= - \frac{ 3\kappa L }{ 256 \pi^2 \sigma r^4T^3 }\label{eq:dTdm}
+\end{align}
+
+Adding convective energy transport equates to changing the last equation. This is because the temperature gradient in Eq.~\eqref{eq:dTdm} is based on all the energy being moved out of the star through radiation. When convention kicks in, the temperature gradient will become smaller, because not all the energy needs to be transferred by radiation anymore.
+
+
+\subsection{Deriving the new equation}
+
+So, we want to find the new temperature gradient, including both convection and radiation. We still know that the total energy flux must be related to the luminosity:
+
+\begin{align}
+    F_R + F_C = \frac{L}{4\pi r^2}\label{eq:total-flux}
+\end{align}
+
+We still have the radiative flux, given as
+
+\begin{align}
+    F_R &= \frac{4acGmT^4}{3\kappa P r^2}\nabla \label{eq:radiative-flux}
+\end{align}
+
+We get Eq.~\eqref{eq:dTdm} by setting $F_C = 0$ and inserting into Eq.~\eqref{eq:total-flux}.
+
+This time, we are not setting $F_C = 0$, obviously, so what should we set it to? The full derivation is given in~\cite{lecture-notes}, and is to involved to be repeted in this report. A quick summary will do.
+
+We start from first principles, where we can say that $F_C = \rho c_P v \Delta T$, which says that the radiative flux is the energy $\rho c_P \Delta T$ a parcel of gas with density $\rho$ can move, with velocity $v$. The hard part is finding $v$ and the temperature difference. To this end, we will define three quantities, a shorthand symbol $\delta$, the pressure scale height $H_P$, and temperature gradient $\nabla $:
+
+\begin{align}
+    \delta &= \frac{T}{V}\left( \pd{V}{T} \right)_P\label{eq:delta-def}\\
+    H_P &= -P\pd{r}{P}\label{eq:Hp-def}\\
+    \nabla &= \pd{\ln T}{\ln P} = -\frac{H_P}{T}\pd{T}{r}\label{eq:grad-def}.
+\end{align}
+
+We want an equation for $\nabla$, as this would give us the temperature gradient we seek.
+
+It can be shown (derivation once again in~\cite{lecture-notes}) that
+
+\begin{align}
+    v &= \sqrt{\frac{g\delta l_m^2}{4H_P}}(\nabla - \nabla^*)^{1/2}\label{eq:v}\\
+    F_C &= \rho c_P T\sqrt{g\delta}H_P^{-\frac{3}{2}}\left(\frac{l_m}{2}\right)^2 (\nabla - \nabla^*)^{3/2}\label{eq:Fc-expression}
+\end{align}
+
+where $l_m$ is a constant with unit length. $\nabla^*$ is the temperature gradient for the little parcel of gas moving through the surroundings in the star. We only care about the actual $\nabla$, so we want to eliminate $\nabla^*$. But, before we can do that, we introduce two more $\nabla$'s, $\nabla_{ad}$ and $\nabla_{rad}$. These represent the temperature gradient if we had an adiabatic expansion of the parcel, and the temperature gradient needed to transport all the energy through radiation, respectively.
+
+We can say that $F_C+F_R=F_{rad}$, meaning that the total flux from convection \emph{and} radiation is equal to the flux we would have if the temperature gradient was big enough for all energy to be moved by radiation (i.e. $\nabla_{rad}$). Let's insert our expressions.
+
+\begin{align*}
+    F_R + F_C &= \frac{4acGmT^4}{3\kappa P r^2}\nabla_{rad}\\
+    F_C &= \frac{4acGmT^4}{3\kappa P r^2} (\nabla_{rad} - \nabla)\\
+    (\nabla - \nabla^*)^{3/2} &= \frac{4acGmT^4}{3\kappa P r^2} \frac{(\nabla_{rad} - \nabla) }{\rho c_P T\sqrt{g\delta}H_P^{-\frac{3}{2}}}\\
+    (\nabla - \nabla^*)^{3/2} &= \frac{64\sigma T^3}{3\kappa\rho^2 c_P l_m^2} \sqrt{\frac{H_P}{g\delta}} (\nabla_{rad} - \nabla) \\
+    &\equiv \frac{U}{l_m^2} (\nabla_{rad} -\nabla)\numberthis\label{eq:5-8-answer}.
+\end{align*}
+
+In the above derivation I used $H_P = P r^2 /\rho Gm$, which comes from Eq.~\eqref{eq:Hp-def} and using the assumption of hydrostatic equilibrium.
+
+To continue, we need to use one more magic formula,
+
+\begin{align*}
+    (\nabla^*-\nabla_{ad}) &= \frac{32\sigma T^3}{3\kappa \rho^2 c_p v}\frac{S}{sQ}(\nabla - \nabla^*) \\
+    \equiv& \frac{32\sigma T^3}{3\kappa \rho^2 c_p v} Gl_m (\nabla - \nabla^*)\numberthis\label{eq:5-69},
+\end{align*}
+
+where $G$ is a geometric constant defined for convenience. Now we insert Eq.~\eqref{eq:5-69}, combined with Eq.~\eqref{eq:v} into the following equation:
+
+\begin{align*}
+    &(\nabla^* - \nabla_{ad}) = (\nabla - \nabla_{ad}) - (\nabla - \nabla^*)\\
+    &\frac{32\sigma T^3}{3\kappa \rho^2 c_p v} Gl_m (\nabla - \nabla^*) = (\nabla - \nabla_{ad}) - (\nabla - \nabla^*)\\
+    &(\nabla - \nabla^*)\left[UG(\nabla-\nabla^*)^{-1/2} + 1\right]= \nabla - \nabla_{ad}\\
+    &\Rightarrow \xi^2 + UG \xi - (\nabla-\nabla_{ad}) = 0\\
+    &\Leftrightarrow \nabla = \xi^2 + UG \xi + \nabla_{ad}
+\end{align*}
+
+where $\xi = (\nabla-\nabla^*)^{1/2}$.
+
+What we have is now an expression for $\nabla$, given by $\xi$ and $\nabla^{ad}$. The latter we know, so we need to find $\xi$. We do this by inserting $\xi$ into Eq.~\eqref{eq:5-8-answer}:
+
+\begin{align*}
+    (\nabla-\nabla^*)^{3/2} = \xi^3 = \frac{U}{l_m^2}(\nabla_{rad} - \nabla)\\
+    \xi^3 = \frac{U}{l_m^2}\left(\nabla_{rad}  - (\xi^2 + UG \xi + \nabla_{ad})  \right)\\
+    \Leftrightarrow \xi^3 + \frac{U}{l_m^2}\left( \xi^2 + UG\xi - (\nabla_{rad} - \nabla_{ad})\right) = 0\numberthis\label{eq:xi-third-order}.
+\end{align*}
+
+Eq.~\eqref{eq:xi-third-order} is a third order equation in $\xi$, but all the other parameters is knows, so we can in principle solve this equation, and thereby getting an expression for the true temperature gradient $\nabla$.
+
+So, the steps we need to take are:
+
+\begin{enumerate}
+    \item Solve Eq.~\eqref{eq:xi-third-order} to get $\xi$.
+    \item Insert into $\nabla = \xi^2 + UG\xi + \nabla_{ad}$.
+    \item Solve for the gradient with respect to mass:
+    \begin{align}
+        \nabla &= \frac{P}{T}\pd{T}{P} = \frac{P}{T}\pd{m}{P}\pd{T}{m}\\
+        &= \frac{P}{T} \left(- \frac{4\pi r^4}{Gm}\right) \pd{T}{m}\\
+        \Rightarrow \pd{T}{m} &= -\frac{GmT}{4\pi r^4 P}\nabla.
+    \end{align}
+\end{enumerate}
+
+\subsection{Instability criterion}
+\label{sub:Instability criterion}
+
+For our code, we would like to know if convection is taking place (and we need to use the harder formula derived in the last section), or if we can just use the old Eq.~\eqref{eq:dTdm}.
+
+Convection will start if the temperature gradient $\partial T/\partial r$ is not large enough to transport all the energy by radiation. We say this by the inequality $\pd{T}{r} < \left(\pd{T}{r}\right)_{ad}$, or equvalently
+
+\begin{align}
+    \nabla_{rad} > \nabla_{ad}\label{eq:instability-criterion}.
+\end{align}
+
+
+So, the code will check if this is the case, and if so, apply the convection formula.
+
+It should be noted that if this criteria is infact not the case, and $\nabla_{rad} = \nabla_{ad}$, then $\xi$ will have the trivial solution of $\xi=0$, and consequently we end up with just the same equation as in Eq.~\eqref{eq:dTdm}. It is, however, still a good idea to skip the calculations if they are not necessary, so we keep the two cases separated.
+
+
+
+\printbibliography
+\end{document}
