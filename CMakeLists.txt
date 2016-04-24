@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 project(PROJECT_NAME)
- 
+
 enable_language(C CXX)
 
 option(debug "Use debugging flag" ON)
@@ -81,17 +81,21 @@ target_link_libraries(
     pthread
     )
 
- 
+
 add_executable(main.x app/main.cpp)
 add_dependencies(main.x engine)
 target_link_libraries(main.x engine)
+
+add_executable(main3.x app/main3.cpp)
+add_dependencies(main3.x engine)
+target_link_libraries(main3.x engine)
 
 
 add_custom_target(
     coverage
     COMMAND cd ${PROJECT_SOURCE_DIR}/build
     COMMAND lcov --directory ${PROJECT_SOURCE_DIR}/build --capture --output-file coverage.info # capture coverage info
-    COMMAND lcov --remove coverage.info 'tests/*' 'app/*' 'external/*' 'cmake/*' '/usr/*' --output-file coverage.info 
+    COMMAND lcov --remove coverage.info 'tests/*' 'app/*' 'external/*' 'cmake/*' '/usr/*' --output-file coverage.info
     COMMAND lcov --list coverage.info
     COMMAND genhtml coverage.info
     COMMAND google-chrome-stable index.html&
