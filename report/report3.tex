@@ -83,11 +83,11 @@ We get Eq.~\eqref{eq:dTdm} by setting $F_C = 0$ and inserting into Eq.~\eqref{eq
 
 This time, we are not setting $F_C = 0$, obviously, so what should we set it to? The full derivation is given in~\cite{lecture-notes}, and is to involved to be repeted in this report. A quick summary will do.
 
-We start from first principles, where we can say that $F_C = \rho c_P v \Delta T$, which says that the radiative flux is the energy $\rho c_P \Delta T$ a parcel of gas with density $\rho$ can move, with velocity $v$. The hard part is finding $v$ and the temperature difference. To this end, we will define three quantities, a shorthand symbol $\delta$, the pressure scale height $H_P$, and temperature gradient $\nabla $:
+We start from first principles, where we can say that $F_C = \rho c_P v \Delta T$, which says that the radiative flux is the energy $\rho c_P \Delta T$ a parcel of gas with density $\rho$ can move, with velocity $v$. The hard part is finding $v$ and the temperature difference. To this end, we will define three quantities, a shorthand symbol $\delta$, the pressure scale height $H_P$\footnote{We get the expression for $H_P$ by using the assumption of hydrostatic equilibrium.}, and temperature gradient $\nabla $:
 
 \begin{align}
     \delta &= \frac{T}{V}\left( \pd{V}{T} \right)_P\label{eq:delta-def}\\
-    H_P &= -P\pd{r}{P}\label{eq:Hp-def}\\
+    H_P &= -P\pd{r}{P} = \frac{P r^2}{\rho Gm} \label{eq:Hp-def}\\
     \nabla &= \pd{\ln T}{\ln P} = -\frac{H_P}{T}\pd{T}{r}\label{eq:grad-def}.
 \end{align}
 
@@ -112,33 +112,43 @@ We can say that $F_C+F_R=F_{rad}$, meaning that the total flux from convection \
     &\equiv \frac{U}{l_m^2} (\nabla_{rad} -\nabla)\numberthis\label{eq:5-8-answer}.
 \end{align*}
 
-In the above derivation I used $H_P = P r^2 /\rho Gm$, which comes from Eq.~\eqref{eq:Hp-def} and using the assumption of hydrostatic equilibrium.
+where we have defined for convenience the constant $U$ (which represents an energy in this case):
 
-To continue, we need to use one more magic formula,
+\begin{align}
+    U = \frac{64\sigma T^3}{3\kappa\rho^2 c_P} \sqrt{\frac{H_P}{g\delta}}\label{eq:U-def}.
+\end{align}
+
+To continue, we need to use one more magic formula\cite[??]{lecture-notes},
 
 \begin{align*}
-    (\nabla^*-\nabla_{ad}) &= \frac{32\sigma T^3}{3\kappa \rho^2 c_p v}\frac{S}{sQ}(\nabla - \nabla^*) \\
-    \equiv& \frac{32\sigma T^3}{3\kappa \rho^2 c_p v} Gl_m (\nabla - \nabla^*)\numberthis\label{eq:5-69},
+    (\nabla^*-\nabla_{ad}) &= \frac{32\sigma T^3}{3\kappa \rho^2 c_p v}\frac{S}{dQ}(\nabla - \nabla^*) \\
+    \equiv& \frac{32\sigma T^3}{3\kappa \rho^2 c_p v} l_m\,K (\nabla - \nabla^*)\numberthis\label{eq:5-69},
 \end{align*}
 
-where $G$ is a geometric constant defined for convenience. Now we insert Eq.~\eqref{eq:5-69}, combined with Eq.~\eqref{eq:v} into the following equation:
+where $K = S/l_m d Q$ is a geometric constant defined for convenience. If we  assume that the parcel is a sphere with diameter $d=l_m$, the parcel has a cross section $Q$ and surface area $S$, and $K$ reduces to
+
+\begin{align}
+    K = \frac{S}{l_m d Q} = \frac{4\pi r_p^2}{l_m^2 \pi r_p^2} = \frac{4}{l_m^2}.\label{eq:K-def}
+\end{align}
+
+Now we insert Eq.~\eqref{eq:5-69}, combined with Eq.~\eqref{eq:v} into the following equation:
 
 \begin{align*}
     &(\nabla^* - \nabla_{ad}) = (\nabla - \nabla_{ad}) - (\nabla - \nabla^*)\\
-    &\frac{32\sigma T^3}{3\kappa \rho^2 c_p v} Gl_m (\nabla - \nabla^*) = (\nabla - \nabla_{ad}) - (\nabla - \nabla^*)\\
-    &(\nabla - \nabla^*)\left[UG(\nabla-\nabla^*)^{-1/2} + 1\right]= \nabla - \nabla_{ad}\\
-    &\Rightarrow \xi^2 + UG \xi - (\nabla-\nabla_{ad}) = 0\\
-    &\Leftrightarrow \nabla = \xi^2 + UG \xi + \nabla_{ad}
+    &\frac{32\sigma T^3}{3\kappa \rho^2 c_p v} l_m K (\nabla - \nabla^*) = (\nabla - \nabla_{ad}) - (\nabla - \nabla^*)\\
+    &(\nabla - \nabla^*)\left[UK(\nabla-\nabla^*)^{-1/2} + 1\right]= \nabla - \nabla_{ad}\\
+    &\Rightarrow \xi^2 + UK \xi - (\nabla-\nabla_{ad}) = 0\\
+    &\Leftrightarrow \nabla = \xi^2 + UK \xi + \nabla_{ad}
 \end{align*}
 
 where $\xi = (\nabla-\nabla^*)^{1/2}$.
 
-What we have is now an expression for $\nabla$, given by $\xi$ and $\nabla^{ad}$. The latter we know, so we need to find $\xi$. We do this by inserting $\xi$ into Eq.~\eqref{eq:5-8-answer}:
+What we have is now an expression for $\nabla$, given by $\xi$ and $\nabla_{ad}$. The latter we know, so we need to find $\xi$. We do this by inserting $\xi$ into Eq.~\eqref{eq:5-8-answer}:
 
 \begin{align*}
     (\nabla-\nabla^*)^{3/2} = \xi^3 = \frac{U}{l_m^2}(\nabla_{rad} - \nabla)\\
-    \xi^3 = \frac{U}{l_m^2}\left(\nabla_{rad}  - (\xi^2 + UG \xi + \nabla_{ad})  \right)\\
-    \Leftrightarrow \xi^3 + \frac{U}{l_m^2}\left( \xi^2 + UG\xi - (\nabla_{rad} - \nabla_{ad})\right) = 0\numberthis\label{eq:xi-third-order}.
+    \xi^3 = \frac{U}{l_m^2}\left(\nabla_{rad}  - (\xi^2 + UK \xi + \nabla_{ad})  \right)\\
+    \Leftrightarrow \xi^3 + \frac{U}{l_m^2}\left( \xi^2 + UK\xi - (\nabla_{rad} - \nabla_{ad})\right) = 0\numberthis\label{eq:xi-third-order}.
 \end{align*}
 
 Eq.~\eqref{eq:xi-third-order} is a third order equation in $\xi$, but all the other parameters is knows, so we can in principle solve this equation, and thereby getting an expression for the true temperature gradient $\nabla$.
@@ -147,7 +157,7 @@ So, the steps we need to take are:
 
 \begin{enumerate}
     \item Solve Eq.~\eqref{eq:xi-third-order} to get $\xi$.
-    \item Insert into $\nabla = \xi^2 + UG\xi + \nabla_{ad}$.
+    \item Insert into $\nabla = \xi^2 + UK\xi + \nabla_{ad}$.
     \item Solve for the gradient with respect to mass:
     \begin{align}
         \nabla &= \frac{P}{T}\pd{T}{P} = \frac{P}{T}\pd{m}{P}\pd{T}{m}\\
