@@ -52,6 +52,16 @@ namespace Integrate {
   inline double RHS_r(double r, double rho) {
     return 1./(4 * Constants::pi * r*r * rho);
   }
+
+  inline double nabla_ad() {
+      return 0.4;
+  }
+
+  inline double nabla_rad(double T, double rho, double L, double P, double m, Opacity& kappa) {
+      return (3. * kappa(T,rho) * L * P) /
+             (64. * Constants::pi * Constants::sigma * Constants::G
+                  * T*T*T*T * m);
+  }
 }
 
 #endif
