@@ -81,7 +81,7 @@ int main(int argc, char** args) {
 
   double dm = (dm_scale == 0) ? 0 : - M_0/dm_scale;
 
-  std::string ss = Integrate::integrate(L_0, T_0, P_0,
+  std::string ss = Integrate::integrate_conv(L_0, T_0, P_0,
 					      rho_0, M_0, R_0,
 					      MF, dm);
 
