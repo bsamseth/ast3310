@@ -83,10 +83,10 @@ We get Eq.~\eqref{eq:dTdm} by setting $F_C = 0$ and inserting into Eq.~\eqref{eq
 
 This time, we are not setting $F_C = 0$, obviously, so what should we set it to? The full derivation is given in~\cite{lecture-notes}, and is to involved to be repeted in this report. A quick summary will do.
 
-We start from first principles, where we can say that $F_C = \rho c_P v \Delta T$, which says that the radiative flux is the energy $\rho c_P \Delta T$ a parcel of gas with density $\rho$ can move, with velocity $v$. The hard part is finding $v$ and the temperature difference. To this end, we will define three quantities, a shorthand symbol $\delta$, the pressure scale height $H_P$\footnote{We get the expression for $H_P$ by using the assumption of hydrostatic equilibrium.}, and temperature gradient $\nabla $:
+We start from first principles, where we can say that $F_C = \rho c_P v \Delta T$, which says that the radiative flux is the energy $\rho c_P \Delta T$ a parcel of gas with density $\rho$ can move, with velocity $v$. The hard part is finding $v$ and the temperature difference. To this end, we will define three quantities, a shorthand symbol $\delta$\footnote{$\delta$ simplifies to 1 when we use the ideal gas law, see Appendix~\ref{app:nabla-ad}.}, the pressure scale height $H_P$\footnote{We get the expression for $H_P$ by using the assumption of hydrostatic equilibrium.}, and temperature gradient $\nabla $:
 
 \begin{align}
-    \delta &= \frac{T}{V}\left( \pd{V}{T} \right)_P\label{eq:delta-def}\\
+    \delta &= -\left( \pd{\ln \rho}{\ln T} \right)_P=1\label{eq:delta-def}\\
     H_P &= -P\pd{r}{P} = \frac{P r^2}{\rho Gm} \label{eq:Hp-def}\\
     \nabla &= \pd{\ln T}{\ln P} = -\frac{H_P}{T}\pd{T}{r}\label{eq:grad-def}.
 \end{align}
@@ -118,7 +118,7 @@ where we have defined for convenience the constant $U$ (which represents an ener
     U = \frac{64\sigma T^3}{3\kappa\rho^2 c_P} \sqrt{\frac{H_P}{g\delta}}\label{eq:U-def}.
 \end{align}
 
-To continue, we need to use one more magic formula\cite[??]{lecture-notes},
+To continue, we need to use one more magic formula~\cite[??]{lecture-notes},
 
 \begin{align*}
     (\nabla^*-\nabla_{ad}) &= \frac{32\sigma T^3}{3\kappa \rho^2 c_p v}\frac{S}{dQ}(\nabla - \nabla^*) \\
@@ -180,9 +180,105 @@ Convection will start if the temperature gradient $\partial T/\partial r$ is not
 
 So, the code will check if this is the case, and if so, apply the convection formula.
 
-It should be noted that if this criteria is infact not the case, and $\nabla_{rad} = \nabla_{ad}$, then $\xi$ will have the trivial solution of $\xi=0$, and consequently we end up with just the same equation as in Eq.~\eqref{eq:dTdm}. It is, however, still a good idea to skip the calculations if they are not necessary, so we keep the two cases separated.
+It should be noted that if this criteria is in fact not the case, and $\nabla_{rad} = \nabla_{ad}$, then $\xi$ will have the trivial solution of $\xi=0$, and consequently we end up with just the same equation as in Eq.~\eqref{eq:dTdm}. It is, however, still a good idea to skip the calculations if they are not necessary, so we keep the two cases separated.
 
 
+\begin{appendices}
+    \section{Calculating the Specific Heat for an Ideal Gas}
+    In the following derivation, all lowercase quantities are per mass, unless otherwise stated.
+
+    \subsection{Specific Heat at Constant Volume}
+By definition, the specific heat at constant volume is:
+\begin{align}
+    dq &= c_v\,dT\hspace{0.5cm}(\text{constant volume})\label{eq:c_v-def}
+\end{align}
+Using the first law of thermodynamics, for constant volume, we get
+\begin{align*}
+    du &+ \frac{P\,dV}{m} = dq = c_v\,dT\\
+    \Rightarrow c_v &= \frac{du}{dT}\numberthis\label{eq:c_v-expr}
+\end{align*}
+
+We find $u$ by using the equipartition theorem for a monoatomic, ideal gas. This gas has three degrees of freedom, so we get
+
+\begin{align}
+    u = \frac{3}{2}kT\cdot \frac{N}{m} = \frac{3}{2}kT\, \frac{1}{\mu m_u}\label{eq:u-equi}
+\end{align}
+
+Putting the last two equations together we get
+
+\begin{align}
+    c_v &= \frac{du}{dT} = \frac{3}{2} \frac{k}{\mu m_u}\label{eq:c-v-final}
+\end{align}
+
+
+
+
+\subsection{Specific Heat at Constant Pressure}
+By definition, the specific heat at constant pressure is:
+\begin{align}
+    dq &= c_p\,dT\hspace{0.5cm}(\text{constant pressure})\label{eq:c_p-def}
+\end{align}
+
+We now remind our selfs of the ideal gas law, including the differential at constant pressure:
+
+\begin{align}
+    PV = NkT \Rightarrow P\,dV = Nk\,dT\label{eq:ideal-gas-diff}
+\end{align}
+
+We will use this in conjunction with the first law of thermodynamics:
+
+\begin{align*}
+    du &+ \frac{P\,dV}{m} = dq = c_p\,dT\\
+    \Rightarrow c_p &= \frac{du}{dT} + \frac{Nk}{m} = \frac{du}{dT} + \frac{k}{\mu m_u}\\
+    &= c_v + \frac{k}{\mu m_u}\numberthis\label{eq:c_v-c_p-rel}
+\end{align*}
+
+Finally, we insert the result from the last section:
+
+\begin{align}
+    c_p = \frac{5}{2} \frac{k}{\mu m_u}.\label{eq:c-p-final}
+\end{align}
+
+
+
+\section{Calculating the Adiabatic Temperature Gradient}
+\label{app:nabla-ad}
+
+The adiabatic temperature gradient is defined as follows:
+
+\begin{align}
+    \nabla_{ad} = \left(\pd{\ln T}{\ln P}\right)_{ad}\label{eq:nabla_ad-def}
+\end{align}
+
+It can be shown that this can be expressed as~\cite[Eq. (5.40)]{lecture-notes}
+
+\begin{align}
+    \nabla_{ad} = \frac{P\delta}{T\rho c_p}\label{eq:nabla_ad-expr}
+\end{align}
+
+The factor $\delta$ is defined in Eq.~\eqref{eq:delta-def}, and can be simplified significantly by using the ideal gas law. We write this up once more, this time with the density $\rho$:
+
+\begin{align}
+    P = \frac{\rho kT}{\mu m_u}\label{eq:ideal-gas-rho-def}
+\end{align}
+
+We then have
+
+\begin{align*}
+    \delta &= -\frac{T}{\rho}\pd{\rho}{T} = -\frac{T}{\rho}\left(-\frac{P\mu m_u}{kT}\frac{1}{T^2}\right)\\
+    &= \frac{P\mu m_u}{\rho kT} = \frac{\rho kT}{\mu m_u} \frac{\mu m_u}{\rho kT}\\
+    &= 1
+\end{align*}
+
+Now we get the adiabatic temperature gradient by applying Eq.~\eqref{eq:ideal-gas-rho-def} to Eq.~\eqref{eq:nabla_ad-expr}, along with the result for $c_p$ from the previous section:
+
+\begin{align*}
+    \nabla_{ad} &= \frac{P\delta}{T\rho c_p} = \frac{\rho kT}{\mu m_u} \frac{1}{T\rho c_p}\\
+    &= \frac{k}{\mu m_u} \, \frac{2}{5}\frac{\mu m_u}{k} \\&= \frac{2}{5}
+\end{align*}
+
+
+\end{appendices}
 
 \printbibliography
 \end{document}

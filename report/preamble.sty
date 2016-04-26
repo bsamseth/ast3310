@@ -25,7 +25,7 @@
 	\sisetup{exponent-product = \cdot}	% Prikk som multiplikasjonstegn (i stedet for kryss).
  	\sisetup{output-decimal-marker  =  {.}}	% Punktum som desimalskilletegn (i stedet for komma).
  	\sisetup{separate-uncertainty = true} 	% Pluss-minus-form på
-                                % usikkerhet (i stedet for parentes). 
+                                % usikkerhet (i stedet for parentes).
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.9}
 \usepackage{comment}
@@ -36,15 +36,16 @@
   outer=3cm,
   bottom=2cm,
   headheight=10ex,
-  headsep=4ex,    
+  headsep=4ex,
 }
 \usepackage{fancyhdr}
 \pagestyle{fancyplain}
+\usepackage[toc]{appendix}
 
 %\renewcommand{\thesection}{}
 %\renewcommand{\thesubsection}{\alph{subsection})}
 %\renewcommand{\thesubsubsection}{\alph{subsubsection})}
-%\renewcommand{\thesection}{\Roman{section}} 
+%\renewcommand{\thesection}{\Roman{section}}
 
 \renewcommand{\vec}{\mathbf}
 
@@ -74,7 +75,7 @@
 \definecolor{blue}{rgb}{0.3,0.3,0.9}
 \definecolor{green}{rgb}{0,0.7,0}
 \definecolor{magenta}{rgb}{0.9,0,0.9}
-\lstloadlanguages{Python} 
+\lstloadlanguages{Python}
 \lstloadlanguages{MATLAB}
 \lstloadlanguages{C++}
 \lstset{language=C++,
@@ -141,5 +142,3 @@
 \newcounter{excount}[section]
 \newenvironment{exercise}[1][]{\addtocounter{excount}{1} \noindent {\bf Oppgave
     \arabic{excount} #1}\hspace{2mm}}{\vspace{4mm}}
-
-
