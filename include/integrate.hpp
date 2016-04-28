@@ -43,6 +43,12 @@ namespace Integrate {
 
   std::string integrate_conv(double L_0, double T_0, double P_0, double rho_0, double M_0, double R_0, MassFractions MF, double dm);
 
+  void calculate_convection(double T, double P, double r, double L,
+                            double rho, double m, double mu_0,
+                            double& nabla_radiative, double& nabla,
+                            double& dTdm, double& F_C,
+                            double& F_R, Opacity& kappa);
+
   inline double RHS_T(double T, double rho, double L, double r, Opacity& kappa) {
     return - 3 * kappa(T, rho) * L / (256 * Constants::pi*Constants::pi * Constants::sigma * r*r*r*r * T*T*T);
   }

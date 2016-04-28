@@ -1,3 +1,4 @@
+
 #include <sstream>
 #include <iostream>
 #include <armadillo>
@@ -24,6 +25,55 @@ using std::min;
 using std::min_element;
 
 
+void Integrate::calculate_convection(double T, double P, double r, double L,
+                                     double rho, double m, double mu_0,
+                                     double& nabla_radiative, double& nabla,
+                                     double& dTdm, double& F_C,
+                                     double& F_R, Opacity& kappa) {
+
+    nabla_radiative = nabla_rad(T, rho, L, P, m, kappa);
+    if (nabla_radiative > nabla_ad()) {
+        double alpha = 1.0; // parameter, should be arond 1.
+        double H_p = P * r*r / (rho * G * m);
+        double l_m = alpha * H_p;
+        double delta = 1; // - dln rho / dln T = 1, ideal gass
+        double c_p = 5./2 * k_b / (mu_0* m_u);
+        double g = G * m / (r*r);
+
+        double U = 64 * sigma * T*T*T / (3 * kappa(T, rho) * rho*rho * c_p)
+        * sqrt(H_p / (g * delta));
+
+        double xi;
+        {
+            double U_lm2 = U / (l_m*l_m);
+            double K = 4 / (l_m*l_m);
+            double a = 1;
+            double b = U_lm2;
+            double c = U_lm2 * U * K;
+            double d = - U_lm2 * (nabla_radiative - nabla_ad());
+            double* x = new double[3];
+            solve3order(x, a, b, c, d);
+            xi = x[0];
+            nabla = xi*xi + U*K * xi + nabla_ad();
+        }
+
+        double F_C_abs = rho * c_p * T * sqrt(g*delta) * pow(H_p, -3./2)
+                            * pow(l_m/2., 2) * pow(xi, 3);
+        double F_R_abs = 16 * Constants::sigma * Constants::G * T*T*T*T * m
+                            / (3 * kappa(T, rho) * P * r*r) * nabla;
+
+        F_C = F_C_abs / (F_C_abs + F_R_abs);
+        F_R = F_R_abs / (F_C_abs + F_R_abs);
+
+        dTdm = - T * G * m / (4 * pi * r*r*r*r * P) * nabla;
+    }
+    else {
+        F_C = 0;
+        F_R = 1;
+        nabla = nabla_radiative;
+    }
+}
+
 std::string Integrate::integrate_conv(double L_0, double T_0, double P_0, double rho_0, double M_0, double R_0, MassFractions MF, double dm) {
     std::stringstream ss;
     ss << "# m \t r \t P \t L \t T \t rho \t epsilon \t "
@@ -34,7 +84,6 @@ std::string Integrate::integrate_conv(double L_0, double T_0, double P_0, double
     double r = R_0, T = T_0, L = L_0, P = P_0, rho = rho_0, m = M_0, eps;;
     double F_C = 0, F_R = 1;
     double nabla, nabla_radiative; nabla = nabla_radiative = nabla_ad();
-    const double nabla_adiabatic = nabla_ad();
     double eps_PPI = 0;
 
     double drdm, dPdm, dLdm, dTdm;
@@ -77,49 +126,8 @@ std::string Integrate::integrate_conv(double L_0, double T_0, double P_0, double
         eps_PPI = energy_terms(_p, _p) + energy_terms(_3He, _3He);
 
 
-        nabla_radiative = nabla_rad(T, rho, L, P, m, kappa);
-        if (nabla_radiative > nabla_adiabatic) {
-            double alpha = 1.0; // parameter, should be arond 1.
-            double H_p = P * r*r / (rho * G * m);
-            double l_m = alpha * H_p;
-            double delta = 1; // - dln rho / dln T = 1, ideal gass
-            double c_p = 5./2 * k_b / (mu_0* m_u); // TODO: Check formula for c_p
-            double g = G * m / (r*r);
-
-            double U = 64 * sigma * T*T*T / (3 * kappa(T, rho) * rho*rho * c_p)
-                            * sqrt(H_p / (g * delta));
-
-            double xi;
-            {
-                double U_lm2 = U / (l_m*l_m);
-                double K = 4 / (l_m*l_m);
-                double a = 1;
-                double b = U_lm2;
-                double c = U_lm2 * U * K;
-                double d = - U_lm2 * (nabla_radiative - nabla_adiabatic);
-                double* x = new double[3];
-                solve3order(x, a, b, c, d);
-                xi = x[0];
-                nabla = xi*xi + U*K * xi + nabla_adiabatic;
-            }
-
-            double F_C_abs = rho * c_p * T * sqrt(g*delta) * pow(H_p, -3./2)
-                            * pow(l_m/2., 2) * pow(xi, 3);
-            double F_R_abs = 16 * Constants::sigma * Constants::G * T*T*T*T * m / (3 * kappa(T, rho) * P * r*r) * nabla;
-
-            F_C = F_C_abs / (F_C_abs + F_R_abs);
-            F_R = F_R_abs / (F_C_abs + F_R_abs);
-
-
-
-            dTdm = - T * G * m / (4 * pi * r*r*r*r * P) * nabla;
-        }
-        else {
-            F_C = 0;
-            F_R = 1;
-            nabla = nabla_radiative;
-        }
-
+        calculate_convection(T, P, r, L, rho, m, mu_0, nabla_radiative, nabla,
+                             dTdm, F_C, F_R, kappa);
 
         if (dss) {
             dms[0] = abs(p_max*r / drdm);
