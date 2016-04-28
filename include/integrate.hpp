@@ -47,10 +47,10 @@ namespace Integrate {
                             double rho, double m, double mu_0,
                             double& nabla_radiative, double& nabla,
                             double& dTdm, double& F_C,
-                            double& F_R, Opacity& kappa);
+                            double& F_R, double kappa);
 
-  inline double RHS_T(double T, double rho, double L, double r, Opacity& kappa) {
-    return - 3 * kappa(T, rho) * L / (256 * Constants::pi*Constants::pi * Constants::sigma * r*r*r*r * T*T*T);
+  inline double RHS_T(double T, double rho, double L, double r, double kappa) {
+    return - 3 * kappa * L / (256 * Constants::pi*Constants::pi * Constants::sigma * r*r*r*r * T*T*T);
   }
 
   inline double RHS_P(double m, double r) {
@@ -65,8 +65,9 @@ namespace Integrate {
       return 0.4;
   }
 
-  inline double nabla_rad(double T, double rho, double L, double P, double m, Opacity& kappa) {
-      return (3. * kappa(T,rho) * L * P) /
+  inline double nabla_rad(double T, double rho, double L,
+                          double P, double m,   double kappa) {
+      return (3. * kappa* L * P) /
              (64. * Constants::pi * Constants::sigma * Constants::G
                   * T*T*T*T * m);
   }

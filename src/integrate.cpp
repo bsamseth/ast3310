@@ -29,7 +29,7 @@ void Integrate::calculate_convection(double T, double P, double r, double L,
                                      double rho, double m, double mu_0,
                                      double& nabla_radiative, double& nabla,
                                      double& dTdm, double& F_C,
-                                     double& F_R, Opacity& kappa) {
+                                     double& F_R, double kappa) {
 
     nabla_radiative = nabla_rad(T, rho, L, P, m, kappa);
     if (nabla_radiative > nabla_ad()) {
@@ -40,7 +40,7 @@ void Integrate::calculate_convection(double T, double P, double r, double L,
         double c_p = 5./2 * k_b / (mu_0* m_u);
         double g = G * m / (r*r);
 
-        double U = 64 * sigma * T*T*T / (3 * kappa(T, rho) * rho*rho * c_p)
+        double U = 64 * sigma * T*T*T / (3 * kappa * rho*rho * c_p)
         * sqrt(H_p / (g * delta));
 
         double xi;
@@ -60,7 +60,7 @@ void Integrate::calculate_convection(double T, double P, double r, double L,
         double F_C_abs = rho * c_p * T * sqrt(g*delta) * pow(H_p, -3./2)
                             * pow(l_m/2., 2) * pow(xi, 3);
         double F_R_abs = 16 * Constants::sigma * Constants::G * T*T*T*T * m
-                            / (3 * kappa(T, rho) * P * r*r) * nabla;
+                            / (3 * kappa * P * r*r) * nabla;
 
         F_C = F_C_abs / (F_C_abs + F_R_abs);
         F_R = F_R_abs / (F_C_abs + F_R_abs);
@@ -89,7 +89,8 @@ std::string Integrate::integrate_conv(double L_0, double T_0, double P_0, double
     double drdm, dPdm, dLdm, dTdm;
     double mu_0 = StateEquations::mu_0(MF);
 
-    Opacity kappa;
+    Opacity kappa_func;
+    double kappa;
 
     double p_max = 0.005; // max fractional change in any variable
     double dms [5];
@@ -117,7 +118,7 @@ std::string Integrate::integrate_conv(double L_0, double T_0, double P_0, double
             std::cout << std::flush;
         }
 
-
+        kappa = kappa_func(T, rho);
         drdm = RHS_r(r, rho);
         dPdm = RHS_P(m, r);
         dLdm = eps = energy(T, rho, MF, energy_terms);
@@ -179,7 +180,8 @@ std::string Integrate::integrate(double L_0, double T_0, double P_0, double rho_
   double drdm, dPdm, dLdm, dTdm;
   double mu_0 = StateEquations::mu_0(MF);
 
-  Opacity kappa;
+  Opacity kappa_func;
+  double kappa;
 
   double p_max = 0.005; // max fractional change in any variable
   double dms [5];
@@ -202,7 +204,7 @@ std::string Integrate::integrate(double L_0, double T_0, double P_0, double rho_
       std::cout << std::flush;
     }
 
-
+    kappa = kappa_func(T, rho);
     drdm = RHS_r(r, rho);
     dPdm = RHS_P(m, r);
     dLdm = eps = energy(T, rho, MF, energy_terms);
