@@ -42,18 +42,42 @@ double Opacity::operator() (double T, double rho) {
   int i_T = find_closest_index(log10T_wanted, log10T);
   int i_R = find_closest_index(log10R_wanted, log10R);
 
-  double q11 = kappa( i_T, i_R);
-  double q12 = kappa(i_T, i_R+1);
-  double q21 = kappa(i_T+1, i_R);
-  double q22 = kappa(i_T+1, i_R+1);
-  double x1 = log10T(i_T);
-  double x2 = log10T(i_T+1);
-  double y1 = log10R(i_R);
-  double y2 = log10R(i_R+1);
-  double x = log10T_wanted;
-  double y = log10R_wanted;
 
-  double kappa_result = interp2d(q11,q12,q21,q22,x1,x2,y1,y2,x,y);
+  double kappa_result;
+  double q_base = kappa(i_T, i_R);
+
+  if (i_T == log10T.size() - 1 && i_R == log10R.size() -1) {
+      kappa_result = q_base
+        + (q_base - kappa(i_T-1, i_R)) / (log10T(i_T) - log10T(i_T-1)) *
+                                            (log10T_wanted - log10T(i_T))
+        + (q_base - kappa(i_T, i_R-1)) / (log10R(i_R) - log10T(i_R-1)) *
+                                            (log10R_wanted - log10R(i_R));
+  } else if (i_T == log10T.size() - 1) {
+      kappa_result = q_base
+        + (kappa(i_T, i_R+1) - q_base) / (log10R(i_R+1) - log10R(i_R)) *
+                                            (log10R_wanted - log10R(i_R))
+        + (q_base - kappa(i_T-1, i_R)) / (log10T(i_T) - log10T(i_T-1)) *
+                                            (log10T_wanted - log10T(i_T));
+  } else if (i_R == log10T.size() - 1) {
+      kappa_result = q_base
+        + (kappa(i_T+1, i_R) - q_base) / (log10T(i_T+1) - log10T(i_T)) *
+                                            (log10T_wanted - log10T(i_T))
+        + (q_base - kappa(i_T, i_R-1)) / (log10R(i_R) - log10R(i_R-1)) *
+                                            (log10R_wanted - log10R(i_R));
+  } else {
+      double q11 = kappa( i_T, i_R);
+      double q12 = kappa(i_T, i_R+1);
+      double q21 = kappa(i_T+1, i_R);
+      double q22 = kappa(i_T+1, i_R+1);
+      double x1 = log10T(i_T);
+      double x2 = log10T(i_T+1);
+      double y1 = log10R(i_R);
+      double y2 = log10R(i_R+1);
+      double x = log10T_wanted;
+      double y = log10R_wanted;
+
+      kappa_result = interp2d(q11,q12,q21,q22,x1,x2,y1,y2,x,y);
+  }
 
   if (i_T == log10T.size()-1) {
     cout << "Possible extrapolating in kappa reader (T)" << '\n';
