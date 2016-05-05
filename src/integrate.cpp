@@ -77,14 +77,14 @@ void Integrate::calculate_convection(double T, double P, double r, double L,
 std::string Integrate::integrate_conv(double L_0, double T_0, double P_0, double rho_0, double M_0, double R_0, MassFractions MF, double dm) {
     std::stringstream ss;
     ss << "# m \t r \t P \t L \t T \t rho \t epsilon \t "
-       << "F_C \t eps_PPI \t nabla \t nabla_rad\n";
+       << "F_C \t eps_PPI \t eps_PPII \t nabla \t nabla_rad\n";
 
     arma::mat energy_terms (N_PARTICLES, N_PARTICLES);
 
     double r = R_0, T = T_0, L = L_0, P = P_0, rho = rho_0, m = M_0, eps;;
     double F_C = 0, F_R = 1;
     double nabla, nabla_radiative; nabla = nabla_radiative = nabla_ad();
-    double eps_PPI = 0;
+    double eps_PPI = 0, eps_PPII = 0;
 
     double drdm, dPdm, dLdm, dTdm;
     double mu_0 = StateEquations::mu_0(MF);
@@ -92,7 +92,7 @@ std::string Integrate::integrate_conv(double L_0, double T_0, double P_0, double
     Opacity kappa_func;
     double kappa;
 
-    double p_max = 0.005; // max fractional change in any variable
+    double p_max = 0.0005; // max fractional change in any variable
     double dms [5];
 
     int count = 0;
@@ -108,7 +108,7 @@ std::string Integrate::integrate_conv(double L_0, double T_0, double P_0, double
             ss << m << ' ' << r << ' ' << P << ' '
                << L << ' ' << T << ' ' << rho
                << ' ' << eps;
-           ss << ' ' << F_C << ' ' << eps_PPI;
+           ss << ' ' << F_C << ' ' << eps_PPI << ' ' << eps_PPII;
            ss << ' ' << nabla << ' ' << nabla_radiative << '\n';
 
         }
@@ -124,8 +124,8 @@ std::string Integrate::integrate_conv(double L_0, double T_0, double P_0, double
         dLdm = eps = energy(T, rho, MF, energy_terms);
         dTdm = RHS_T(T, rho, L, r, kappa);
 
-        eps_PPI = energy_terms(_p, _p) + energy_terms(_3He, _3He);
-
+        eps_PPI = energy_terms(_3He, _3He);
+        eps_PPII = energy_terms(_3He, _4He) + energy_terms(_e, _7Be) + energy_terms(_p, _7Li);
 
         calculate_convection(T, P, r, L, rho, m, mu_0, nabla_radiative, nabla,
                              dTdm, F_C, F_R, kappa);
@@ -163,7 +163,7 @@ std::string Integrate::integrate_conv(double L_0, double T_0, double P_0, double
     std::cout << ' ' << nabla << ' ' << nabla_radiative << '\n';
 
     ss << m << ' ' <<  r << ' ' << P << ' ' << L << ' ' << T << ' ' << rho << ' ' << eps;
-    ss << ' ' << F_C << ' ' << eps_PPI;
+    ss << ' ' << F_C << ' ' << eps_PPI << ' ' << eps_PPII;
     ss << ' ' << nabla << ' ' << nabla_radiative;
     return ss.str();
 }
@@ -183,7 +183,7 @@ std::string Integrate::integrate(double L_0, double T_0, double P_0, double rho_
   Opacity kappa_func;
   double kappa;
 
-  double p_max = 0.005; // max fractional change in any variable
+  double p_max = 0.0005; // max fractional change in any variable
   double dms [5];
 
   int count = 0;

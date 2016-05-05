@@ -50,8 +50,6 @@ namespace EnergyProduction {
      * the step(s) that produced the reactant(s)
      */
     if (p1 == _3He) {
-      // This I don't know if it's right, so I don't change anything
-      // Passes sanity check, so I will assume/hope it works elsewhere as well
       double pp = rate_simple(_p,_p,fractions,T,rho);
       double _33 = rate_simple(_3He,_3He,fractions,T,rho);
       double _34 = rate_simple(_3He,_4He,fractions,T,rho);
