@@ -14,8 +14,9 @@ rho = data[:, 5]
 eps = data[:, 6]
 F_C = data[:, 7]
 eps_PPI = data[:, 8]
-nabla = data[:, 9]
-nabla_rad = data[:, 10]
+eps_PPII = data[:, 9]
+nabla = data[:, 10]
+nabla_rad = data[:, 11]
 
 
 R_sun = 6.96e8
@@ -29,24 +30,33 @@ L /= L_sun
 plt.rc('font', **{'family': 'serif', 'serif': ['Computer Modern']})
 plt.rc('text', usetex=True)
 
+# flux plot
+fig, ax = plt.subplots()
+ax.set_ylim(-0.1, 1.1)
+ax.plot(r, 1 - F_C, label=r'$F_R/F_{tot}$')
+ax.plot(r, F_C, label=r'$F_C/F_{tot}$')
+ax.legend(loc='best')
+ax.set_xlabel(r'$R\ [R_\odot]$', size=22)
+
 # energy production plot
 fig, ax = plt.subplots()
-
-max_eps = max(eps)
-# ax.semilogy(reps, eps_skip, label=r'$\epsilon/\epsilon_{max}$')
-ax.semilogy(r, eps_PPI, label=r'PPI')
-ax.semilogy(r, (eps - eps_PPI), label=r'PPII')
-ax.legend()
+ax.set_ylim(-0.1, 1.1)
+ax.semilogx(T[1:], eps_PPI[1:] / (eps_PPI[1:] + eps_PPII[1:]), label=r'PPI')
+ax.semilogx(T[1:], eps_PPII[1:] / (eps_PPI[1:] + eps_PPII[1:]), label=r'PPII')
+ax.set_xlabel(r'$T$ [K]', size=22)
+ax.legend(loc='best')
 
 # cross section plot
 n = len(r)
-cross_section_plot(r, L, F_C, n, r[0], show_every=25, fill=True)
+convection_fraction = cross_section_plot(r, L, F_C, n, r[0], fill=True)
 
-# temperture gardients plot TODO: Fix temperture gradient plots
+
 fig, ax = plt.subplots()
 ax.semilogy(r, [0.4]*n, label=r'$\nabla_{ad}$')
 ax.semilogy(r, nabla, label=r'$\nabla$')
 ax.semilogy(r, nabla_rad, label=r'$\nabla_{rad}$')
-ax.legend()
+ax.legend(loc='best')
+ax.set_xlabel(r'$R\ [R_\odot]$', size=22)
+
 
 plt.show()

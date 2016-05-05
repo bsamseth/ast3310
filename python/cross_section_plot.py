@@ -24,29 +24,30 @@ def cross_section_plot(R_values, L_values, F_C_list, n, R0,
     ax.set_xlim(-rmax, rmax)
     ax.set_ylim(-rmax, rmax)
     ax.set_aspect('equal')	 # make the plot circular
-    j = show_every
-    for k in range(0, n-1):
-        j += 1
-        if j >= show_every:	 # don't show every step - it slows things down
-            if(L_values[k] > core_limit):  # outside core
-                if(F_C_list[k] > 0.0):   # convection
-                    circR = plt.Circle((0, 0), R_values[k],
-                                       color='red', fill=fill)
-                    ax.add_artist(circR)
-                else:				# radiation
-                    circY = plt.Circle((0, 0), R_values[k],
-                                       color='yellow', fill=fill)
-                    ax.add_artist(circY)
-            else:				# inside core
-                if(F_C_list[k] > 0.0):		# convection
-                    circB = plt.Circle((0, 0), R_values[k],
-                                       color='blue', fill=fill)
-                    ax.add_artist(circB)
-                else:				# radiation
-                    circC = plt.Circle((0, 0), R_values[k],
-                                       color='cyan', fill=fill)
-                    ax.add_artist(circC)
-            j = 0
+    first_convection, first_convection_radius = True, 0
+    last_convection_radius = 0
+    for k in range(0, n-1, show_every):
+        if(L_values[k] > core_limit):  # outside core
+            if(F_C_list[k] > 0.0):   # convection
+                circR = plt.Circle((0, 0), R_values[k], color='red', fill=fill)
+                ax.add_artist(circR)
+
+                if first_convection:
+                    first_convection_radius = R_values[k]
+                    first_convection = False
+                last_convection_radius = R_values[k]
+
+            else:				# radiation
+                circY = plt.Circle((0, 0), R_values[k], color='yellow', fill=fill)
+                ax.add_artist(circY)
+
+        else:				# inside core
+            if(F_C_list[k] > 0.0):		# convection
+                circB = plt.Circle((0, 0), R_values[k], color='blue', fill=fill)
+                ax.add_artist(circB)
+            else:				# radiation
+                circC = plt.Circle((0, 0), R_values[k], color='cyan', fill=fill)
+                ax.add_artist(circC)
 
     ax.add_artist(plt.Circle((0, 0), min(R_values), color='w', fill=True))
 
@@ -59,7 +60,9 @@ def cross_section_plot(R_values, L_values, F_C_list, n, R0,
               ['Convection outside core', 'Radiation outside core',
                'Radiation inside core', 'Convection inside core'])
 
-    ax.legend(loc=2)
-    ax.set_xlabel('')
+    conv_frac = (first_convection_radius - last_convection_radius) / R0
+    ax.set_xlabel(r'Outer convection layer: %.2f $R_0$' % conv_frac)
     ax.set_ylabel('')
     ax.set_title('Cross-section of star')
+
+    return conv_frac
