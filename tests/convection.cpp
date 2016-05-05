@@ -36,9 +36,9 @@ TEST(Convection, sanity_test) {
     Integrate::calculate_convection(T, P, r, L, rho, m, mu_0,
                                     nabla_radiative, nabla,                        dTdm, F_C, F_R, kappa);
 
-    EXPECT_NEAR(3.26, nabla_radiative, 0.005);
+    EXPECT_NEAR(3.26, nabla_radiative, 0.1);
     EXPECT_NEAR(0.400001, nabla, 0.0000005);
-    EXPECT_NEAR(0.88, F_C, 0.005);
-    EXPECT_NEAR(0.12, F_R, 0.005);
+    EXPECT_NEAR(0.88, F_C, 0.05);
+    EXPECT_NEAR(0.12, F_R, 0.05);
     EXPECT_TRUE(Integrate::nabla_ad() < nabla && nabla < nabla_radiative);
 }
