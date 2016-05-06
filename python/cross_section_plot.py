@@ -61,8 +61,9 @@ def cross_section_plot(R_values, L_values, F_C_list, n, R0,
                'Radiation inside core', 'Convection inside core'])
 
     conv_frac = (first_convection_radius - last_convection_radius) / R0
-    ax.set_xlabel(r'Outer convection layer: %.2f $R_0$' % conv_frac)
+    ax.set_xlabel(r'Outer convection layer: %.2f $R_0$' % conv_frac, size=20)
     ax.set_ylabel('')
-    ax.set_title('Cross-section of star')
+    ax.tick_params(axis='both', which='major', labelsize=10)
+    ax.set_title('Cross-section of star', size=18)
 
     return conv_frac

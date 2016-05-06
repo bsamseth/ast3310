@@ -29,12 +29,14 @@ L /= L_sun
 
 plt.rc('font', **{'family': 'serif', 'serif': ['Computer Modern']})
 plt.rc('text', usetex=True)
+plt.rcParams['xtick.labelsize'] = 18
+plt.rcParams['ytick.labelsize'] = 18
 
 # flux plot
 fig, ax = plt.subplots()
 ax.set_ylim(-0.1, 1.1)
-ax.plot(r, 1 - F_C, label=r'$F_R/F_{tot}$')
-ax.plot(r, F_C, label=r'$F_C/F_{tot}$')
+ax.plot(r[1:], 1 - F_C[1:], label=r'$F_R/F_{tot}$')
+ax.plot(r[1:], F_C[1:], label=r'$F_C/F_{tot}$')
 ax.legend(loc='best')
 ax.set_xlabel(r'$R\ [R_\odot]$', size=22)
 
@@ -48,13 +50,13 @@ ax.legend(loc='best')
 
 # cross section plot
 n = len(r)
-convection_fraction = cross_section_plot(r, L, F_C, n, r[0], fill=True)
+convection_fraction = cross_section_plot(r, L, F_C, n, r[0], fill=False)
 
 
 fig, ax = plt.subplots()
-ax.semilogy(r, [0.4]*n, label=r'$\nabla_{ad}$')
-ax.semilogy(r, nabla, label=r'$\nabla$')
-ax.semilogy(r, nabla_rad, label=r'$\nabla_{rad}$')
+ax.semilogy(r[1:], [0.4]*(n-1), label=r'$\nabla_{ad}$')
+ax.semilogy(r[1:], nabla[1:], label=r'$\nabla$')
+ax.semilogy(r[1:], nabla_rad[1:], label=r'$\nabla_{rad}$')
 ax.legend(loc='best')
 ax.set_xlabel(r'$R\ [R_\odot]$', size=22)
 
