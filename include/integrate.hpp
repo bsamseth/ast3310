@@ -41,8 +41,39 @@ namespace Integrate {
    */
   std::string integrate(double L_0, double T_0, double P_0, double rho_0, double M_0, double R_0, MassFractions MF, double dm);
 
+  /**
+   * Solve the 4 governing equations using the Forward Euler method,
+   * and including energy transport by convection.
+   *
+   * Mostly this metod is equal to integrate(), with the exception
+   * that it also calls calculate_convection() for each step. The output
+   * is also a bit different. The string has the format
+   *
+   *      m r P L T rho epsilon F_C eps_PPI eps_PPII nabla nabla_rad
+   *
+   * Parameters and return are equal to integrate().
+   */
   std::string integrate_conv(double L_0, double T_0, double P_0, double rho_0, double M_0, double R_0, MassFractions MF, double dm);
 
+
+  /**
+   * Check for convective instability, and if needed,
+   * update all variables given as refrences accordingly.
+   *
+   * @param T               Temperature [K]
+   * @param P               Pressure [N/m^2]
+   * @param r               Radius [m]
+   * @param L               Luminosity [J/s]
+   * @param rho             Density [kg/m^3]
+   * @param m               Mass [kg]
+   * @param mu_0            Average molecular weight [dim.less]
+   * @param nabla_radiative Reference for nabla_rad
+   * @param nabla           Reference for nabla
+   * @param dTdm            Reference for dTdm
+   * @param F_C             Reference for convective flux [rel.]
+   * @param F_R             Reference for radiative flux [rel.]
+   * @param kappa           Opacity value
+   */
   void calculate_convection(double T, double P, double r, double L,
                             double rho, double m, double mu_0,
                             double& nabla_radiative, double& nabla,
